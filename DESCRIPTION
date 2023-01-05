@@ -9,7 +9,6 @@ Authors@R:
              email = "paul.schmidt@biomath.de"),
       person(given = "BioMath",
              role = "fnd"))
-Maintainer: The package maintainer <yourself@somewhere.net>
 Description: The R package `BioMathR` provides a collection of utility functions, {ggplot2} themes and color palettes, all of which are often used at [BioMath](https://www.biomath.de/).
 License: GPL-3
 Encoding: UTF-8
