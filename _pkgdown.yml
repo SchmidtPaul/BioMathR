@@ -1,4 +1,12 @@
-url: ~
-template:
-  bootstrap: 5
+url: https://schmidtpaul.github.io/BioMathR
 
+authors:
+  Paul Schmidt:
+    href: "https://github.com/SchmidtPaul"
+  BioMath:
+    href: "https://www.biomath.de/"
+    html: "<img src='https://raw.githubusercontent.com/SchmidtPaul/CitaviR/master/docs/img/BioMathLogo.svg' height=24>"
+
+template:
+  params:
+    bootswatch: cosmo

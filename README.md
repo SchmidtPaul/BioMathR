@@ -1,16 +1,13 @@
 
-# BioMathR
+# BioMathR <img src='docs/img/LogoBioMathR.png' align="right" height="138" />
 
-<!-- badges: start -->
-<!-- badges: end -->
-
-The goal of BioMathR is to ...
+The R package `BioMathR` provides a collection of utility functions, {ggplot2} themes and color palettes, all of which are often used at [BioMath](https://www.biomath.de/).
 
 ## Installation
 
-You can install the development version of BioMathR like so:
+You can install `BioMathR` like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+devtools::install_github('SchmidtPaul/BioMathR')
 ```
 
