@@ -1,6 +1,6 @@
 Package: BioMathR
 Type: Package
-Title: Utility functions used at [BioMath](https://www.biomath.de/)
+Title: Utility functions used at BioMath
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Paul",
