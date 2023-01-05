@@ -1,5 +1,15 @@
+^\.Rprofile$
+^.github/.
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.travis.yml
+^\_pkgdown.yml
+^LICENSE
+^vignettes/.
+^README.Rmd
+^pkgdown/.
+^\.github$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^data-raw$
