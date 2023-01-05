@@ -18,4 +18,13 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
-    dplyr
+    dplyr,
+    ggplot2,
+    ggplotify,
+    ggtext,
+    grDevices,
+    here,
+    pdftools,
+    png,
+    stringr,
+    svglite

@@ -10,9 +10,18 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/BioMathR-package.html</loc>
+  </url>
+  <url>
+    <loc>/reference/gg_export.html</loc>
+  </url>
+  <url>
     <loc>/reference/grapes-not_in-grapes.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/theme_BioMath.html</loc>
   </url>
 </urlset>
