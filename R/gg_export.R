@@ -1,4 +1,6 @@
-#' @title Conveniently export (gg)plots - mostly based on \code{ggplot2::ggsave()}.
+#' @title Conveniently export (gg)plots
+#'
+#' @description This function is mostly a wrapper function for \code{ggplot2::ggsave()} that makes it easy to \itemize{ \item{simultaneously export a plot into pdf, svg and/or png (even multiple pngs with different dpi)} \item{immediately open the exported files in your OS}} Additionally, it offers alternatives to rendering via \code{ggplot2::ggsave()} - see arguments \code{png_from_pdf} and \code{svg_device}.
 #'
 #' @param plot_obj Plot object to save.
 #' @param folder_path Path to the destination folder (i.e. correct: \code{"Folder/Subfolder"}, wrong: \code{"Folder/Subfolder/File.png"}).
@@ -13,6 +15,15 @@
 #' @param svg_device If \code{"svg"}, the svg file is not exported via \code{ggplot2::ggsave(..., device = "svg")}, but instead via \code{grDevices::svg()}/\code{grDevices::dev.off()}. This can in some cases circumvent issues with e.g. transparency.
 #'
 #' @export
+#'
+#' @import ggplot2
+#' @import here
+#' @import svglite
+#' @importFrom ggplotify as.ggplot
+#' @importFrom grDevices cairo_pdf dev.off svg
+#' @importFrom pdftools pdf_render_page
+#' @importFrom png writePNG
+#' @importFrom stringr str_c str_replace str_replace_all
 #'
 #' @examples
 #' \dontrun{
@@ -33,15 +44,6 @@
 #'   png_dpi = c(96, 300)
 #' )
 #' }
-#'
-#' @import ggplot2
-#' @import here
-#' @import svglite
-#' @importFrom ggplotify as.ggplot
-#' @importFrom grDevices cairo_pdf dev.off svg
-#' @importFrom pdftools pdf_render_page
-#' @importFrom png writePNG
-#' @importFrom stringr str_c str_replace str_replace_all
 #'
 
 gg_export <-

@@ -8,7 +8,9 @@
 #' @return A logical vector, indicating if a match was
 #' not located for each element of a. The values
 #' are TRUE or FALSE and never NA.
+#'
 #' @export
+#'
 #' @import dplyr
 #'
 #' @examples

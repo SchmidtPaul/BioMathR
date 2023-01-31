@@ -1,4 +1,4 @@
-url: ~
+url:  schmidtpaul.github.io/BioMathR/
 
 authors:
   Paul Schmidt:
@@ -10,3 +10,39 @@ authors:
 template:
   params:
     bootswatch: cosmo
+
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    right: github
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/SchmidtPaul/BioMathR/
+
+reference:
+- title: ggplot
+  contents:
+  - gg_export
+  - palette_getset
+  - theme_BioMath
+  - theme_UBA
+
+- title: openxlsx
+  contents:
+  - create_wb
+  - add_sheet
+  - save_wb
+
+- title: utility
+  contents:
+  - '`%not_in%`'

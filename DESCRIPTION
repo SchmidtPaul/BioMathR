@@ -1,7 +1,7 @@
 Package: BioMathR
 Type: Package
 Title: Utility functions used at BioMath
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     c(person(given = "Paul",
              family = "Schmidt",
@@ -9,11 +9,11 @@ Authors@R:
              email = "paul.schmidt@biomath.de"),
       person(given = "BioMath",
              role = "fnd"))
-Description: The R package `BioMathR` provides a collection of utility functions, {ggplot2} themes and color palettes, all of which are often used at [BioMath](https://www.biomath.de/).
+Description: The R package `BioMathR` provides a collection of utility and wrapper functions, {ggplot2} themes and color palettes, all of which are often used at [BioMath](https://www.biomath.de/).
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
@@ -24,7 +24,11 @@ Imports:
     ggtext,
     grDevices,
     here,
+    MetBrewer,
+    openxlsx,
     pdftools,
     png,
+    rstudioapi,
     stringr,
-    svglite
+    svglite,
+    utils

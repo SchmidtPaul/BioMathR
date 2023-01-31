@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme_BioMath.R
 \name{theme_BioMath}
 \alias{theme_BioMath}
-\title{A [ggplot2] theme based on the \href{https://www.biomath.de/}{BioMath} corporate design.}
+\title{A {ggplot2} theme based on the \href{https://www.biomath.de/}{BioMath} corporate design.}
 \usage{
 theme_BioMath(
   base_size = 11,
@@ -63,29 +63,18 @@ theme_BioMath(
 \item{...}{Other arguments passed to the underlying \code{ggplot2::theme_minimal()}}
 }
 \description{
-A [ggplot2] theme based on the \href{https://www.biomath.de/}{BioMath} corporate design.
+A {ggplot2} theme based on the \href{https://www.biomath.de/}{BioMath} corporate design.
 }
 \examples{
 library(ggplot2)
-mtcars2 <- within(mtcars, {
-  vs <- factor(vs, labels = c("V-shaped", "Straight"))
-  am <- factor(am, labels = c("Automatic", "Manual"))
-  cyl  <- factor(cyl)
-  gear <- factor(gear)
-})
 
-p1 <- ggplot(mtcars2) +
-  geom_point(aes(x = wt, y = mpg, colour = gear)) +
-  labs(
-    title = "Fuel economy declines as weight increases",
-    subtitle = "(1973-74)",
-    caption = "Data from the 1974 Motor Trend US magazine.",
-    tag = "Figure 1",
-    x = "Weight (1000 lbs)",
-    y = "Fuel economy (mpg)",
-    colour = "Gears"
-  )
+p1 <- ggplot(data = PlantGrowth) +
+  aes(y = weight, x = group, fill = group) +
+  geom_bar(stat = "summary", fun = "mean")
 
-p1 + theme_BioMath()
+BioMathR::palette_getset("BioMath")
 
+p1
+
+p1 + BioMathR::theme_BioMath()
 }

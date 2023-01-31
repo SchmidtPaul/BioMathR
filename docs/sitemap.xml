@@ -1,27 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>schmidtpaul.github.io/BioMathR/404.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>schmidtpaul.github.io/BioMathR/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>schmidtpaul.github.io/BioMathR/index.html</loc>
   </url>
   <url>
-    <loc>/reference/BioMathR-package.html</loc>
+    <loc>schmidtpaul.github.io/BioMathR/reference/add_sheet.html</loc>
   </url>
   <url>
-    <loc>/reference/gg_export.html</loc>
+    <loc>schmidtpaul.github.io/BioMathR/reference/BioMathR-package.html</loc>
   </url>
   <url>
-    <loc>/reference/grapes-not_in-grapes.html</loc>
+    <loc>schmidtpaul.github.io/BioMathR/reference/create_wb.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>schmidtpaul.github.io/BioMathR/reference/gg_export.html</loc>
   </url>
   <url>
-    <loc>/reference/theme_BioMath.html</loc>
+    <loc>schmidtpaul.github.io/BioMathR/reference/grapes-not_in-grapes.html</loc>
+  </url>
+  <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/palette_getset.html</loc>
+  </url>
+  <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/save_wb.html</loc>
+  </url>
+  <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/theme_BioMath.html</loc>
+  </url>
+  <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/theme_UBA.html</loc>
   </url>
 </urlset>

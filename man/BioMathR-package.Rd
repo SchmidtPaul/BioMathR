@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-The R package `BioMathR` provides a collection of utility functions, {ggplot2} themes and color palettes, all of which are often used at [BioMath](https://www.biomath.de/).
+The R package `BioMathR` provides a collection of utility and wrapper functions, {ggplot2} themes and color palettes, all of which are often used at [BioMath](https://www.biomath.de/).
 }
 \author{
 \strong{Maintainer}: Paul Schmidt \email{paul.schmidt@biomath.de}
