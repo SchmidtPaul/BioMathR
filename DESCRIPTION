@@ -1,7 +1,7 @@
 Package: BioMathR
 Type: Package
 Title: Utility functions used at BioMath
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: 
     c(person(given = "Paul",
              family = "Schmidt",
@@ -19,16 +19,27 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     dplyr,
+    emmeans,
+    forcats,
     ggplot2,
     ggplotify,
     ggtext,
+    glue,
+    graphics,
     grDevices,
     here,
+    insight,
     MetBrewer,
+    multcomp,
+    multcompView,
     openxlsx,
     pdftools,
     png,
     rstudioapi,
+    scales,
+    stats,
+    stringi,
     stringr,
     svglite,
+    tibble,
     utils

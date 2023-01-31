@@ -43,6 +43,16 @@ reference:
   - add_sheet
   - save_wb
 
+- title: emmeans
+  contents:
+  - emmeans_BM
+
+- title: string manipulation
+  contents:
+  - get_d3_colourScale
+  - get_unique_references
+  - str_unGer
+
 - title: utility
   contents:
   - '`%not_in%`'

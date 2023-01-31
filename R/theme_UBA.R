@@ -1,4 +1,4 @@
-#' @title A {ggplot2} theme based on the Umweltbundesamt \href{https://www.umweltbundesamt.de/dokument/corporate-design-des-umweltbundesamtes}{corporate design}.
+#' @title A {ggplot2} theme based on the \href{https://www.umweltbundesamt.de/dokument/corporate-design-des-umweltbundesamtes}{Umweltbundesamt corporate design}.
 #'
 #' @param base_size Base font size, given in pts.
 #' @param base_family Base font family. Should be Calibri, but is not set as default.
