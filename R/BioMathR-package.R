@@ -12,6 +12,7 @@
 #' @importFrom grDevices dev.off
 #' @importFrom grDevices svg
 #' @importFrom insight format_p
+#' @importFrom knitr knit_print
 #' @importFrom MetBrewer met.brewer
 #' @importFrom pdftools pdf_render_page
 #' @importFrom png writePNG
@@ -24,6 +25,7 @@
 #' @importFrom stringr str_replace
 #' @importFrom stringr str_replace_all
 #' @importFrom stringr str_trim
+#' @importFrom tidyr pivot_longer
 #' @importFrom utils tail
 ## usethis namespace: end
 NULL

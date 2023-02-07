@@ -11,3 +11,5 @@ You can install `BioMathR` like so:
 devtools::install_github('SchmidtPaul/BioMathR')
 ```
 
+Find the documentation of all functions by clicking on the  "Reference" tab at the top.
+

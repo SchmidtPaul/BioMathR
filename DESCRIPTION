@@ -29,9 +29,11 @@ Imports:
     grDevices,
     here,
     insight,
+    knitr,
     MetBrewer,
     multcomp,
     multcompView,
+    officer,
     openxlsx,
     pdftools,
     png,
@@ -42,4 +44,5 @@ Imports:
     stringr,
     svglite,
     tibble,
+    tidyr,
     utils

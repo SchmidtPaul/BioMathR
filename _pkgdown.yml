@@ -37,15 +37,20 @@ reference:
   - theme_BioMath
   - theme_UBA
 
-- title: openxlsx
-  contents:
-  - create_wb
-  - add_sheet
-  - save_wb
-
 - title: emmeans
   contents:
   - emmeans_BM
+
+- title: MS Excel
+  contents:
+  - create_wb
+  - add_sheet
+  - cond_format
+  - save_wb
+
+- title: MS Word
+  contents:
+  - partial_block_pour_docx
 
 - title: string manipulation
   contents:

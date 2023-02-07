@@ -45,6 +45,8 @@ emmeans_BM <- function(model,
                        num_accuracy = 0.01,
                        sort = c("none", "asc", "desc")[1]) {
 
+  . <- NULL # get rid of note when checking package
+
   renames <- list(
     ger =
       c(
