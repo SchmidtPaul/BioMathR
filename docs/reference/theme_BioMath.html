@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BioMathR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
       </span>
     </div>
 
@@ -74,6 +74,7 @@
 <span>  subtitle_size <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  axistext_size <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  ggtext_axis <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  whitebg <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -148,6 +149,10 @@
 <dd><p>If <code>FALSE</code>, axis texts are rendered via <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">ggplot2::element_text()</a></code> instead of <code><a href="https://wilkelab.org/ggtext/reference/element_markdown.html" class="external-link">ggtext::element_markdown()</a></code>. This can prevent potential rendering issues.</p></dd>
 
 
+<dt>whitebg</dt>
+<dd><p>If <code>TRUE</code>, plot background is white, otherwise transparent.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other arguments passed to the underlying <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">ggplot2::theme_minimal()</a></code></p></dd>
 
@@ -163,7 +168,7 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">BioMathR</span><span class="fu">::</span><span class="fu"><a href="palette_getset.html">palette_getset</a></span><span class="op">(</span><span class="st">"BioMath"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     green      grey    orange       red      blue </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> "#00923f" "#495057" "#f0a202" "#e4572e" "#201e50" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "#00923f" "#495057" "#f0a202" "#e4572e" "#96c5f7" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">p1</span></span></span>
 <span class="r-plt img"><img src="theme_BioMath-1.png" alt="" width="700" height="433"></span>

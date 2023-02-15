@@ -37,7 +37,7 @@ palette_getset <- function(palette,
         grey   = "#495057",
         orange = "#f0a202",
         red    = "#e4572e",
-        blue   = "#201e50"
+        blue   = "#96c5f7"
       )
 
     if (setforggplot) {

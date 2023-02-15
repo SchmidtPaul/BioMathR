@@ -22,6 +22,7 @@ theme_BioMath(
   subtitle_size = 10,
   axistext_size = 10,
   ggtext_axis = TRUE,
+  whitebg = TRUE,
   ...
 )
 }
@@ -59,6 +60,8 @@ theme_BioMath(
 \item{axistext_size}{Axis text font size, given in pts.}
 
 \item{ggtext_axis}{If \code{FALSE}, axis texts are rendered via \code{ggplot2::element_text()} instead of \code{ggtext::element_markdown()}. This can prevent potential rendering issues.}
+
+\item{whitebg}{If \code{TRUE}, plot background is white, otherwise transparent.}
 
 \item{...}{Other arguments passed to the underlying \code{ggplot2::theme_minimal()}}
 }

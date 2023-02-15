@@ -37,9 +37,10 @@ reference:
   - theme_BioMath
   - theme_UBA
 
-- title: emmeans
+- title: linear model output
   contents:
   - emmeans_BM
+  - get_varcomp
 
 - title: MS Excel
   contents:

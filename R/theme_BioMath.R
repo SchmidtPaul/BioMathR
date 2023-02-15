@@ -17,6 +17,7 @@
 #' @param subtitle_size Subtitle font size, given in pts.
 #' @param axistext_size Axis text font size, given in pts.
 #' @param ggtext_axis If \code{FALSE}, axis texts are rendered via \code{ggplot2::element_text()} instead of \code{ggtext::element_markdown()}. This can prevent potential rendering issues.
+#' @param whitebg If \code{TRUE}, plot background is white, otherwise transparent.
 #' @param ... Other arguments passed to the underlying \code{ggplot2::theme_minimal()}
 #'
 #' @export
@@ -54,6 +55,7 @@ theme_BioMath <- function(base_size = 11,
                           subtitle_size = 10,
                           axistext_size = 10,
                           ggtext_axis = TRUE,
+                          whitebg = TRUE,
                           ...) {
 
   tBM <- ggplot2::theme_minimal(base_family = base_family, base_size = base_size, ...)
@@ -212,6 +214,10 @@ theme_BioMath <- function(base_size = 11,
       margin = margin(10, 0, 6, 0)
     )
   )
+
+  if (whitebg) {
+    tBM <- tBM + theme(plot.background = element_rect(fill = "white"))
+  }
 
   return(tBM)
 }
