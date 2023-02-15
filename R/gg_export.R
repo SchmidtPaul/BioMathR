@@ -18,11 +18,7 @@
 #'
 #' @import ggplot2
 #' @import here
-#' @import svglite
-#' @importFrom ggplotify as.ggplot
 #' @importFrom grDevices cairo_pdf dev.off svg
-#' @importFrom pdftools pdf_render_page
-#' @importFrom png writePNG
 #' @importFrom stringr str_c str_replace str_replace_all
 #'
 #' @examples
@@ -67,6 +63,9 @@ gg_export <-
 
 
     if (class(plot_obj)[1] %in% others) {
+      if (!requireNamespace("ggplotify", quietly = TRUE)) {
+        stop("When providing a non-ggplot2 object, package 'ggplotify' must be installed.")
+      }
       plot_obj <- ggplotify::as.ggplot(plot_obj)
     }
 
@@ -119,6 +118,14 @@ gg_export <-
 
         # create png by forcing it to be copy of pdf
         if (png_from_pdf) {
+          if (!requireNamespace("pdftools", quietly = TRUE)) {
+            stop("When using 'png_from_pdf = TRUE', package 'pdftools' must be installed.")
+          }
+
+          if (!requireNamespace("png", quietly = TRUE)) {
+            stop("When using 'png_from_pdf = TRUE', package 'png' must be installed.")
+          }
+
           bitmap <- pdftools::pdf_render_page(pdf_path, page = 1, dpi = dpi_i)
           png::writePNG(bitmap, png_path_i, dpi = dpi_i)
         }
@@ -134,6 +141,11 @@ gg_export <-
 
     # svg ---------------------------------------------------------------------
     if (svg %in% c("create", "open")) {
+
+      if (!requireNamespace("svglite", quietly = TRUE)) {
+        stop("When exporting an svg, package 'svglite' must be installed.")
+      }
+
       svg_path  <- stringr::str_c(folder_path, "/", file_name, ".svg")
 
       if (svg_device == "ggsave") {

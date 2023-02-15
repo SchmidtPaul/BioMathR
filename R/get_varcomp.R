@@ -7,8 +7,6 @@
 #'
 #' @import dplyr
 #' @import tibble
-#' @importFrom glmmTMB VarCorr
-#' @importFrom lme4 VarCorr
 #' @importFrom scales percent
 #'
 #' @seealso
@@ -31,6 +29,10 @@ get_varcomp <- function(model,
 #' @rdname get_varcomp
 get_varcomp.merMod <- function(model,
                                digits = 3) {
+
+  if (!requireNamespace("lme4", quietly = TRUE)) {
+    stop("When model object is 'merMod', package 'lme4' must be installed.")
+  }
 
   group <- effect <- effect_2 <- var <- sd <- NULL
 
@@ -71,6 +73,10 @@ get_varcomp.merMod <- function(model,
 #' @rdname get_varcomp
 get_varcomp.glmmTMB <- function(model,
                                digits = 3) {
+
+  if (!requireNamespace("glmmTMB", quietly = TRUE)) {
+    stop("When model object is 'glmmTMB', package 'glmmTMB' must be installed.")
+  }
 
   group <- effect <- effect_2 <- var <- sd <- NULL
 
