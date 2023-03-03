@@ -19,12 +19,14 @@
 #' @importFrom scales percent
 #' @importFrom stats ave
 #' @importFrom stats formula
+#' @importFrom stats quantile
 #' @importFrom stringi stri_trans_general
 #' @importFrom stringr str_c
 #' @importFrom stringr str_replace
 #' @importFrom stringr str_replace_all
 #' @importFrom stringr str_trim
 #' @importFrom tidyr pivot_longer
+#' @importFrom tidyr pivot_wider
 #' @importFrom utils tail
 ## usethis namespace: end
 NULL

@@ -36,9 +36,11 @@ Imports:
     utils
 Suggests: 
     assertthat,
+    broom,
     ggplotify,
     glmmTMB,
     lme4,
+    openair,
     pdftools,
     png,
     svglite,

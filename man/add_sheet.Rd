@@ -14,7 +14,9 @@ add_sheet(
   gridLines = FALSE,
   freezefirstRow = TRUE,
   freezefirstCol = FALSE,
-  addFilters = TRUE
+  addFilters = TRUE,
+  rowheight = 15,
+  textwrap = TRUE
 )
 }
 \arguments{
@@ -24,19 +26,23 @@ add_sheet(
 
 \item{sheetName}{The name of the worksheet that is to be created and have \code{data} written into. Defaults to the \code{data} object name if left empty.}
 
-\item{colWidth}{For all columns: column width. Can either be Excel column width units or "auto" for automatic sizing.}
+\item{colWidth}{For all columns: column width. Can either be Excel column width units or "auto" for automatic sizing}
 
 \item{colWidthMin}{For all columns: minimum column width}
 
 \item{colWidthMax}{For all columns: maximum column width}
 
-\item{gridLines}{If \code{FALSE}, the worksheet grid lines will be hidden.}
+\item{gridLines}{If \code{FALSE}, the worksheet grid lines will be hidden}
 
 \item{freezefirstRow}{If \code{TRUE}, freezes the first row}
 
 \item{freezefirstCol}{If \code{TRUE}, freezes the first row}
 
 \item{addFilters}{If \code{TRUE}, adds filters to worksheet columns}
+
+\item{rowheight}{Row height in Excel row height units}
+
+\item{textwrap}{If \code{TRUE}, all cells are formatted via text wrap so their content never spills into adjacent empty cells}
 }
 \description{
 This function is a wrapper for \code{openxlsx::addWorksheet()} and \code{openxlsx::writeData()}, but also does some extra formatting via more {openxlsx} functions.

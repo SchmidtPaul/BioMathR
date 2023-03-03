@@ -41,6 +41,7 @@ reference:
   contents:
   - emmeans_BM
   - get_varcomp
+  - tidy_reg
 
 - title: MS Excel
   contents:

@@ -34,7 +34,7 @@ get_varcomp.merMod <- function(model,
     stop("When model object is 'merMod', package 'lme4' must be installed.")
   }
 
-  group <- effect <- effect_2 <- var <- sd <- NULL
+  group <- effect <- effect_2 <- var <- sd <- NULL # avoid package check warning
 
   vc_mat <- lme4::VarCorr(model)
   vc <- data.frame(vc_mat)
