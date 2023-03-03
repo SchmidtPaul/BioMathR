@@ -30,7 +30,8 @@ cond_format <- function(wb,
 
   # re-import data from Workbook
   dat_copy <- openxlsx::readWorkbook(xlsxFile = wb,
-                                     sheet = sheetName)
+                                     sheet = sheetName,
+                                     sep.names = " ")
 
   # get column index for columns to be conditionally formatted
   if (is.character(columns)) {

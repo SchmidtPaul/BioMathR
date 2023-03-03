@@ -65,9 +65,9 @@ add_sheet <-
     BMbodystyle <- openxlsx::createStyle(
       halign = "left",
       valign = "top",
-      wrapText = textwrap
+      wrapText = textwrap,
+      numFmt = openxlsx::openxlsx_getOp("numFmt", "GENERAL"),
     )
-
 
     # add data to worksheet
     openxlsx::writeData(
@@ -78,7 +78,6 @@ add_sheet <-
       headerStyle = BMheaderstyle
     )
 
-
     # format worksheet
     openxlsx::addStyle(
       wb = wb,
@@ -88,7 +87,6 @@ add_sheet <-
       rows = c(2:(nrow(data) + 1)),
       gridExpand = TRUE
     )
-
 
     # freeze pane
     openxlsx::freezePane(
