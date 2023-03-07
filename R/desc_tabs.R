@@ -29,7 +29,7 @@ desc_tabs <-
     wb <- BioMathR::create_wb()
 
     for (i in rev(1:length(groupvars))) {
-      combs_i <- combn(groupvars, i)
+      combs_i <- t(combn(groupvars, i))
 
       for (ij in 1:nrow(combs_i)) {
         comb_ij     <- combs_i[ij, ]
