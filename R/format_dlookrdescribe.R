@@ -1,7 +1,7 @@
 #' @title Format dlookr::describe() output
 #'
 #' @param dlookr_describe_out a table create via \code{dlookr::describe()}
-#' @param lang language for the formatted result table and text
+#' @param lang language for the result table column names
 #'
 #' @export
 #'

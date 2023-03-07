@@ -2,6 +2,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom dlookr describe
 #' @importFrom forcats fct_relevel
 #' @importFrom forcats fct_reorder
 #' @importFrom glue glue
@@ -27,6 +28,7 @@
 #' @importFrom stringr str_trim
 #' @importFrom tidyr pivot_longer
 #' @importFrom tidyr pivot_wider
+#' @importFrom utils combn
 #' @importFrom utils tail
 ## usethis namespace: end
 NULL

@@ -17,9 +17,9 @@ save_wb(
 
 \item{file}{A character string naming an xlsx file}
 
-\item{overwrite}{Should an info sheet be created?}
+\item{overwrite}{If \code{TRUE}, overwrites the previous excel file}
 
-\item{open_file}{Label for the info sheet}
+\item{open_file}{If \code{TRUE}, opens the excel file after it was created}
 
 \item{...}{Other arguments passed to \code{openxlsx::saveWorkbook()}}
 }

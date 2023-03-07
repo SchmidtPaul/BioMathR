@@ -9,7 +9,7 @@ format_dlookrdescribe(dlookr_describe_out, lang = c("ger", "eng")[1])
 \arguments{
 \item{dlookr_describe_out}{a table create via \code{dlookr::describe()}}
 
-\item{lang}{language for the formatted result table and text}
+\item{lang}{language for the result table column names}
 }
 \description{
 Format dlookr::describe() output

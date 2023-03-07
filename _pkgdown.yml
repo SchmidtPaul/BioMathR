@@ -30,6 +30,11 @@ navbar:
       href: https://github.com/SchmidtPaul/BioMathR/
 
 reference:
+- title: descriptive stats
+  contents:
+  - desc_tabs
+  - format_dlookrdescribe
+
 - title: ggplot
   contents:
   - gg_export
@@ -63,4 +68,3 @@ reference:
 - title: utility
   contents:
   - '`%not_in%`'
-  - format_dlookrdescribe
