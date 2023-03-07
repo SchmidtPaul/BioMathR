@@ -28,7 +28,7 @@ desc_tabs <-
 
     wb <- BioMathR::create_wb()
 
-    for (i in rev(1:length(groupvars))) {
+    for (i in 1:length(groupvars)) {
       combs_i <- t(combn(groupvars, i))
 
       for (ij in 1:nrow(combs_i)) {
@@ -36,7 +36,7 @@ desc_tabs <-
         comb_ij_lab <- comb_ij %>% str_sub(1, 3) %>% str_c(collapse = "-")
 
         comb_ij_tab <- data %>%
-          group_by_at(comb_ij) %>%
+          dplyr::group_by(across(all_of(comb_ij))) %>%
           dlookr::describe(all_of(yvars)) %>%
           BioMathR::format_dlookrdescribe(lang = lang)
 
