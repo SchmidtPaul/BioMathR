@@ -14,6 +14,8 @@
 #' @param addFilters If \code{TRUE}, adds filters to worksheet columns
 #' @param rowheight Row height in Excel row height units
 #' @param textwrap If \code{TRUE}, all cells are formatted via text wrap so their content never spills into adjacent empty cells
+#' @param dateformat If not \code{"none"} (default is \code{"yyyy-mm-dd"}), all date-formatted columns in \code{data} are explicitly formatted with \code{numFmt = "yyyy-mm-dd"}
+#' @param datetimeformat If not \code{"none"} (default is \code{"yyyy-mm-dd hh:mm:ss"}), all datetime-formatted columns in \code{data} are explicitly formatted with \code{numFmt = "yyyy-mm-dd hh:mm:ss"}
 #'
 #' @export
 #'
@@ -41,7 +43,9 @@ add_sheet <-
            freezefirstCol = FALSE,
            addFilters = TRUE,
            rowheight = 15,
-           textwrap = TRUE)
+           textwrap = TRUE,
+           dateformat = "yyyy-mm-dd",
+           datetimeformat = "yyyy-mm-dd hh:mm:ss")
   {
     # sheetname default: data-object name
     if (is.null(sheetName)) {
@@ -66,7 +70,8 @@ add_sheet <-
       halign = "left",
       valign = "top",
       wrapText = textwrap,
-      numFmt = openxlsx::openxlsx_getOp("numFmt", "GENERAL"),
+      border = "TopBottomLeftRight",
+      numFmt = openxlsx::openxlsx_getOp("numFmt", NULL),
     )
 
     # add data to worksheet
@@ -79,14 +84,49 @@ add_sheet <-
     )
 
     # format worksheet
+    bodyrows <- c(1:nrow(data)) + 1
+
+    ## general
     openxlsx::addStyle(
       wb = wb,
       sheet = utils::tail(openxlsx::worksheetOrder(wb), n = 1),
       style = BMbodystyle,
       cols = c(1:ncol(data)),
-      rows = c(2:(nrow(data) + 1)),
+      rows = bodyrows,
       gridExpand = TRUE
     )
+
+    ## date columns
+    is_date <- function(x) inherits(x, 'Date')
+    date_cols <- unname(which(sapply(data, is_date)))
+
+    if (dateformat != "none" & length(date_cols) > 0) {
+      openxlsx::addStyle(
+        wb = wb,
+        sheet = utils::tail(openxlsx::worksheetOrder(wb), n = 1),
+        style = openxlsx::createStyle(numFmt = dateformat),
+        stack = TRUE,
+        cols = date_cols,
+        rows = bodyrows,
+        gridExpand = TRUE
+      )
+    }
+
+    ## datetime columns
+    is_datetime <- function(x) {inherits(x, "POSIXt") && attr(x, "tzone") != "" && all(!is.na(as.numeric(x)))}
+    datetime_cols <- unname(which(sapply(data, is_datetime)))
+
+    if (datetimeformat != "none" & length(datetime_cols) > 0) {
+      openxlsx::addStyle(
+        wb = wb,
+        sheet = utils::tail(openxlsx::worksheetOrder(wb), n = 1),
+        style = openxlsx::createStyle(numFmt = datetimeformat),
+        stack = TRUE,
+        cols = datetime_cols,
+        rows = bodyrows,
+        gridExpand = TRUE
+      )
+    }
 
     # freeze pane
     openxlsx::freezePane(
@@ -121,7 +161,7 @@ add_sheet <-
     openxlsx::setRowHeights(
       wb = wb,
       sheet = utils::tail(openxlsx::worksheetOrder(wb), n = 1),
-      rows = c(1:(nrow(data) + 1)),
+      rows = c(1, bodyrows),
       heights = rowheight
     )
 

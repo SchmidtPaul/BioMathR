@@ -63,3 +63,4 @@ reference:
 - title: utility
   contents:
   - '`%not_in%`'
+  - format_dlookrdescribe

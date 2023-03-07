@@ -16,7 +16,9 @@ add_sheet(
   freezefirstCol = FALSE,
   addFilters = TRUE,
   rowheight = 15,
-  textwrap = TRUE
+  textwrap = TRUE,
+  dateformat = "yyyy-mm-dd",
+  datetimeformat = "yyyy-mm-dd hh:mm:ss"
 )
 }
 \arguments{
@@ -43,6 +45,10 @@ add_sheet(
 \item{rowheight}{Row height in Excel row height units}
 
 \item{textwrap}{If \code{TRUE}, all cells are formatted via text wrap so their content never spills into adjacent empty cells}
+
+\item{dateformat}{If not \code{"none"} (default is \code{"yyyy-mm-dd"}), all date-formatted columns in \code{data} are explicitly formatted with \code{numFmt = "yyyy-mm-dd"}}
+
+\item{datetimeformat}{If not \code{"none"} (default is \code{"yyyy-mm-dd hh:mm:ss"}), all datetime-formatted columns in \code{data} are explicitly formatted with \code{numFmt = "yyyy-mm-dd hh:mm:ss"}}
 }
 \description{
 This function is a wrapper for \code{openxlsx::addWorksheet()} and \code{openxlsx::writeData()}, but also does some extra formatting via more {openxlsx} functions.
