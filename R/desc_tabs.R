@@ -1,16 +1,13 @@
-#' @title Get descriptive tables
+#' @title Get all descriptive tables
 #'
 #' @param data data object
-#' @param yvars column names of variables for which descriptive measures should be calculated. These go into \code{dlookr::describe()}.
+#' @param yvars column names of variables for which descriptive measures should be calculated.
 #' @param groupvars column names of variables for which grouping should be done
 #' @param lang language for the result table column names
 #' @param xlsx_path path to where the excel file should be saved
 #' @param xlsx_overwrite If \code{TRUE}, overwrites the previous excel file
 #' @param xlsx_open If \code{TRUE}, opens the excel file after it was created
 #' @param xlsx_data_sheet If \code{code}, adds a excel sheet with the underyling data
-#'
-#' @importFrom dlookr describe
-#' @importFrom utils combn
 #'
 #' @export
 desc_tabs <-
@@ -23,8 +20,7 @@ desc_tabs <-
            xlsx_open = FALSE,
            xlsx_data_sheet = TRUE) {
 
-    assertthat::assert_that(requireNamespace("dlookr", quietly = TRUE),
-                            msg = "The 'dlookr' package is required but is not installed.")
+    Variable <- name <- value <- NULL # avoid package check warning
 
     wb <- BioMathR::create_wb()
 
@@ -37,7 +33,26 @@ desc_tabs <-
 
         comb_ij_tab <- data %>%
           dplyr::group_by(across(all_of(comb_ij))) %>%
-          dlookr::describe(all_of(yvars)) %>%
+          # the following lines are reproducing dlookr::describe() to avoid loading dlookr
+          dplyr::summarise(across(all_of(yvars),
+            .names = "{.col}_{fn}",
+            .fns = list(
+              n = ~ sum(!is.na(.)),
+              na = ~ sum(is.na(.)),
+              mean = ~ mean(., na.rm = TRUE),
+              sd = ~ sd(., na.rm = TRUE),
+              IQR = ~ quantile(., 0.75, na.rm = TRUE) - quantile(., 0.25, na.rm = TRUE),
+              p00 = ~ min(., na.rm = TRUE),
+              p50 = ~ median(., na.rm = TRUE),
+              p100 = ~ max(., na.rm = TRUE)
+            )
+          )) %>%
+          suppressMessages() %>%
+          pivot_longer(cols = -all_of(comb_ij)) %>%
+          tidyr::separate(name, into = c("Variable", "Stat"), sep = "_") %>%
+          pivot_wider(names_from = Stat, values_from = value) %>%
+          select(Variable, everything()) %>%
+          arrange(Variable) %>%
           BioMathR::format_dlookrdescribe(lang = lang)
 
         BioMathR::add_sheet(wb = wb,

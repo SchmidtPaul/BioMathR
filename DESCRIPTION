@@ -9,7 +9,6 @@ Authors@R: c(
 Description: The R package `BioMathR` provides a collection of utility and wrapper functions, all of which are often used at [BioMath](https://www.biomath.de/).
 License: GPL-3
 Imports: 
-    dlookr,
     dplyr,
     emmeans,
     forcats,

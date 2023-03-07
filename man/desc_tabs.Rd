@@ -2,7 +2,7 @@
 % Please edit documentation in R/desc_tabs.R
 \name{desc_tabs}
 \alias{desc_tabs}
-\title{Get descriptive tables}
+\title{Get all descriptive tables}
 \usage{
 desc_tabs(
   data,
@@ -18,7 +18,7 @@ desc_tabs(
 \arguments{
 \item{data}{data object}
 
-\item{yvars}{column names of variables for which descriptive measures should be calculated. These go into \code{dlookr::describe()}.}
+\item{yvars}{column names of variables for which descriptive measures should be calculated.}
 
 \item{groupvars}{column names of variables for which grouping should be done}
 
@@ -33,5 +33,5 @@ desc_tabs(
 \item{xlsx_data_sheet}{If \code{code}, adds a excel sheet with the underyling data}
 }
 \description{
-Get descriptive tables
+Get all descriptive tables
 }
