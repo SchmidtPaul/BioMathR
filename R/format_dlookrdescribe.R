@@ -3,6 +3,8 @@
 #' @param dlookr_describe_out a table create via \code{dlookr::describe()}
 #' @param lang language for the formatted result table and text
 #'
+#' @export
+#'
 #' @import dplyr
 format_dlookrdescribe <- function(dlookr_describe_out,
                                   lang = c("ger", "eng")[1]) {
