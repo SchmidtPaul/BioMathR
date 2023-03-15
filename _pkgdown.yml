@@ -33,10 +33,11 @@ reference:
 - title: descriptive stats
   contents:
   - desc_tabs
-  - format_dlookrdescribe
+  - describe
 
-- title: ggplot
+- title: ggplot etc.
   contents:
+  - desplot_across
   - gg_export
   - palette_getset
   - theme_BioMath
@@ -45,6 +46,7 @@ reference:
 - title: linear model output
   contents:
   - emmeans_BM
+  - get_residual_plots
   - get_varcomp
   - tidy_reg
 
@@ -57,13 +59,16 @@ reference:
 
 - title: MS Word
   contents:
+  - docx_tab
   - partial_block_pour_docx
 
 - title: string manipulation
   contents:
+  - format_p
   - get_d3_colourScale
   - get_unique_references
   - str_unGer
+  - str_wrap_br
 
 - title: utility
   contents:

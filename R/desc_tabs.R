@@ -31,30 +31,12 @@ desc_tabs <-
         comb_ij     <- combs_i[ij, ]
         comb_ij_lab <- comb_ij %>% str_sub(1, 3) %>% str_c(collapse = "-")
 
+        # calculate table
         comb_ij_tab <- data %>%
           dplyr::group_by(across(all_of(comb_ij))) %>%
-          # the following lines are reproducing dlookr::describe() to avoid loading dlookr
-          dplyr::summarise(across(all_of(yvars),
-            .names = "{.col}_{fn}",
-            .fns = list(
-              n = ~ sum(!is.na(.)),
-              na = ~ sum(is.na(.)),
-              mean = ~ mean(., na.rm = TRUE),
-              sd = ~ sd(., na.rm = TRUE),
-              IQR = ~ quantile(., 0.75, na.rm = TRUE) - quantile(., 0.25, na.rm = TRUE),
-              p00 = ~ min(., na.rm = TRUE),
-              p50 = ~ median(., na.rm = TRUE),
-              p100 = ~ max(., na.rm = TRUE)
-            )
-          )) %>%
-          suppressMessages() %>%
-          pivot_longer(cols = -all_of(comb_ij)) %>%
-          tidyr::separate(name, into = c("Variable", "Stat"), sep = "_") %>%
-          pivot_wider(names_from = Stat, values_from = value) %>%
-          select(Variable, everything()) %>%
-          arrange(Variable) %>%
-          BioMathR::format_dlookrdescribe(lang = lang)
+          BioMathR::describe(yvars = yvars, lang = lang)
 
+        # export table
         BioMathR::add_sheet(wb = wb,
                             sheetName = comb_ij_lab,
                             data = comb_ij_tab)

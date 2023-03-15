@@ -9,7 +9,7 @@ emmeans_BM(
   specs_string,
   lmer.df = c("Asymptotic", "Satterthwaite", "Kenward-Roger")[3],
   adjust = c("none", "tukey", "bonferroni")[1],
-  out_lang = c("ger", "eng")[1],
+  lang = c("eng", "ger")[1],
   num_accuracy = 0.01,
   sort = c("none", "asc", "desc")[1]
 )
@@ -23,7 +23,7 @@ emmeans_BM(
 
 \item{adjust}{\href{https://cran.r-project.org/web/packages/emmeans/vignettes/confidence-intervals.html#adjust}{multiplicity adjustment}. Follow \href{https://www.rdocumentation.org/packages/emmeans/versions/1.6.2-1/topics/summary.emmGrid}{this link} and scroll down o to the “P-value adjustments” heading within the “summary.emmGrid” section for more details on e.g. Fisher’s LSD test, Tukey-test, Bonferroni adjustment etc.}
 
-\item{out_lang}{language for the formatted result table and text}
+\item{lang}{language for the formatted result table and text}
 
 \item{num_accuracy}{format the number of digits shown after the decimal separator}
 
@@ -34,12 +34,4 @@ This function is a wrapper for \code{emmeans::emmeans()} and \code{multcomp::cld
 }
 \details{
 \href{https://github.com/rvlenth/emmeans/issues/235}{Here} is a discussion on the speed of calculating confidence intervals with different degrees of freedom methods.
-}
-\examples{
-library(BioMathR)
-pigsmod <- lm(conc ~ source, data = emmeans::pigs)
-
-emmeans_BM(model = pigsmod, specs_string = "~ source", out_lang = "eng")
-
-emmeans_BM(model = pigsmod, specs_string = "~ source", out_lang = "ger")
 }

@@ -14,6 +14,7 @@ gg_export(
   png = "create",
   svg = "none",
   png_dpi = 300,
+  bg = "white",
   png_from_pdf = FALSE,
   svg_device = "ggsave"
 )
@@ -36,6 +37,8 @@ gg_export(
 \item{svg}{Should a svg file be created and/or immediately opened? Can be either \code{"none"}, \code{"create"} or \code{"open"}.}
 
 \item{png_dpi}{Plot resolution of png file. Can be a vector of multiple values so that multiple png files will be created.}
+
+\item{bg}{Background colour. If \code{NULL}, uses the \code{plot.background} fill value from the plot theme.}
 
 \item{png_from_pdf}{If \code{TRUE}, the png file is not exported via \code{ggplot2::ggsave(..., device = "png")}, but instead converted/rendered from the pdf created via \code{ggplot2::ggsave(device = "pdf")}. This can in some cases circumvent issues where pdf and png e.g. have different font sizes.}
 

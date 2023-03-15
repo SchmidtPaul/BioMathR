@@ -1,7 +1,7 @@
 Type: Package
 Package: BioMathR
 Title: Utility functions used at BioMath
-Version: 0.4.0
+Version: 0.5.0
 Authors@R: c(
     person("Paul", "Schmidt", , "paul.schmidt@biomath.de", role = c("aut", "cre")),
     person("BioMath", role = "fnd")
@@ -37,12 +37,17 @@ Imports:
 Suggests: 
     assertthat,
     broom,
+    cowplot,
+    desplot,
+    flextable,
     ggplotify,
     glmmTMB,
     lme4,
     openair,
     pdftools,
+    performance,
     png,
+    see,
     svglite,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

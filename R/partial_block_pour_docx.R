@@ -4,6 +4,7 @@
 #'
 #' @param file external docx file path
 #' @param heading1title name of the header (of MSWord style heading 1) that denotes the relevant part.
+#' @param includeheader should the header of the relevant be part of the pour?
 #'
 #' @export
 #'
@@ -15,7 +16,9 @@
 #' @examples
 #' # see https://github.com/davidgohel/officedown/discussions/97#discussioncomment-4839382
 
-partial_block_pour_docx <- function(file, heading1title){
+partial_block_pour_docx <- function(file, heading1title, includeheader = TRUE){
+
+  filename <- nr <- NULL
 
   # import and summary ------------------------------------------------------
   doc <- officer::read_docx(file)
@@ -55,12 +58,20 @@ partial_block_pour_docx <- function(file, heading1title){
     }
   }
 
+  # do not include header
+  if (!includeheader) {
+    docpart <- docpart %>% officer::cursor_begin() %>% officer::body_remove()
+  }
+
 
   # pour --------------------------------------------------------------------
   # create temporary docx file
-  print(docpart, target = "tempfileplsdelete.docx")
+  filename <- "tempfileplsdelete"
+  nr <- length(list.files(filename)) + 1
+  filename <- paste0(filename, nr, ".docx")
+  print(docpart, target = filename)
 
   # pour it into Rmd
-  knitr::knit_print(officer::block_pour_docx("tempfileplsdelete.docx"))
+  knitr::knit_print(officer::block_pour_docx(filename))
 
 }

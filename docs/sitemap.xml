@@ -22,16 +22,28 @@
     <loc>schmidtpaul.github.io/BioMathR/reference/create_wb.html</loc>
   </url>
   <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/describe.html</loc>
+  </url>
+  <url>
     <loc>schmidtpaul.github.io/BioMathR/reference/desc_tabs.html</loc>
+  </url>
+  <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/desplot_across.html</loc>
+  </url>
+  <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/docx_tab.html</loc>
   </url>
   <url>
     <loc>schmidtpaul.github.io/BioMathR/reference/emmeans_BM.html</loc>
   </url>
   <url>
-    <loc>schmidtpaul.github.io/BioMathR/reference/format_dlookrdescribe.html</loc>
+    <loc>schmidtpaul.github.io/BioMathR/reference/format_p.html</loc>
   </url>
   <url>
     <loc>schmidtpaul.github.io/BioMathR/reference/get_d3_colourScale.html</loc>
+  </url>
+  <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/get_residual_plots.html</loc>
   </url>
   <url>
     <loc>schmidtpaul.github.io/BioMathR/reference/get_unique_references.html</loc>
@@ -59,6 +71,9 @@
   </url>
   <url>
     <loc>schmidtpaul.github.io/BioMathR/reference/str_unGer.html</loc>
+  </url>
+  <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/str_wrap_br.html</loc>
   </url>
   <url>
     <loc>schmidtpaul.github.io/BioMathR/reference/theme_BioMath.html</loc>

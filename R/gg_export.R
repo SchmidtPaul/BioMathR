@@ -11,6 +11,7 @@
 #' @param png Should a png file be created and/or immediately opened? Can be either \code{"none"}, \code{"create"} or \code{"open"}.
 #' @param svg Should a svg file be created and/or immediately opened? Can be either \code{"none"}, \code{"create"} or \code{"open"}.
 #' @param png_dpi Plot resolution of png file. Can be a vector of multiple values so that multiple png files will be created.
+#' @param bg Background colour. If \code{NULL}, uses the \code{plot.background} fill value from the plot theme.
 #' @param png_from_pdf If \code{TRUE}, the png file is not exported via \code{ggplot2::ggsave(..., device = "png")}, but instead converted/rendered from the pdf created via \code{ggplot2::ggsave(device = "pdf")}. This can in some cases circumvent issues where pdf and png e.g. have different font sizes.
 #' @param svg_device If \code{"svg"}, the svg file is not exported via \code{ggplot2::ggsave(..., device = "svg")}, but instead via \code{grDevices::svg()}/\code{grDevices::dev.off()}. This can in some cases circumvent issues with e.g. transparency.
 #'
@@ -52,6 +53,7 @@ gg_export <-
            png = "create",
            svg = "none",
            png_dpi = 300,
+           bg = "white",
            png_from_pdf = FALSE,
            svg_device = "ggsave") {
 
@@ -83,7 +85,8 @@ gg_export <-
         height = height_cm,
         units = "cm",
         scale = 1,
-        device = cairo_pdf
+        device = cairo_pdf,
+        bg = bg
       )
     }
 
@@ -112,7 +115,8 @@ gg_export <-
             height = height_cm,
             units = "cm",
             scale = 1,
-            dpi = dpi_i
+            dpi = dpi_i,
+            bg = bg
           )
         }
 
@@ -155,7 +159,8 @@ gg_export <-
           width = width_cm,
           height = height_cm,
           units = "cm",
-          scale = 1
+          scale = 1,
+          bg = bg
         )
       }
 
