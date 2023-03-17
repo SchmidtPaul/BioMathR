@@ -1,6 +1,6 @@
 #' @title Make named color vector compatible with D3 Sankey Network Graphs
 #'
-#' @description This function does a very specific job only needed when working with \code{sankeyD3::sankeyNetwork()}. It converts a named vector with colors as the values to a format that can be passed to the \code{colourScale =} argument in aforementioned function.
+#' @description This function does a very specific job only needed when working with `sankeyD3::sankeyNetwork()`. It converts a named vector with colors as the values to a format that can be passed to the `colourScale =` argument in aforementioned function.
 #'
 #' @param namedvector a named character vector where the names are the levels and the values are the respective colors
 #'

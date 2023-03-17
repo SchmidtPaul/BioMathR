@@ -1,7 +1,7 @@
 #' @title Auto-format tables for printing in MS-Word documents
 #'
 #' @param x table to be formatted
-#' @param lang language for the result table column names
+#' @param lang Language for column names.
 #' @param digits number of digits all numeric columns are rounded to
 #' @param autopvalform if `TRUE`, p-value columns are formatted via `BioMathR::format_p()`
 #' @param asft If `TRUE`, output is formatted as flextable

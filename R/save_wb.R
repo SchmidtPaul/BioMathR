@@ -1,12 +1,12 @@
 #' @title Save a Workbook object to Excel file
 #'
-#' @description This function is a wrapper for \code{openxlsx::saveWorkbook()}, but can also open the Excel file immediately after saving.
+#' @description This function is a wrapper for`openxlsx::saveWorkbook()`, but can also open the Excel file immediately after saving.
 #'
 #' @param wb A Workbook object to write to file
 #' @param file A character string naming an xlsx file
-#' @param overwrite If \code{TRUE}, overwrites the previous excel file
-#' @param open_file If \code{TRUE}, opens the excel file after it was created
-#' @param ... Other arguments passed to \code{openxlsx::saveWorkbook()}
+#' @param overwrite If `TRUE`, overwrites the previous excel file
+#' @param open_file If `TRUE`, opens the excel file after it was created
+#' @param ... Other arguments passed to`openxlsx::saveWorkbook()`
 #'
 #' @export
 #'

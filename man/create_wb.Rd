@@ -21,13 +21,13 @@ create_wb(
 
 \item{infosheetlabel}{Label for the info sheet}
 
-\item{...}{Other arguments passed to \code{openxlsx::createWorkbook()}}
+\item{...}{Other arguments passed to `openxlsx::createWorkbook()`}
 }
 \value{
-Workbook object (see \code{openxlsx})
+Workbook object (see {openxlsx})
 }
 \description{
-This function is a wrapper for \code{openxlsx::createWorkbook()}, but also adds an info sheet including e.g. the time it was created.
+This function is a wrapper for `openxlsx::createWorkbook()`, but also adds an info sheet including e.g. the time it was created.
 }
 \examples{
 wb1 <- create_wb()

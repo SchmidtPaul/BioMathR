@@ -4,7 +4,7 @@
 #' @param base_family Base font family
 #' @param base_color Base color for text and lines
 #' @param axis_title_bold Should axis titles be bold?
-#' @param axis_title_just Justification of axis titles. \code{rt} translates to "right" (x-axis) "top" (y-axis).
+#' @param axis_title_just Justification of axis titles. `rt` translates to "right" (x-axis) "top" (y-axis).
 #' @param ticks Should ticks be drawn on the axes?
 #' @param grid_x Should there be major grid lines for the x-axis?
 #' @param grid_y Should there be major grid lines for the y-axis?
@@ -16,9 +16,9 @@
 #' @param title_size Title font size, given in pts.
 #' @param subtitle_size Subtitle font size, given in pts.
 #' @param axistext_size Axis text font size, given in pts.
-#' @param ggtext_axis If \code{FALSE}, axis texts are rendered via \code{ggplot2::element_text()} instead of \code{ggtext::element_markdown()}. This can prevent potential rendering issues.
-#' @param whitebg If \code{TRUE}, plot background is white, otherwise transparent.
-#' @param ... Other arguments passed to the underlying \code{ggplot2::theme_minimal()}
+#' @param ggtext_axis If `FALSE`, axis texts are rendered via `ggplot2::element_text()` instead of `ggtext::element_markdown()`. This can prevent potential rendering issues.
+#' @param whitebg If `TRUE`, plot background is white, otherwise transparent.
+#' @param ... Other arguments passed to the underlying `ggplot2::theme_minimal()`
 #'
 #' @export
 #'

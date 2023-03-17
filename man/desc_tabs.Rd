@@ -16,21 +16,21 @@ desc_tabs(
 )
 }
 \arguments{
-\item{data}{data object}
+\item{data}{Data object.}
 
-\item{yvars}{column names of variables for which descriptive measures should be calculated.}
+\item{yvars}{Column names of variables for which descriptive measures should be calculated.}
 
-\item{groupvars}{column names of variables for which grouping should be done}
+\item{groupvars}{Column names of variables for which grouping should be done.}
 
-\item{lang}{language for the result table column names}
+\item{lang}{Language for the result table column names.}
 
-\item{xlsx_path}{path to where the excel file should be saved}
+\item{xlsx_path}{Path to where the excel file should be saved.}
 
-\item{xlsx_overwrite}{If \code{TRUE}, overwrites the previous excel file}
+\item{xlsx_overwrite}{If `TRUE`, overwrites the previous excel file.}
 
-\item{xlsx_open}{If \code{TRUE}, opens the excel file after it was created}
+\item{xlsx_open}{If `TRUE`, opens the excel file after it was created.}
 
-\item{xlsx_data_sheet}{If \code{code}, adds a excel sheet with the underyling data}
+\item{xlsx_data_sheet}{If `TRUE`, adds a excel sheet with the underyling data.}
 }
 \description{
 Get all descriptive tables

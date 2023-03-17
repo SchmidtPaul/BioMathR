@@ -7,19 +7,19 @@
 describe(data, yvars, ungroupafter = TRUE, lang = c("eng", "ger")[1])
 }
 \arguments{
-\item{data}{a data.frame or a \code{\link{tbl_df}} or a \code{\link{grouped_df}}.}
+\item{data}{a data.frame or a `\link{tbl_df}` or a `\link{grouped_df}`.}
 
 \item{yvars}{a character vector with the names of the columns to be described.}
 
-\item{ungroupafter}{If \code{TRUE}, the results will be \code{ungroup()}-ed.}
+\item{ungroupafter}{If `TRUE`, the results will be `ungroup()`-ed.}
 
-\item{lang}{If \code{"eng"} (default) or  \code{"ger"} columns will be renamed accordingly.}
+\item{lang}{Language for table names.}
 }
 \value{
 A tibble
 }
 \description{
-This function computes common descriptive statistics of numeric variables for grouped or ungrouped data and converts it to a tidy formatted table. This function tried to copy \code{dlookr::describe()} because of \href{https://github.com/choonghyunryu/dlookr/issues/79}{this issue}.
+This function computes common descriptive statistics of numeric variables for grouped or ungrouped data and converts it to a tidy formatted table. This function tried to copy `dlookr::describe()` because of \href{https://github.com/choonghyunryu/dlookr/issues/79}{this issue}.
 }
 \examples{
 library(dplyr)
@@ -29,7 +29,11 @@ PlantGrowth \%>\%
   describe("weight")
 
 PlantGrowth \%>\%
-  mutate(weight2 = weight + 1) \%>\%
-  group_by(group) \%>\%
-  describe(c("weight", "weight2"))
+  mutate(
+    group2 = as.factor(rep(c("A", "A", "B",  "B", "B"), 6)),
+    weight2 = weight * 2,
+    weight3 = rep(c(3, NA), 15)
+  ) \%>\%
+  group_by(group, group2) \%>\%
+  describe(c("weight", "weight2", "weight3"))
 }

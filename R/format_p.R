@@ -1,13 +1,13 @@
 #' @title Format p-values
 #'
-#' @description This function is very much just a wrapper function for \code{insight::format_p()} with opinionated defaults.
+#' @description This function is very much just a wrapper function for `insight::format_p()` with opinionated defaults.
 #'
 #' @param p value or vector of p-values.
-#' @param name Name prefixing the text. Default: \code{NULL}.
-#' @param stars Add significance stars (e.g., p < .001***). Default: \code{TRUE}.
+#' @param name Name prefixing the text. Default: `NULL`.
+#' @param stars Add significance stars (e.g., p < .001***). Default: `TRUE`.
 #' @param whitespace Logical, if `FALSE` (default) all whitespace characters are removed from the returned string.
-#' @param lang Language for the result, which here only determines the decimal separator.
-#' @param ... other arguments passed to \code{insight::format_p()}.
+#' @param lang Language for output (which here only determines the decimal separator).
+#' @param ... other arguments passed to `insight::format_p()`.
 #'
 #' @importFrom insight format_p
 #' @export

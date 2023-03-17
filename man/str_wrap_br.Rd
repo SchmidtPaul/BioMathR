@@ -2,17 +2,17 @@
 % Please edit documentation in R/str_wrap_br.R
 \name{str_wrap_br}
 \alias{str_wrap_br}
-\title{\code{str_wrap()} with <br> instead}
+\title{`str_wrap()` with <br> instead}
 \usage{
 str_wrap_br(string, whitespace_only = FALSE, ...)
 }
 \arguments{
 \item{string}{Input vector. Either a character vector, or something coercible to one.}
 
-\item{whitespace_only}{If \code{TRUE} wrapping will only occur at whitespace. If \code{FALSE} (the default), can break on any non-word character (e.g. /, -). Note that this default is different from the underlying \code{stringr::str_wrap()}.}
+\item{whitespace_only}{If `TRUE` wrapping will only occur at whitespace. If `FALSE` (the default), can break on any non-word character (e.g. /, -). Note that this default is different from the underlying `stringr::str_wrap()`.}
 
-\item{...}{other arguments passed to \code{stringr::str_wrap()}}
+\item{...}{other arguments passed to `stringr::str_wrap()`}
 }
 \description{
-\code{str_wrap()} with <br> instead
+`str_wrap()` with <br> instead
 }

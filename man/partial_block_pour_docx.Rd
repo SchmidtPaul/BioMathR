@@ -14,7 +14,7 @@ partial_block_pour_docx(file, heading1title, includeheader = TRUE)
 \item{includeheader}{should the header of the relevant be part of the pour?}
 }
 \description{
-This function is a wrapper for \code{officer::block_pour_docx()}. It extends its functionality so that not the entire docx is poured into the RMarkdown file, but only a part of it.
+This function is a wrapper for `officer::block_pour_docx()`. It extends its functionality so that not the entire docx is poured into the RMarkdown file, but only a part of it.
 }
 \examples{
 # see https://github.com/davidgohel/officedown/discussions/97#discussioncomment-4839382

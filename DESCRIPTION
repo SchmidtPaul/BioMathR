@@ -1,7 +1,7 @@
 Type: Package
 Package: BioMathR
 Title: Utility functions used at BioMath
-Version: 0.5.0
+Version: 0.6.0
 Authors@R: c(
     person("Paul", "Schmidt", , "paul.schmidt@biomath.de", role = c("aut", "cre")),
     person("BioMath", role = "fnd")
@@ -20,7 +20,6 @@ Imports:
     here,
     insight,
     knitr,
-    MetBrewer,
     multcomp,
     multcompView,
     officer,
@@ -29,7 +28,6 @@ Imports:
     rstudioapi,
     scales,
     stats,
-    stringi,
     stringr,
     tibble,
     tidyr,
@@ -43,11 +41,14 @@ Suggests:
     ggplotify,
     glmmTMB,
     lme4,
+    MetBrewer,
     openair,
     pdftools,
     performance,
     png,
+    ragg,
     see,
+    stringi,
     svglite,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

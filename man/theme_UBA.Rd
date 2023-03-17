@@ -36,7 +36,7 @@ theme_UBA(
 
 \item{axis_title_bold}{Should axis titles be bold?}
 
-\item{axis_title_just}{Justification of axis titles. \code{rt} translates to "right" (x-axis) "top" (y-axis).}
+\item{axis_title_just}{Justification of axis titles. `rt` translates to "right" (x-axis) "top" (y-axis).}
 
 \item{ticks}{Should ticks be drawn on the axes?}
 
@@ -64,9 +64,9 @@ theme_UBA(
 
 \item{axistext_size}{Axis text font size, given in pts.}
 
-\item{is_subplot}{If \code{TRUE}, font sizes and margins of title, subtitle and axis text are decreased. This is useful if multiple plots are to be combined.}
+\item{is_subplot}{If `TRUE`, font sizes and margins of title, subtitle and axis text are decreased. This is useful if multiple plots are to be combined.}
 
-\item{legend_custom_bottom}{If \code{TRUE}, the legend is formatted in a specific way at the bottom of the plot}
+\item{legend_custom_bottom}{If `TRUE`, the legend is formatted in a specific way at the bottom of the plot}
 }
 \description{
 A {ggplot2} theme based on the \href{https://www.umweltbundesamt.de/dokument/corporate-design-des-umweltbundesamtes}{Umweltbundesamt corporate design}.

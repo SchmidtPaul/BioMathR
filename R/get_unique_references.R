@@ -1,6 +1,6 @@
 #' @title Get unique reference notations
 #'
-#' @description When multiple references (formatted as e.g. \code{Dawkins (2008)}) have an identical author (or authors) and publication year, it is common practice to include a lowercase letter after the year. This function does this for a vector containing multiple references.
+#' @description When multiple references (formatted as e.g. `Dawkins (2008)`) have an identical author (or authors) and publication year, it is common practice to include a lowercase letter after the year. This function does this for a vector containing multiple references.
 #'
 #' @param x a character vector with multiple strings/references
 #'

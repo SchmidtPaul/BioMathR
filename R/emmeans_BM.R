@@ -1,14 +1,14 @@
 #' @title Get adjusted means with compact letter display
 #'
-#' @description This function is a wrapper for \code{emmeans::emmeans()} and \code{multcomp::cld()} (\href{https://schmidtpaul.github.io/dsfair_quarto/summaryarticles/compactletterdisplay.html}{details here}). Based on a given linear model object, it computes estimated marginal means (a.k.a. least-squares means, adjusted means, modelbased means) for specified factors or factor combinations as well as comparisons or contrasts among them. Moreover, it adds the compact letter display to the comparisons/contrasts. Finally, its output is a list with six elements: for the means and their diffs, respectively, (i) a tibble with the results, (ii) the same tibble but in a print-ready format and (iii) an info text summarizing the results.
+#' @description This function is a wrapper for `emmeans::emmeans()` and `multcomp::cld()` (\href{https://schmidtpaul.github.io/dsfair_quarto/summaryarticles/compactletterdisplay.html}{details here}). Based on a given linear model object, it computes estimated marginal means (a.k.a. least-squares means, adjusted means, modelbased means) for specified factors or factor combinations as well as comparisons or contrasts among them. Moreover, it adds the compact letter display to the comparisons/contrasts. Finally, its output is a list with six elements: for the means and their diffs, respectively, (i) a tibble with the results, (ii) the same tibble but in a print-ready format and (iii) an info text summarizing the results.
 #'
 #' @param model a linear model object. See the \href{https://cran.r-project.org/web/packages/emmeans/vignettes/models.html}{list of supported model classes}
 #' @param specs_string a character vector specifying the names of the predictors over which emmeans are desired
 #' @param lmer.df degrees of freedom method. See the \href{https://cran.r-project.org/web/packages/emmeans/vignettes/sophisticated.html#lmerOpts}{list of available methods}
 #' @param adjust \href{https://cran.r-project.org/web/packages/emmeans/vignettes/confidence-intervals.html#adjust}{multiplicity adjustment}. Follow \href{https://www.rdocumentation.org/packages/emmeans/versions/1.6.2-1/topics/summary.emmGrid}{this link} and scroll down o to the “P-value adjustments” heading within the “summary.emmGrid” section for more details on e.g. Fisher’s LSD test, Tukey-test, Bonferroni adjustment etc.
-#' @param lang language for the formatted result table and text
+#' @param lang Language for table names and text.
 #' @param num_accuracy format the number of digits shown after the decimal separator
-#' @param sort sort the levels of the predictors given in \code{specs_string} in the output
+#' @param sort sort the levels of the predictors given in `specs_string` in the output
 #'
 #' @details \href{https://github.com/rvlenth/emmeans/issues/235}{Here} is a discussion on the speed of calculating confidence intervals with different degrees of freedom methods.
 #'

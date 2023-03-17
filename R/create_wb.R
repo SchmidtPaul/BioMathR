@@ -1,14 +1,14 @@
 #' @title Create a Workbook object
 #'
-#' @description This function is a wrapper for \code{openxlsx::createWorkbook()}, but also adds an info sheet including e.g. the time it was created.
+#' @description This function is a wrapper for `openxlsx::createWorkbook()`, but also adds an info sheet including e.g. the time it was created.
 #'
 #' @param fontSize font size
 #' @param fontName Name of a font
 #' @param infosheet Should an info sheet be created?
 #' @param infosheetlabel Label for the info sheet
-#' @param ... Other arguments passed to \code{openxlsx::createWorkbook()}
+#' @param ... Other arguments passed to `openxlsx::createWorkbook()`
 #'
-#' @return Workbook object (see \code{openxlsx})
+#' @return Workbook object (see {openxlsx})
 #'
 #' @export
 #'

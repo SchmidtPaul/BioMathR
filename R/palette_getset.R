@@ -1,14 +1,13 @@
 #' @title Get and set color palettes
 #'
-#' @param palette Choose color palette \itemize{ \item{\code{"BioMath"} - \href{https://www.biomath.de/}{BioMath} corporate design (\href{https://coolors.co/f0a202-495057-00923f-201e50-e4572e}{see preview})} \item{\code{"UBA"} - Umweltbundesamt \href{https://www.umweltbundesamt.de/dokument/corporate-design-des-umweltbundesamtes}{corporate design} (\href{https://coolors.co/5ead35-007626-0b90d5-005f85-9d579a-622f63-ce1f5e-83053c-fabb00-d78400}{see preview})}}
-#' @param setforggplot If \code{TRUE} (default), the color palette is set as default \code{ggplot2.discrete.fill} and \code{ggplot2.discrete.colour}.
+#' @param palette Choose color palette \itemize{ \item{`"BioMath"` - \href{https://www.biomath.de/}{BioMath} corporate design (\href{https://coolors.co/f0a202-495057-00923f-201e50-e4572e}{see preview})} \item{`"UBA"` - Umweltbundesamt \href{https://www.umweltbundesamt.de/dokument/corporate-design-des-umweltbundesamtes}{corporate design} (\href{https://coolors.co/5ead35-007626-0b90d5-005f85-9d579a-622f63-ce1f5e-83053c-fabb00-d78400}{see preview})}}
+#' @param setforggplot If `TRUE` (default), the color palette is set as default `ggplot2.discrete.fill` and `ggplot2.discrete.colour`.
 #'
 #' @return The color palette as a named vector
 #'
 #' @export
 #'
 #' @import ggplot2
-#' @importFrom MetBrewer met.brewer
 #'
 #' @examples
 #' library(ggplot2)
@@ -41,6 +40,9 @@ palette_getset <- function(palette,
       )
 
     if (setforggplot) {
+      assertthat::assert_that(requireNamespace("MetBrewer", quietly = TRUE),
+                              msg = "When palette = 'BioMath', package 'MetBrewer' must be installed.")
+
       options(
         ggplot2.discrete.fill = list(
           unname(cols),

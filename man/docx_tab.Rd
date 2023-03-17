@@ -15,7 +15,7 @@ docx_tab(
 \arguments{
 \item{x}{table to be formatted}
 
-\item{lang}{language for the result table column names}
+\item{lang}{Language for column names.}
 
 \item{digits}{number of digits all numeric columns are rounded to}
 

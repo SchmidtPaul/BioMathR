@@ -4,7 +4,7 @@
 #' @param base_family Base font family. Should be Calibri, but is not set as default.
 #' @param base_color Base color for text and lines
 #' @param axis_title_bold Should axis titles be bold?
-#' @param axis_title_just Justification of axis titles. \code{rt} translates to "right" (x-axis) "top" (y-axis).
+#' @param axis_title_just Justification of axis titles. `rt` translates to "right" (x-axis) "top" (y-axis).
 #' @param ticks Should ticks be drawn on the axes?
 #' @param grid_x Should there be major grid lines for the x-axis?
 #' @param grid_y Should there be major grid lines for the y-axis?
@@ -18,8 +18,8 @@
 #' @param subtitle_size Subtitle font size, given in pts.
 #' @param subtitle_margin Margin around subtitle
 #' @param axistext_size Axis text font size, given in pts.
-#' @param is_subplot If \code{TRUE}, font sizes and margins of title, subtitle and axis text are decreased. This is useful if multiple plots are to be combined.
-#' @param legend_custom_bottom If \code{TRUE}, the legend is formatted in a specific way at the bottom of the plot
+#' @param is_subplot If `TRUE`, font sizes and margins of title, subtitle and axis text are decreased. This is useful if multiple plots are to be combined.
+#' @param legend_custom_bottom If `TRUE`, the legend is formatted in a specific way at the bottom of the plot
 #'
 #' @export
 #'

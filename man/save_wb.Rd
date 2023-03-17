@@ -17,12 +17,12 @@ save_wb(
 
 \item{file}{A character string naming an xlsx file}
 
-\item{overwrite}{If \code{TRUE}, overwrites the previous excel file}
+\item{overwrite}{If `TRUE`, overwrites the previous excel file}
 
-\item{open_file}{If \code{TRUE}, opens the excel file after it was created}
+\item{open_file}{If `TRUE`, opens the excel file after it was created}
 
-\item{...}{Other arguments passed to \code{openxlsx::saveWorkbook()}}
+\item{...}{Other arguments passed to`openxlsx::saveWorkbook()`}
 }
 \description{
-This function is a wrapper for \code{openxlsx::saveWorkbook()}, but can also open the Excel file immediately after saving.
+This function is a wrapper for`openxlsx::saveWorkbook()`, but can also open the Excel file immediately after saving.
 }

@@ -6,6 +6,7 @@
 \usage{
 get_residual_plots(
   model,
+  lang = c("eng", "ger")[1],
   col_dots = BioMathR::palette_getset("BioMath", setforggplot = FALSE)[["grey"]],
   col_line = BioMathR::palette_getset("BioMath", setforggplot = FALSE)[["green"]],
   aslist = FALSE
@@ -14,11 +15,13 @@ get_residual_plots(
 \arguments{
 \item{model}{A model object.}
 
-\item{col_dots}{Color of the dots}
+\item{lang}{Language for plots labels.}
 
-\item{col_line}{Color of the lines}
+\item{col_dots}{Color of the dots.}
 
-\item{aslist}{If \code{TRUE}, output is a list of plots. If \code{FALSE} (default), output is a combined plot.}
+\item{col_line}{Color of the lines.}
+
+\item{aslist}{If `TRUE`, output is a list of plots. If `FALSE` (default), output is a combined plot.}
 }
 \description{
 Get residual plots for model diagnostics

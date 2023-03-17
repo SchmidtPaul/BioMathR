@@ -2,19 +2,19 @@
 % Please edit documentation in R/not_in.R
 \name{\%not_in\%}
 \alias{\%not_in\%}
-\title{Helper function: Negation/Opposite of \%in\%}
+\title{Helper function: Negation/Opposite of `\%in\%`}
 \usage{
 a \%not_in\% b
 }
 \arguments{
-\item{a}{vector or NULL: the values to be matched.}
+\item{a}{vector or `NULL`: the values to be matched.}
 
-\item{b}{vector or NULL: the values to be matched against.}
+\item{b}{vector or `NULL`: the values to be matched against.}
 }
 \value{
 A logical vector, indicating if a match was
-not located for each element of a. The values
-are TRUE or FALSE and never NA.
+not located for each element of `a`. The values
+are `TRUE` or `FALSE` and never `NA`.
 }
 \description{
 This helper function checks if elements

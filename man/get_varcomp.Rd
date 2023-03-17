@@ -18,7 +18,7 @@ get_varcomp(model, digits = 3)
 \item{digits}{Rounding. Default is 3.}
 }
 \description{
-This function extracts the estimated variance components of the random-effects terms in a linear mixed model. It is very heavily based on \href{https://m-clark.github.io/mixedup/reference/extract_vc.html}{\code{mixedup::extract_vc()}}.
+This function extracts the estimated variance components of the random-effects terms in a linear mixed model. It is very heavily based on \href{https://m-clark.github.io/mixedup/reference/extract_vc.html}{`mixedup::extract_vc()`}.
 }
 \seealso{
 [lme4::VarCorr()],

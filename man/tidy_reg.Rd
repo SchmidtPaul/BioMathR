@@ -13,9 +13,9 @@ tidy_reg(x, reg_dat, n_preds = 10, ...)
 \method{tidy_reg}{openair}(x, reg_dat, n_preds = 10, ..., adjust_x0 = TRUE)
 }
 \arguments{
-\item{x}{a regression object created via \code{stats::lm()} or \code{openair::TheilSen()}}
+\item{x}{a regression object created via `stats::lm()` or `openair::TheilSen()`}
 
-\item{reg_dat}{the exact same dataset that was also provided when creating \code{x} above}
+\item{reg_dat}{the exact same dataset that was also provided when creating `x` above}
 
 \item{n_preds}{number of evenely spread out points on the x-axis for which predictions (including confidence interval) should be made}
 
@@ -23,7 +23,7 @@ tidy_reg(x, reg_dat, n_preds = 10, ...)
 
 \item{conf.level}{the confidence level to use for the confidence interval}
 
-\item{adjust_x0}{if \code{TRUE} (default) the estimate and confidence limits for the intercept are adjusted so that it is no longer at \code{openair}'s default x = 1970, but instead at the minimum x present in the data.}
+\item{adjust_x0}{if `TRUE` (default) the estimate and confidence limits for the intercept are adjusted so that it is no longer at {openair}'s default x = 1970, but instead at the minimum x present in the data.}
 }
 \description{
 Summary of linear regression (for a time series)
