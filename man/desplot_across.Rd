@@ -39,5 +39,16 @@ desplot_across(
 A list of desplots.
 }
 \description{
-Wrapper function for `desplot::desplot()` across multiple columns
+The goal of this function is to allow the user a quick and easy glance at the experimental layout of a trial by creating multiple `desplot`s at once - one for each variable that is provided (see example below).
+}
+\examples{
+library(BioMathR)
+
+dps <- desplot_across(data = agridat::yates.oats,
+                      vars = c("nitro", "gen", "block"),
+                      cex = 1)
+
+dps$nitro
+dps$gen
+dps$block
 }

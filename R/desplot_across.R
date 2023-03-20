@@ -1,5 +1,7 @@
 #' @title Wrapper function for `desplot::desplot()` across multiple columns
 #'
+#' @description The goal of this function is to allow the user a quick and easy glance at the experimental layout of a trial by creating multiple `desplot`s at once - one for each variable that is provided (see example below).
+#'
 #' @param data A data frame.
 #' @param vars Vector with variables/column names for which a desplot should be created.
 #' @param formright A formula like `x*y|location`, i.e. the right-hand side of the formula `yield~x*y|location` that would usually be passed to `desplot::desplot(form = ...)`. Note that `x` and `y` are numeric and the default is `"col + row"`.
@@ -10,9 +12,20 @@
 #' @param out2.gpar see `desplot::desplot()` documentation - set to opinionated default here
 #' @param ... Other arguments passed to `desplot::desplot()`.
 #'
+#' @export
 #' @return A list of desplots.
 #'
-#' @export
+#' @examples
+#' library(BioMathR)
+#'
+#' dps <- desplot_across(data = agridat::yates.oats,
+#'                       vars = c("nitro", "gen", "block"),
+#'                       cex = 1)
+#'
+#' dps$nitro
+#' dps$gen
+#' dps$block
+
 desplot_across <-
   function(data,
            vars,
@@ -53,11 +66,7 @@ desplot_across <-
 
     for (var_i in vars) {
       # rename i-th var to "var_i"
-      data_i <- rename(data, var_i = {
-        {
-          var_i
-        }
-      })
+      data_i <- rename(data, var_i = {{ var_i }})
 
       # short title
       title_i <-
@@ -90,20 +99,42 @@ desplot_across <-
       # formula
       form_i <- stats::formula(paste("var_i ~", formright))
 
-      # desplot
-      dps[[var_i]] <- desplot::desplot(
-        data = data_i,
-        form = form_i,
-        text = var_i,
-        main = title_i,
-        out1 = col,
-        out2 = row,
-        flip = flip,
-        out1.gpar = out1.gpar,
-        out2.gpar = out1.gpar,
-        show.key = FALSE,
-        ...
-      )
+      # data type
+      type_i <- typeof(data_i$var_i)
+
+      if (type_i %in% c("integer", "factor", "character")) {
+        # desplot
+        dps[[var_i]] <- desplot::desplot(
+          data = data_i,
+          form = form_i,
+          text = var_i,
+          main = title_i,
+          out1 = col,
+          out2 = row,
+          flip = flip,
+          out1.gpar = out1.gpar,
+          out2.gpar = out1.gpar,
+          show.key = FALSE,
+          ...
+        )
+      } else if (type_i %in% c("double", "numeric")) {
+        # desplot
+        dps[[var_i]] <- desplot::desplot(
+          data = data_i,
+          form = form_i,
+          text = var_i, shorten="none",
+          main = title_i,
+          out1 = col,
+          out2 = row,
+          flip = flip,
+          out1.gpar = out1.gpar,
+          out2.gpar = out1.gpar,
+          show.key = FALSE,
+          ...
+        )
+      } else {
+        stop('vars should be "integer", "factor", "character", "double" or "numeric"!')
+      }
     }
 
     return(dps)

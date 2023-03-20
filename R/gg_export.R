@@ -109,7 +109,7 @@ gg_export <-
         }
 
         # create png the standard way
-        assertthat::assert_that(png_from_pdf && png_fast,
+        assertthat::assert_that(!png_from_pdf || !png_fast,
                                 msg = "Do not set both 'png_from_pdf' and 'png_fast' to 'TRUE'.")
 
         png_standard <- !png_from_pdf && !png_fast

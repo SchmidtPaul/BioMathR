@@ -33,6 +33,7 @@ Imports:
     tidyr,
     utils
 Suggests: 
+    agridat,
     assertthat,
     broom,
     cowplot,

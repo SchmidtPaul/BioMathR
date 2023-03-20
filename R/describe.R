@@ -13,7 +13,7 @@
 #' library(BioMathR)
 #' PlantGrowth %>%
 #'   group_by(group) %>%
-#'   describe("weight")
+#'   describe("weight", lang = "ger")
 #'
 #' PlantGrowth %>%
 #'   mutate(
@@ -24,7 +24,11 @@
 #'   group_by(group, group2) %>%
 #'   describe(c("weight", "weight2", "weight3"))
 #' @export
-describe <- function(data, yvars, ungroupafter = TRUE, lang = c("eng", "ger")[1]) {
+describe <-
+  function(data,
+           yvars,
+           ungroupafter = TRUE,
+           lang = c("eng", "ger")[1]) {
 
   Variable <- NAMES_NAMES <- VALUES_VALUES <- NULL # avoid package check warning
 

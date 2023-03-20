@@ -26,7 +26,7 @@ library(dplyr)
 library(BioMathR)
 PlantGrowth \%>\%
   group_by(group) \%>\%
-  describe("weight")
+  describe("weight", lang = "ger")
 
 PlantGrowth \%>\%
   mutate(
