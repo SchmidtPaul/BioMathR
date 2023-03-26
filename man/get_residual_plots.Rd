@@ -21,7 +21,7 @@ get_residual_plots(
 
 \item{col_line}{Color of the lines.}
 
-\item{aslist}{If `TRUE`, output is a list of plots. If `FALSE` (default), output is a combined plot.}
+\item{aslist}{If \code{TRUE}, output is a list of plots. If \code{FALSE} (default), output is a combined plot.}
 }
 \description{
 Get residual plots for model diagnostics

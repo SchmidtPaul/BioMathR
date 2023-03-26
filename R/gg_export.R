@@ -1,26 +1,26 @@
 #' @title Conveniently export (gg)plots
 #'
-#' @description This function is mostly a wrapper function for `ggplot2::ggsave()` that makes it easy to \itemize{ \item{simultaneously export a plot into pdf, svg and/or png (even multiple pngs with different dpi)} \item{immediately open the exported files in your OS}} Additionally, it offers alternatives to rendering via `ggplot2::ggsave()` - see arguments `png_from_pdf` and `svg_device`.
+#' @description This function is mostly a wrapper function for \code{ggplot2::ggsave()} that makes it easy to \itemize{ \item{simultaneously export a plot into pdf, svg and/or png (even multiple pngs with different dpi)} \item{immediately open the exported files in your OS}} Additionally, it offers alternatives to rendering via \code{ggplot2::ggsave()} - see arguments \code{png_from_pdf} and \code{svg_device}.
 #'
 #' @param plot_obj Plot object to save.
-#' @param folder_path Path to the destination folder (i.e. correct: `"Folder/Subfolder"`, wrong: `"Folder/Subfolder/File.png"`).
-#' @param file_name File name without file extension (i.e. correct: `"File"`, wrong: `"File.png"`).
+#' @param folder_path Path to the destination folder (i.e. correct: \code{"Folder/Subfolder"}, wrong: \code{"Folder/Subfolder/File.png"}).
+#' @param file_name File name without file extension (i.e. correct: \code{"File"}, wrong: \code{"File.png"}).
 #' @param width_cm Plot width in cm.
 #' @param height_cm Plot height in cm.
-#' @param png Should a png file be created and/or immediately opened? Can be either `"none"`, `"create"` or `"open"`.
-#' @param pdf Should a pdf file be created and/or immediately opened? Can be either `"none"`, `"create"` or `"open"`.
-#' @param svg Should a svg file be created and/or immediately opened? Can be either `"none"`, `"create"` or `"open"`.
-#' @param bg Background colour. If `NULL`, uses the `plot.background` fill value from the plot theme.
+#' @param png Should a png file be created and/or immediately opened? Can be either \code{"none"}, \code{"create"} or \code{"open"}. WARNING: is still experimental
+#' @param pdf Should a pdf file be created and/or immediately opened? Can be either \code{"none"}, \code{"create"} or \code{"open"}.
+#' @param svg Should a svg file be created and/or immediately opened? Can be either \code{"none"}, \code{"create"} or \code{"open"}.
+#' @param bg Background colour. If \code{NULL}, uses the \code{plot.background} fill value from the plot theme.
 #' @param png_dpi Plot resolution of png file. Can be a vector of multiple values so that multiple png files will be created.
-#' @param png_fast If `TRUE`, the png file is not exported via `ggplot2::ggsave(..., device = "png")`, but instead via `ggplot2::ggsave(..., device = ragg:agg_png())`, which \href{https://ragg.r-lib.org/articles/ragg_performance.html}{should be faster}.
-#' @param png_from_pdf If `TRUE`, the png file is not exported via `ggplot2::ggsave(..., device = "png")`, but instead converted/rendered from the pdf created via `ggplot2::ggsave(device = "pdf")`. This can in some cases circumvent issues where pdf and png e.g. have different font sizes.
-#' @param svg_device If `"svg"`, the svg file is not exported via `ggplot2::ggsave(..., device = "svg")`, but instead via `grDevices::svg()`/`grDevices::dev.off()`. This can in some cases circumvent issues with e.g. transparency.
+#' @param png_fast If \code{TRUE}, the png file is not exported via \code{ggplot2::ggsave(..., device = "png")}, but instead via \code{ggplot2::ggsave(..., device = ragg:agg_png())}, which \href{https://ragg.r-lib.org/articles/ragg_performance.html}{should be faster}.
+#' @param png_from_pdf If \code{TRUE}, the png file is not exported via \code{ggplot2::ggsave(..., device = "png")}, but instead converted/rendered from the pdf created via \code{ggplot2::ggsave(device = "pdf")}. This can in some cases circumvent issues where pdf and png e.g. have different font sizes.
+#' @param svg_device If \code{"svg"}, the svg file is not exported via \code{ggplot2::ggsave(..., device = "svg")}, but instead via \code{grDevices::svg()}/\code{grDevices::dev.off()}. This can in some cases circumvent issues with e.g. transparency.
 #'
 #' @export
 #'
 #' @import ggplot2
 #' @import here
-#' @importFrom grDevices cairo_pdf dev.off svg
+#' @importFrom grDevices cairo_pdf dev.list dev.off svg
 #' @importFrom stringr str_c str_replace str_replace_all
 #'
 #' @examples
@@ -87,7 +87,7 @@ gg_export <-
         height = height_cm,
         units = "cm",
         scale = 1,
-        device = cairo_pdf,
+        device = grDevices::cairo_pdf,
         bg = bg
       )
     }
@@ -143,6 +143,12 @@ gg_export <-
             bg = bg,
             device = ragg::agg_png()
           )
+
+          # prevent error: too many open devices
+          # https://stackoverflow.com/questions/24207960/too-many-open-devices-r
+          for (i in grDevices::dev.list()[1]:grDevices::dev.list()[length(grDevices::dev.list())]) {
+            grDevices::dev.off()
+          }
         }
 
         # create png by forcing it to be copy of pdf

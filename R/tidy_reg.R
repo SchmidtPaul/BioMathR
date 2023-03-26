@@ -1,14 +1,11 @@
 #' Summary of linear regression (for a time series)
 #'
-#' @param x a regression object created via `stats::lm()` or `openair::TheilSen()`
-#' @param reg_dat the exact same dataset that was also provided when creating `x` above
-#' @param n_preds number of evenely spread out points on the x-axis for which predictions (including confidence interval) should be made
-#' @param ... other arguments
-#' @param conf.level the confidence level to use for the confidence interval
-#' @param adjust_x0 if `TRUE` (default) the estimate and confidence limits for the intercept are adjusted so that it is no longer at {openair}'s default x = 1970, but instead at the minimum x present in the data.
-#'
-#' @import dplyr
-#' @import tibble
+#' @param x A regression object created via \code{stats::lm()} or \code{openair::TheilSen()}
+#' @param reg_dat The exact same dataset that was also provided when creating \code{x} above
+#' @param n_preds Number of evenly spread out points on the x-axis for which predictions (including confidence interval) should be made
+#' @param ... Other arguments passed to \code{broom::tidy()} from \code{lm} models.
+#' @param conf.level The confidence level to use for the confidence interval
+#' @param adjust_x0 If \code{TRUE} (default) the estimate and confidence limits for the intercept are adjusted so that it is no longer at {openair}'s default x = 1970, but instead at the minimum x present in the data.
 #'
 #' @export
 tidy_reg <- function(x, reg_dat, n_preds = 10, ...){
@@ -38,7 +35,7 @@ tidy_reg.lm <- function(x, reg_dat, n_preds = 10, ..., conf.level = 0.95){
   out <- list()
 
   # coefficients
-  out$parms$long <- broom::tidy(x, conf.int = TRUE, conf.level = conf.level) %>%
+  out$parms$long <- broom::tidy(x, conf.int = TRUE, conf.level = conf.level, ...) %>%
     rename(conf.upp = conf.high) %>%
     mutate(meth = "lm",
            term = if_else(str_detect(term, "ntercept"), "intercept", "slope"),
@@ -137,7 +134,7 @@ tidy_reg.openair<- function(x, reg_dat, n_preds = 10, ..., adjust_x0 = TRUE){
 
   out$pred <- tibble(date = x$data$main.data[round(rowids), "date"]) %>%
     mutate(
-      year = difftime(date, min(date), units = "days") %>% as.numeric() %>% `/`(365.25),
+      year = difftime(date, min(date), units = "days") %>% as.numeric() %>% (function(x) x / 365.25),
       Predicted = out$parms$wide$int.estimate + year * out$parms$wide$slo.estimate
     )
 
@@ -147,7 +144,7 @@ tidy_reg.openair<- function(x, reg_dat, n_preds = 10, ..., adjust_x0 = TRUE){
   #   transmute(date = date,
   #             obs = conc) %>%
   #   mutate(
-  #     year = difftime(date, min(date), units = "days") %>% as.numeric() %>% `/`(365.25),
+  #     year = difftime(date, min(date), units = "days") %>% as.numeric() %>% \code{/}(365.25),
   #     predicted = out$parms$wide$int.estimate + year * out$parms$wide$slo.estimate
   #   ) %>%
   #   select(-year) %>%

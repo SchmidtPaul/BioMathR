@@ -1,10 +1,11 @@
 #' @title Compute descriptive statistics
 #'
-#' @description This function computes common descriptive statistics of numeric variables for grouped or ungrouped data and converts it to a tidy formatted table. This function tried to copy `dlookr::describe()` because of \href{https://github.com/choonghyunryu/dlookr/issues/79}{this issue}.
+#' @description This function computes common descriptive statistics of numeric variables for grouped or ungrouped data and converts it to a tidy formatted table. This function tried to copy \code{dlookr::describe()} because of \href{https://github.com/choonghyunryu/dlookr/issues/79}{this issue}.
 #'
-#' @param data a data.frame or a `\link{tbl_df}` or a `\link{grouped_df}`.
-#' @param yvars a character vector with the names of the columns to be described.
-#' @param ungroupafter If `TRUE`, the results will be `ungroup()`-ed.
+#' @param data A data.frame or a \code{\link{tbl_df}} or a \code{\link{grouped_df}}.
+#' @param yvars A character vector with the names of the columns to be described.
+#' @param digits Number of digits the numeric columns should be rounded to.
+#' @param ungroupafter If \code{TRUE}, the results will be \code{ungroup()}-ed.
 #' @param lang Language for table names.
 #'
 #' @return A tibble
@@ -27,17 +28,21 @@
 describe <-
   function(data,
            yvars,
+           digits = 2,
            ungroupafter = TRUE,
            lang = c("eng", "ger")[1]) {
 
-  Variable <- NAMES_NAMES <- VALUES_VALUES <- NULL # avoid package check warning
+  Variable <- NAMESNAMES <- VALUESVALUES <- STATSTAT <- NULL # avoid package check warning
 
   data <- data %>% select(all_of(group_vars(data)), all_of(yvars))
+
+  assertthat::assert_that("Variable" %not_in% names(data),
+                          msg = "You must not have a column named 'Variable' in your data!")
 
   out <- data %>%
     summarise(across(
       all_of(yvars),
-      .names = "{.col}_{fn}",
+      .names = "{.col}__________{fn}",
       .fns = list(
         N = ~ sum(!is.na(.)),
         Miss = ~ sum(is.na(.)),
@@ -50,11 +55,19 @@ describe <-
       )
     )) %>%
     suppressMessages() %>%
-    tidyr::pivot_longer(cols = -all_of(group_vars(data)), names_to = "NAMES_NAMES" , values_to = "VALUES_VALUES") %>%
-    tidyr::separate(NAMES_NAMES, into = c("Variable", "Stat"), sep = "_") %>%
-    tidyr::pivot_wider(names_from = Stat, values_from = VALUES_VALUES) %>%
+    tidyr::pivot_longer(cols = -all_of(group_vars(data)), names_to = "NAMESNAMES" , values_to = "VALUESVALUES") %>%
+    tidyr::separate(NAMESNAMES, into = c("Variable", "STATSTAT"), sep = "__________") %>%
+    tidyr::pivot_wider(names_from = STATSTAT, values_from = VALUESVALUES) %>%
     select(Variable, everything()) %>%
     arrange(Variable)
+
+  if (!is.null(digits)) {
+    out <- out %>%
+      mutate(across(
+        c("Mean", "StdDev", "IQR", "Min", "Median", "Max"),
+        ~ round(., digits = digits)
+      ))
+  }
 
   if (ungroupafter) {
     out <- ungroup(out)

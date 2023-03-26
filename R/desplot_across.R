@@ -1,16 +1,16 @@
-#' @title Wrapper function for `desplot::desplot()` across multiple columns
+#' @title Wrapper function for \code{desplot::desplot()} across multiple columns
 #'
-#' @description The goal of this function is to allow the user a quick and easy glance at the experimental layout of a trial by creating multiple `desplot`s at once - one for each variable that is provided (see example below).
+#' @description The goal of this function is to allow the user a quick and easy glance at the experimental layout of a trial by creating multiple \code{desplot}s at once - one for each variable that is provided (see example below).
 #'
 #' @param data A data frame.
 #' @param vars Vector with variables/column names for which a desplot should be created.
-#' @param formright A formula like `x*y|location`, i.e. the right-hand side of the formula `yield~x*y|location` that would usually be passed to `desplot::desplot(form = ...)`. Note that `x` and `y` are numeric and the default is `"col + row"`.
+#' @param formright A formula like \code{x*y|location}, i.e. the right-hand side of the formula \code{yield~x*y|location} that would usually be passed to \code{desplot::desplot(form = ...)}. Note that \code{x} and \code{y} are numeric and the default is \code{"col + row"}.
 #' @param lang Language for plots labels.
-#' @param title Can either be `"none"`, `"short"` or `"long"`. For the respective `var`, it gives information about the number of levels and their respective frequency in the data.
-#' @param flip see `desplot::desplot()` documentation - set to opinionated default here
-#' @param out1.gpar see `desplot::desplot()` documentation - set to opinionated default here
-#' @param out2.gpar see `desplot::desplot()` documentation - set to opinionated default here
-#' @param ... Other arguments passed to `desplot::desplot()`.
+#' @param title Can either be \code{"none"}, \code{"short"} or \code{"long"}. For the respective \code{var}, it gives information about the number of levels and their respective frequency in the data.
+#' @param flip see \code{desplot::desplot()} documentation - set to opinionated default here
+#' @param out1.gpar see \code{desplot::desplot()} documentation - set to opinionated default here
+#' @param out2.gpar see \code{desplot::desplot()} documentation - set to opinionated default here
+#' @param ... Other arguments passed to \code{desplot::desplot()}.
 #'
 #' @export
 #' @return A list of desplots.

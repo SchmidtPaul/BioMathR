@@ -5,9 +5,9 @@
 #' @param groupvars Column names of variables for which grouping should be done.
 #' @param lang Language for the result table column names.
 #' @param xlsx_path Path to where the excel file should be saved.
-#' @param xlsx_overwrite If `TRUE`, overwrites the previous excel file.
-#' @param xlsx_open If `TRUE`, opens the excel file after it was created.
-#' @param xlsx_data_sheet If `TRUE`, adds a excel sheet with the underyling data.
+#' @param xlsx_overwrite If \code{TRUE}, overwrites the previous excel file.
+#' @param xlsx_open If \code{TRUE}, opens the excel file after it was created.
+#' @param xlsx_data_sheet If \code{TRUE}, adds a excel sheet with the underyling data.
 #'
 #' @export
 desc_tabs <-

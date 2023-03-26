@@ -68,27 +68,27 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>a regression object created via `stats::lm()` or `openair::TheilSen()`</p></dd>
+<dd><p>A regression object created via <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">stats::lm()</a></code> or <code><a href="https://davidcarslaw.github.io/openair/reference/TheilSen.html" class="external-link">openair::TheilSen()</a></code></p></dd>
 
 
 <dt>reg_dat</dt>
-<dd><p>the exact same dataset that was also provided when creating `x` above</p></dd>
+<dd><p>The exact same dataset that was also provided when creating <code>x</code> above</p></dd>
 
 
 <dt>n_preds</dt>
-<dd><p>number of evenely spread out points on the x-axis for which predictions (including confidence interval) should be made</p></dd>
+<dd><p>Number of evenly spread out points on the x-axis for which predictions (including confidence interval) should be made</p></dd>
 
 
 <dt>...</dt>
-<dd><p>other arguments</p></dd>
+<dd><p>Other arguments passed to <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">broom::tidy()</a></code> from <code>lm</code> models.</p></dd>
 
 
 <dt>conf.level</dt>
-<dd><p>the confidence level to use for the confidence interval</p></dd>
+<dd><p>The confidence level to use for the confidence interval</p></dd>
 
 
 <dt>adjust_x0</dt>
-<dd><p>if `TRUE` (default) the estimate and confidence limits for the intercept are adjusted so that it is no longer at openair's default x = 1970, but instead at the minimum x present in the data.</p></dd>
+<dd><p>If <code>TRUE</code> (default) the estimate and confidence limits for the intercept are adjusted so that it is no longer at openair's default x = 1970, but instead at the minimum x present in the data.</p></dd>
 
 </dl></div>
 

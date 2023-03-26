@@ -3,8 +3,8 @@
 #' @param x table to be formatted
 #' @param lang Language for column names.
 #' @param digits number of digits all numeric columns are rounded to
-#' @param autopvalform if `TRUE`, p-value columns are formatted via `BioMathR::format_p()`
-#' @param asft If `TRUE`, output is formatted as flextable
+#' @param autopvalform if \code{TRUE}, p-value columns are formatted via \code{BioMathR::format_p()}
+#' @param asft If \code{TRUE}, output is formatted as flextable
 #'
 #' @export
 docx_tab <- function(x,

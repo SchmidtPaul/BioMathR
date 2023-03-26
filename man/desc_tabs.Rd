@@ -26,11 +26,11 @@ desc_tabs(
 
 \item{xlsx_path}{Path to where the excel file should be saved.}
 
-\item{xlsx_overwrite}{If `TRUE`, overwrites the previous excel file.}
+\item{xlsx_overwrite}{If \code{TRUE}, overwrites the previous excel file.}
 
-\item{xlsx_open}{If `TRUE`, opens the excel file after it was created.}
+\item{xlsx_open}{If \code{TRUE}, opens the excel file after it was created.}
 
-\item{xlsx_data_sheet}{If `TRUE`, adds a excel sheet with the underyling data.}
+\item{xlsx_data_sheet}{If \code{TRUE}, adds a excel sheet with the underyling data.}
 }
 \description{
 Get all descriptive tables

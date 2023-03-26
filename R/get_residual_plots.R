@@ -4,7 +4,7 @@
 #' @param lang Language for plots labels.
 #' @param col_dots Color of the dots.
 #' @param col_line Color of the lines.
-#' @param aslist If `TRUE`, output is a list of plots. If `FALSE` (default), output is a combined plot.
+#' @param aslist If \code{TRUE}, output is a list of plots. If \code{FALSE} (default), output is a combined plot.
 #'
 #' @export
 get_residual_plots <-

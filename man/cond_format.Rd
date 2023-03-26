@@ -24,20 +24,20 @@ cond_format(
 
 \item{columns}{column names or indices to apply conditional formatting to}
 
-\item{colourScale}{shortcut argument to apply "colourScale" formatting, e.g. `c("red" = 0, "grey" = 50, "green" = 100)`}
+\item{colourScale}{shortcut argument to apply "colourScale" formatting, e.g. \code{c("red" = 0, "grey" = 50, "green" = 100)}}
 
-\item{contains}{shortcut argument to apply "contains" formatting, e.g. `"word"`}
+\item{contains}{shortcut argument to apply "contains" formatting, e.g. \code{"word"}}
 
-\item{expression}{shortcut argument to apply "expression" formatting, e.g. `">=50"`}
+\item{expression}{shortcut argument to apply "expression" formatting, e.g. \code{">=50"}}
 
-\item{type}{directly passed to `openxlsx::conditionalFormatting()`}
+\item{type}{directly passed to \code{openxlsx::conditionalFormatting()}}
 
-\item{rule}{directly passed to `openxlsx::conditionalFormatting()`}
+\item{rule}{directly passed to \code{openxlsx::conditionalFormatting()}}
 
-\item{style}{directly passed to `openxlsx::conditionalFormatting()`. By default, cells will have a red fill and white font color.}
+\item{style}{directly passed to \code{openxlsx::conditionalFormatting()}. By default, cells will have a red fill and white font color.}
 
-\item{...}{directly passed to `openxlsx::conditionalFormatting()`}
+\item{...}{directly passed to \code{openxlsx::conditionalFormatting()}}
 }
 \description{
-This function is a wrapper for `openxlsx::conditionalFormatting()` allowing for a more convenient application of conditional formatting to a sheet in a Workbook object. The arguments `colourScale`, `contains` and `expression` serve as shortcuts to obtaining the respective conditional formatting, but it is still possible to obtain \href{https://rdrr.io/cran/openxlsx/man/conditionalFormatting.html}{all possible conditional formatting styles available in {openxlsx}} via the arguments `rule`, `style` and `type` which are directly passed to `openxlsx::conditionalFormatting()`.
+This function is a wrapper for \code{openxlsx::conditionalFormatting()} allowing for a more convenient application of conditional formatting to a sheet in a Workbook object. The arguments \code{colourScale}, \code{contains} and \code{expression} serve as shortcuts to obtaining the respective conditional formatting, but it is still possible to obtain \href{https://rdrr.io/cran/openxlsx/man/conditionalFormatting.html}{all possible conditional formatting styles available in {openxlsx}} via the arguments \code{rule}, \code{style} and \code{type} which are directly passed to \code{openxlsx::conditionalFormatting()}.
 }

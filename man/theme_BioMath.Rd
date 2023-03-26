@@ -35,7 +35,7 @@ theme_BioMath(
 
 \item{axis_title_bold}{Should axis titles be bold?}
 
-\item{axis_title_just}{Justification of axis titles. `rt` translates to "right" (x-axis) "top" (y-axis).}
+\item{axis_title_just}{Justification of axis titles. \code{rt} translates to "right" (x-axis) "top" (y-axis).}
 
 \item{ticks}{Should ticks be drawn on the axes?}
 
@@ -59,11 +59,11 @@ theme_BioMath(
 
 \item{axistext_size}{Axis text font size, given in pts.}
 
-\item{ggtext_axis}{If `FALSE`, axis texts are rendered via `ggplot2::element_text()` instead of `ggtext::element_markdown()`. This can prevent potential rendering issues.}
+\item{ggtext_axis}{If \code{FALSE}, axis texts are rendered via \code{ggplot2::element_text()} instead of \code{ggtext::element_markdown()}. This can prevent potential rendering issues.}
 
-\item{whitebg}{If `TRUE`, plot background is white, otherwise transparent.}
+\item{whitebg}{If \code{TRUE}, plot background is white, otherwise transparent.}
 
-\item{...}{Other arguments passed to the underlying `ggplot2::theme_minimal()`}
+\item{...}{Other arguments passed to the underlying \code{ggplot2::theme_minimal()}}
 }
 \description{
 A {ggplot2} theme based on the \href{https://www.biomath.de/}{BioMath} corporate design.

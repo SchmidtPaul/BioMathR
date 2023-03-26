@@ -4,14 +4,22 @@
 \alias{describe}
 \title{Compute descriptive statistics}
 \usage{
-describe(data, yvars, ungroupafter = TRUE, lang = c("eng", "ger")[1])
+describe(
+  data,
+  yvars,
+  digits = 2,
+  ungroupafter = TRUE,
+  lang = c("eng", "ger")[1]
+)
 }
 \arguments{
-\item{data}{a data.frame or a `\link{tbl_df}` or a `\link{grouped_df}`.}
+\item{data}{A data.frame or a \code{\link{tbl_df}} or a \code{\link{grouped_df}}.}
 
-\item{yvars}{a character vector with the names of the columns to be described.}
+\item{yvars}{A character vector with the names of the columns to be described.}
 
-\item{ungroupafter}{If `TRUE`, the results will be `ungroup()`-ed.}
+\item{digits}{Number of digits the numeric columns should be rounded to.}
+
+\item{ungroupafter}{If \code{TRUE}, the results will be \code{ungroup()}-ed.}
 
 \item{lang}{Language for table names.}
 }
@@ -19,7 +27,7 @@ describe(data, yvars, ungroupafter = TRUE, lang = c("eng", "ger")[1])
 A tibble
 }
 \description{
-This function computes common descriptive statistics of numeric variables for grouped or ungrouped data and converts it to a tidy formatted table. This function tried to copy `dlookr::describe()` because of \href{https://github.com/choonghyunryu/dlookr/issues/79}{this issue}.
+This function computes common descriptive statistics of numeric variables for grouped or ungrouped data and converts it to a tidy formatted table. This function tried to copy \code{dlookr::describe()} because of \href{https://github.com/choonghyunryu/dlookr/issues/79}{this issue}.
 }
 \examples{
 library(dplyr)

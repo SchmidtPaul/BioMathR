@@ -13,7 +13,7 @@ get_d3_colourScale(namedvector)
 a string
 }
 \description{
-This function does a very specific job only needed when working with `sankeyD3::sankeyNetwork()`. It converts a named vector with colors as the values to a format that can be passed to the `colourScale =` argument in aforementioned function.
+This function does a very specific job only needed when working with \code{sankeyD3::sankeyNetwork()}. It converts a named vector with colors as the values to a format that can be passed to the \code{colourScale =} argument in aforementioned function.
 }
 \examples{
 BioMathR::get_d3_colourScale(c("A" = "blue", "B" = "red"))

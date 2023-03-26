@@ -16,18 +16,18 @@ format_p(
 \arguments{
 \item{p}{value or vector of p-values.}
 
-\item{name}{Name prefixing the text. Default: `NULL`.}
+\item{name}{Name prefixing the text. Default: \code{NULL}.}
 
-\item{whitespace}{Logical, if `FALSE` (default) all whitespace characters are removed from the returned string.}
+\item{whitespace}{Logical, if \code{FALSE} (default) all whitespace characters are removed from the returned string.}
 
-\item{stars}{Add significance stars (e.g., p < .001***). Default: `TRUE`.}
+\item{stars}{Add significance stars (e.g., p < .001***). Default: \code{TRUE}.}
 
 \item{lang}{Language for output (which here only determines the decimal separator).}
 
-\item{...}{other arguments passed to `insight::format_p()`.}
+\item{...}{other arguments passed to \code{insight::format_p()}.}
 }
 \description{
-This function is very much just a wrapper function for `insight::format_p()` with opinionated defaults.
+This function is very much just a wrapper function for \code{insight::format_p()} with opinionated defaults.
 }
 \examples{
 BioMathR::format_p(c(0.04, 0.004, 0.0004, 0.00004, 0.000004))

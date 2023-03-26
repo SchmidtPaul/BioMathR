@@ -8,13 +8,13 @@ The R package [{BioMathR}](https://schmidtpaul.github.io/BioMathR/) provides a c
 You can install `BioMathR` quickly like so:
 
 ``` r
-devtools::install_github('SchmidtPaul/BioMathR')
+remotes::install_github('SchmidtPaul/BioMathR')
 ```
 
 Or you can install it with all its suggested packages (i.e. extra packages that may only be necessary for one of the functions in `BioMathR`) like so:
 
 ``` r
-remotes::install_github("github_username/repository_name", dependencies = TRUE, suggest = TRUE)
+remotes::install_github("SchmidtPaul/BioMathR", dependencies = TRUE, suggest = TRUE)
 ```
 
 Find the documentation of all functions by clicking on the "Reference" tab at the top.

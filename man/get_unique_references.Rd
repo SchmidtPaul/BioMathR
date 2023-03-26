@@ -13,7 +13,7 @@ get_unique_references(x)
 a character vector
 }
 \description{
-When multiple references (formatted as e.g. `Dawkins (2008)`) have an identical author (or authors) and publication year, it is common practice to include a lowercase letter after the year. This function does this for a vector containing multiple references.
+When multiple references (formatted as e.g. \code{Dawkins (2008)}) have an identical author (or authors) and publication year, it is common practice to include a lowercase letter after the year. This function does this for a vector containing multiple references.
 }
 \examples{
 refs <- c("Dawkins (2008)", "Dawkins (2008)", "Stephenson (2008)")

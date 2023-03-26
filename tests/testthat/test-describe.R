@@ -35,3 +35,11 @@ test_that("German", {
 
   expect_equal(names(res)[4:7],  c("Fehl", "MW", "StdAbw", "IQA"))
 })
+
+test_that("no grouping", {
+  expect_no_error(res <- df %>%
+                    BioMathR::describe("weight"))
+
+  expect_equal(nrow(res), 1)
+})
+

@@ -19,9 +19,9 @@ docx_tab(
 
 \item{digits}{number of digits all numeric columns are rounded to}
 
-\item{autopvalform}{if `TRUE`, p-value columns are formatted via `BioMathR::format_p()`}
+\item{autopvalform}{if \code{TRUE}, p-value columns are formatted via \code{BioMathR::format_p()}}
 
-\item{asft}{If `TRUE`, output is formatted as flextable}
+\item{asft}{If \code{TRUE}, output is formatted as flextable}
 }
 \description{
 Auto-format tables for printing in MS-Word documents

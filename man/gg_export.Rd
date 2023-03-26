@@ -23,32 +23,32 @@ gg_export(
 \arguments{
 \item{plot_obj}{Plot object to save.}
 
-\item{folder_path}{Path to the destination folder (i.e. correct: `"Folder/Subfolder"`, wrong: `"Folder/Subfolder/File.png"`).}
+\item{folder_path}{Path to the destination folder (i.e. correct: \code{"Folder/Subfolder"}, wrong: \code{"Folder/Subfolder/File.png"}).}
 
-\item{file_name}{File name without file extension (i.e. correct: `"File"`, wrong: `"File.png"`).}
+\item{file_name}{File name without file extension (i.e. correct: \code{"File"}, wrong: \code{"File.png"}).}
 
 \item{width_cm}{Plot width in cm.}
 
 \item{height_cm}{Plot height in cm.}
 
-\item{pdf}{Should a pdf file be created and/or immediately opened? Can be either `"none"`, `"create"` or `"open"`.}
+\item{pdf}{Should a pdf file be created and/or immediately opened? Can be either \code{"none"}, \code{"create"} or \code{"open"}.}
 
-\item{png}{Should a png file be created and/or immediately opened? Can be either `"none"`, `"create"` or `"open"`.}
+\item{png}{Should a png file be created and/or immediately opened? Can be either \code{"none"}, \code{"create"} or \code{"open"}. WARNING: is still experimental}
 
-\item{svg}{Should a svg file be created and/or immediately opened? Can be either `"none"`, `"create"` or `"open"`.}
+\item{svg}{Should a svg file be created and/or immediately opened? Can be either \code{"none"}, \code{"create"} or \code{"open"}.}
 
-\item{bg}{Background colour. If `NULL`, uses the `plot.background` fill value from the plot theme.}
+\item{bg}{Background colour. If \code{NULL}, uses the \code{plot.background} fill value from the plot theme.}
 
 \item{png_dpi}{Plot resolution of png file. Can be a vector of multiple values so that multiple png files will be created.}
 
-\item{png_fast}{If `TRUE`, the png file is not exported via `ggplot2::ggsave(..., device = "png")`, but instead via `ggplot2::ggsave(..., device = ragg:agg_png())`, which \href{https://ragg.r-lib.org/articles/ragg_performance.html}{should be faster}.}
+\item{png_fast}{If \code{TRUE}, the png file is not exported via \code{ggplot2::ggsave(..., device = "png")}, but instead via \code{ggplot2::ggsave(..., device = ragg:agg_png())}, which \href{https://ragg.r-lib.org/articles/ragg_performance.html}{should be faster}.}
 
-\item{png_from_pdf}{If `TRUE`, the png file is not exported via `ggplot2::ggsave(..., device = "png")`, but instead converted/rendered from the pdf created via `ggplot2::ggsave(device = "pdf")`. This can in some cases circumvent issues where pdf and png e.g. have different font sizes.}
+\item{png_from_pdf}{If \code{TRUE}, the png file is not exported via \code{ggplot2::ggsave(..., device = "png")}, but instead converted/rendered from the pdf created via \code{ggplot2::ggsave(device = "pdf")}. This can in some cases circumvent issues where pdf and png e.g. have different font sizes.}
 
-\item{svg_device}{If `"svg"`, the svg file is not exported via `ggplot2::ggsave(..., device = "svg")`, but instead via `grDevices::svg()`/`grDevices::dev.off()`. This can in some cases circumvent issues with e.g. transparency.}
+\item{svg_device}{If \code{"svg"}, the svg file is not exported via \code{ggplot2::ggsave(..., device = "svg")}, but instead via \code{grDevices::svg()}/\code{grDevices::dev.off()}. This can in some cases circumvent issues with e.g. transparency.}
 }
 \description{
-This function is mostly a wrapper function for `ggplot2::ggsave()` that makes it easy to \itemize{ \item{simultaneously export a plot into pdf, svg and/or png (even multiple pngs with different dpi)} \item{immediately open the exported files in your OS}} Additionally, it offers alternatives to rendering via `ggplot2::ggsave()` - see arguments `png_from_pdf` and `svg_device`.
+This function is mostly a wrapper function for \code{ggplot2::ggsave()} that makes it easy to \itemize{ \item{simultaneously export a plot into pdf, svg and/or png (even multiple pngs with different dpi)} \item{immediately open the exported files in your OS}} Additionally, it offers alternatives to rendering via \code{ggplot2::ggsave()} - see arguments \code{png_from_pdf} and \code{svg_device}.
 }
 \examples{
 \dontrun{
