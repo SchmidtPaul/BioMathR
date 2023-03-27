@@ -216,7 +216,7 @@ theme_BioMath <- function(base_size = 11,
   )
 
   if (whitebg) {
-    tBM <- tBM + theme(plot.background = element_rect(fill = "white"))
+    tBM <- tBM + theme(plot.background = element_rect(fill = "white", colour = NA))
   }
 
   return(tBM)
