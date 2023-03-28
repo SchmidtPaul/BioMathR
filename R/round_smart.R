@@ -54,7 +54,12 @@ round_smart <- function(x,
     relevant_zeros_after_decsep <- zeros_after_decsep[zeros_after_decsep < max_digits]
 
     # get maximum
-    max_relevant_zeros_after_decsep <- max(relevant_zeros_after_decsep, na.rm = TRUE)
+    if (length(relevant_zeros_after_decsep) == 0) {
+      max_relevant_zeros_after_decsep <- 0
+    } else {
+      max_relevant_zeros_after_decsep <-
+        max(relevant_zeros_after_decsep, na.rm = TRUE)
+    }
 
     # combine minimum digits needed for max_relevant_zeros_after_decsep with set signif_digits
     digits <- (max_relevant_zeros_after_decsep + 1) + (signif_digits - 1)
