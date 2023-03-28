@@ -1,17 +1,19 @@
 #' @title Auto-format tables for printing in MS-Word documents
 #'
-#' @param x table to be formatted
+#' @param x Table to be formatted
 #' @param lang Language for column names.
-#' @param digits number of digits all numeric columns are rounded to
-#' @param autopvalform if \code{TRUE}, p-value columns are formatted via \code{BioMathR::format_p()}
+#' @param digits Number of digits all numeric columns are rounded to
+#' @param pvalform Names of columns are that formatted via \code{BioMathR::format_p()}. Can be set to \code{NULL}. The default is \code{"p.value"}, but note that this function first unifies multiple column names such as \code{"Pr(>F)"} or \code{"P(>|Chi|)"} into \code{"p.value"}.
 #' @param asft If \code{TRUE}, output is formatted as flextable
 #'
 #' @export
 docx_tab <- function(x,
                      lang = c("eng", "ger")[1],
                      digits = 1,
-                     autopvalform = TRUE,
+                     pvalform = "p.value",
                      asft = TRUE) {
+
+  # format column names -----------------------------------------------------
   unifynames <- c(
     "Df" = "df",
     "Chi.Df" = "df",
@@ -38,9 +40,9 @@ docx_tab <- function(x,
   renamers <- list(
     eng = c(
       "F.value" = "F value",
-      "meansq" = "Mean Sq",
+      "meansq" = "MS",
       "p.value" = "p value",
-      "sumsq" = "Sum Sq",
+      "sumsq" = "SS",
       "term" = "Term"
     ),
     ger = c(
@@ -68,10 +70,12 @@ docx_tab <- function(x,
   # unify column names
   colnames(tab) <- dplyr::recode(colnames(tab),!!!unifynames)
 
+
+  # format column contents --------------------------------------------------
   # format p-values
-  if (autopvalform) {
+  if (!is.null(pvalform)) {
     tab <- tab %>%
-      mutate(across(any_of("p.value"), ~ BioMathR::format_p(., lang = lang)))
+      mutate(across(any_of(pvalform), ~ BioMathR::format_p(., lang = lang)))
   }
 
   # round all numeric cols
@@ -83,20 +87,30 @@ docx_tab <- function(x,
   # rename columns according to language
   colnames(tab) <- dplyr::recode(colnames(tab),!!!renamers[[lang]])
 
-  # make flextable format
+
+  # Flextable ---------------------------------------------------------------
   if (asft) {
     assertthat::assert_that(requireNamespace("flextable", quietly = TRUE),
                             msg = "When makeft = TRUE, package 'flextable' must be installed.")
+
+    flextable::set_flextable_defaults(digits = digits) # change defaults temporarily
+
+    if (lang == "ger") {
+      flextable::set_flextable_defaults(decimal.mark = ",",
+                                        big.mark = ".")
+    }
 
     tab <- flextable::flextable(tab) %>%
       flextable::theme_booktabs() %>%
       flextable::padding(padding = 2, part = "all") %>%
       flextable::fontsize(size = 9, part = "all") %>%
-      flextable::colformat_num(na_str = "-") %>%
       flextable::bold(bold = TRUE, part = "header") %>%
       flextable::hline_top(border = officer::fp_border(width = 0.1), part = "all") %>%
-      flextable::hline_bottom(border = officer::fp_border(width = 0.1), part = "all") %>%
-      flextable::autofit()
+      flextable::hline_bottom(border = officer::fp_border(width = 0.1), part = "all")
+
+    tab <- tab %>% flextable::autofit()
+
+    flextable::init_flextable_defaults() # undo changes to default
   }
 
   tab

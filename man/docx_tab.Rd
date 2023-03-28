@@ -8,18 +8,18 @@ docx_tab(
   x,
   lang = c("eng", "ger")[1],
   digits = 1,
-  autopvalform = TRUE,
+  pvalform = "p.value",
   asft = TRUE
 )
 }
 \arguments{
-\item{x}{table to be formatted}
+\item{x}{Table to be formatted}
 
 \item{lang}{Language for column names.}
 
-\item{digits}{number of digits all numeric columns are rounded to}
+\item{digits}{Number of digits all numeric columns are rounded to}
 
-\item{autopvalform}{if \code{TRUE}, p-value columns are formatted via \code{BioMathR::format_p()}}
+\item{pvalform}{Names of columns are that formatted via \code{BioMathR::format_p()}. Can be set to \code{NULL}. The default is \code{"p.value"}, but note that this function first unifies multiple column names such as \code{"Pr(>F)"} or \code{"P(>|Chi|)"} into \code{"p.value"}.}
 
 \item{asft}{If \code{TRUE}, output is formatted as flextable}
 }

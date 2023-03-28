@@ -72,4 +72,5 @@ reference:
 
 - title: utility
   contents:
+  - round_smart
   - '`%not_in%`'
