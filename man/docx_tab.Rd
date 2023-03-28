@@ -7,9 +7,10 @@
 docx_tab(
   x,
   lang = c("eng", "ger")[1],
-  digits = 1,
   pvalform = "p.value",
-  asft = TRUE
+  asft = TRUE,
+  digits = "round_smart",
+  ...
 )
 }
 \arguments{
@@ -17,11 +18,13 @@ docx_tab(
 
 \item{lang}{Language for column names.}
 
-\item{digits}{Number of digits all numeric columns are rounded to}
-
 \item{pvalform}{Names of columns are that formatted via \code{BioMathR::format_p()}. Can be set to \code{NULL}. The default is \code{"p.value"}, but note that this function first unifies multiple column names such as \code{"Pr(>F)"} or \code{"P(>|Chi|)"} into \code{"p.value"}.}
 
 \item{asft}{If \code{TRUE}, output is formatted as flextable}
+
+\item{digits}{Number of digits all numeric columns are rounded to. The default is actually "round_smart" which applies \code{BioMathR::round_smart()} to each numeric column individually.}
+
+\item{...}{Other arguments passed to \code{BioMathR::round_smart()}}
 }
 \description{
 Auto-format tables for printing in MS-Word documents

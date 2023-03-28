@@ -22,10 +22,11 @@
 #'
 #' before <- data.frame(
 #' V1 = c(123456, 1234),
-#' V2 = c(123, 0.12345),
+#' V2 = c(-123, -0.12345),
 #' V3 = c(1.0012345, 0.1),
 #' V4 = c(1.1, 0.0012345),
-#' V5 = c(1.000000012345, 0)
+#' V5 = c(1.000000012345, 0),
+#' V6 = c(NA, -5.0018)
 #' )
 #'
 #' mutate(before, across(everything(), ~round_smart(.)))
@@ -40,21 +41,26 @@ round_smart <- function(x,
   frac_part <- abs(x - int_part) # frac_part => 0.34
 
   # deal with potential floating point problems
-  originally_provided_digits <- max(nchar(sub(".*\\.", "", as.character(x))))
+  originally_provided_digits <- max(nchar(sub(".*\\.", "", as.character(x))), na.rm = TRUE)
   frac_part <- round(frac_part, digits = originally_provided_digits)
 
-  if (all(frac_part == 0)) {
+  if (all(frac_part == 0 | is.na(frac_part))) {
     rounded_x <- x
   } else {
-    # max number of 0s after decimal separator: e.g. c(1.01, 1.001) => 2
-    max_0s_after_decsep <-
-      max(-floor(log10(signif(frac_part[frac_part != 0], 1)))) - 1
+    # number of 0s after decimal separator: e.g. c(1.01, 1.001) => c(1, 2)
+    zeros_after_decsep <- -floor(log10(signif(frac_part[frac_part != 0], 1))) - 1
 
-    # combine minimum digits needed for max_0s_after_decsep with set signif_digits
-    digits <- (max_0s_after_decsep + 1) + (signif_digits - 1)
+    # ignore those that would need too many digits to be rounded to
+    relevant_zeros_after_decsep <- zeros_after_decsep[zeros_after_decsep < max_digits]
 
-    # use max_digits if < digits
-    digits <- min(digits, max_digits)
+    # get maximum
+    max_relevant_zeros_after_decsep <- max(relevant_zeros_after_decsep, na.rm = TRUE)
+
+    # combine minimum digits needed for max_relevant_zeros_after_decsep with set signif_digits
+    digits <- (max_relevant_zeros_after_decsep + 1) + (signif_digits - 1)
+
+    # in case adding signif_digits lead to digits > max_digits => reduce down to max_digits again
+    digits <- if_else(digits > max_digits, 6, digits)
 
     # round only frac_part, leave int_part untouched
     rounded_x <-

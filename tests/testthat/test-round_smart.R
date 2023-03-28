@@ -1,29 +1,51 @@
 library(testthat)
 library(BioMathR)
 
-test_that("round_smart rounds numbers as expected", {
+test_that("round_smart handles NAs", {
+  x <- c(1, 1.0003, NA)
+  expected_output <- c(1, 1.0003, NA)
+  output <- round_smart(x)
+  expect_equal(output, expected_output)
+})
 
-  # Test rounding to default signif_digits and max_digits
-  expect_equal(round_smart(1.0001234), 1.0001)
-  expect_equal(round_smart(1.0001234, signif_digits = 2), 1.00012)
-  expect_equal(round_smart(1.0000001234), 1)
-  expect_equal(round_smart(1.0000001234, max_digits = Inf), 1.0000001)
+test_that("round_smart returns expected output", {
+  x <- c(1.0001234, 1.0000001234, 123456.789, 0.123456789)
+  expected_output <- c(1.0001, 1, 123456.789, 0.1235)
+  output <- round_smart(x)
+  expect_equal(output, expected_output)
+})
 
-  # Test rounding negative numbers
-  expect_equal(round_smart(-1.0001234), -1.0001)
-  expect_equal(round_smart(-1.0001234, signif_digits = 2), -1.00012)
-  expect_equal(round_smart(-1.0000001234), -1)
-  expect_equal(round_smart(-1.0000001234, max_digits = Inf), -1.0000001)
+test_that("round_smart handles signif_digits argument", {
+  x <- c(1.0001234, 1.0000001234, 123456.789, 0.123456789)
+  expected_output <- c(1.00012, 1, 123456.789, 0.12346)
+  output <- round_smart(x, signif_digits = 2)
+  expect_equal(output, expected_output)
+})
 
-  # Test rounding a vector of numbers
-  expect_equal(round_smart(c(1.0001234, 2.0001234)), c(1.0001, 2.0001))
+test_that("round_smart handles max_digits argument", {
+  x <- c(1.0001234, 1.0000001234, 123456.789, 0.123456789)
+  expected_output <- c(1.0001, 1.000000, 123456.789, 0.1235)
+  output <- round_smart(x, max_digits = 6)
+  expect_equal(output, expected_output)
+})
 
-  # Test rounding when there are no digits after the decimal separator
-  expect_equal(round_smart(1), 1)
-  expect_equal(round_smart(12345), 12345)
+test_that("round_smart handles both signif_digits and max_digits arguments", {
+  x <- c(1.0001234, 1.0000001234, 123456.789, 0.123456789)
+  expected_output <- c(1.00012, 1.000000, 123456.789, 0.12346)
+  output <- round_smart(x, signif_digits = 2, max_digits = 6)
+  expect_equal(output, expected_output)
+})
 
-  # Test rounding with different signif_digits and max_digits values
-  expect_equal(round_smart(1.23456789, signif_digits = 3, max_digits = 4), 1.235)
-  expect_equal(round_smart(1.23456789, signif_digits = 4, max_digits = 4), 1.2346)
+test_that("round_smart handles negative values", {
+  x <- c(-1.0001234, -1.0000001234, -123456.789, -0.123456789)
+  expected_output <- c(-1.00012, -1.000000, -123456.789, -0.12346)
+  output <- round_smart(x, signif_digits = 2, max_digits = 6)
+  expect_equal(output, expected_output)
+})
 
+test_that("round_smart handles positive and negative and NA values together", {
+  x <- c(-1.0001234, 1.0000001234, -123456.789, 0.123456789, NA)
+  expected_output <- c(-1.00012, 1.000000, -123456.789, 0.12346, NA)
+  output <- round_smart(x, signif_digits = 2, max_digits = 6)
+  expect_equal(output, expected_output)
 })

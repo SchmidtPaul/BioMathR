@@ -30,10 +30,11 @@ library(dplyr)
 
 before <- data.frame(
 V1 = c(123456, 1234),
-V2 = c(123, 0.12345),
+V2 = c(-123, -0.12345),
 V3 = c(1.0012345, 0.1),
 V4 = c(1.1, 0.0012345),
-V5 = c(1.000000012345, 0)
+V5 = c(1.000000012345, 0),
+V6 = c(NA, -5.0018)
 )
 
 mutate(before, across(everything(), ~round_smart(.)))

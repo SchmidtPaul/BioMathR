@@ -2,16 +2,18 @@
 #'
 #' @param x Table to be formatted
 #' @param lang Language for column names.
-#' @param digits Number of digits all numeric columns are rounded to
 #' @param pvalform Names of columns are that formatted via \code{BioMathR::format_p()}. Can be set to \code{NULL}. The default is \code{"p.value"}, but note that this function first unifies multiple column names such as \code{"Pr(>F)"} or \code{"P(>|Chi|)"} into \code{"p.value"}.
 #' @param asft If \code{TRUE}, output is formatted as flextable
+#' @param digits Number of digits all numeric columns are rounded to. The default is actually "round_smart" which applies \code{BioMathR::round_smart()} to each numeric column individually.
+#' @param ... Other arguments passed to \code{BioMathR::round_smart()}
 #'
 #' @export
 docx_tab <- function(x,
                      lang = c("eng", "ger")[1],
-                     digits = 1,
                      pvalform = "p.value",
-                     asft = TRUE) {
+                     asft = TRUE,
+                     digits = "round_smart",
+                     ...) {
 
   # format column names -----------------------------------------------------
   unifynames <- c(
@@ -78,10 +80,13 @@ docx_tab <- function(x,
       mutate(across(any_of(pvalform), ~ BioMathR::format_p(., lang = lang)))
   }
 
-  # round all numeric cols
-  if (!is.null(digits)) {
+  # round all remaining numeric cols
+  if (is.numeric(digits)) {
     tab <- tab %>%
       mutate(across(where(is.numeric), ~ round(., digits)))
+  } else if (digits == "round_smart") {
+    tab <- tab %>%
+      mutate(across(where(is.numeric), ~ BioMathR::round_smart(., ...)))
   }
 
   # rename columns according to language
@@ -92,8 +97,6 @@ docx_tab <- function(x,
   if (asft) {
     assertthat::assert_that(requireNamespace("flextable", quietly = TRUE),
                             msg = "When makeft = TRUE, package 'flextable' must be installed.")
-
-    flextable::set_flextable_defaults(digits = digits) # change defaults temporarily
 
     if (lang == "ger") {
       flextable::set_flextable_defaults(decimal.mark = ",",
