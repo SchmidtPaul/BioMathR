@@ -51,6 +51,13 @@ test_that("round_smart handles positive and negative and NA values together", {
   expect_equal(output, expected_output)
 })
 
+test_that("round_smart handles all NAs", {
+  x <- c(NA_real_, NA_real_)
+  expected_output <- c(NA_real_, NA_real_)
+  expect_no_warning(output <- round_smart(x, signif_digits = 2, max_digits = 6))
+  expect_equal(output, expected_output)
+})
+
 test_that("round_smart handles the data.frame in examples", {
   before <- data.frame(
     V1 = c(123456, 1234),
@@ -58,7 +65,8 @@ test_that("round_smart handles the data.frame in examples", {
     V3 = c(1.0012345, 0.1),
     V4 = c(1.1, 0.0012345),
     V5 = c(1.000000012345, 0),
-    V6 = c(NA, -5.0018)
+    V6 = c(NA_real_, -5.0018),
+    V7 = c(NA_real_, NA_real_)
   )
   expected_output <- data.frame(
     V1 = c(123456, 1234),
@@ -66,8 +74,11 @@ test_that("round_smart handles the data.frame in examples", {
     V3 = c(1.001, 0.100),
     V4 = c(1.100, 0.001),
     V5 = c(1, 0),
-    V6 = c(NA, -5.002)
+    V6 = c(NA_real_, -5.002),
+    V7 = c(NA_real_, NA_real_)
   )
   expect_no_warning(output <- mutate(before, across(everything(), ~ round_smart(.))))
   expect_equal(output, expected_output)
 })
+
+

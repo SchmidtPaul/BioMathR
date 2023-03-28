@@ -34,9 +34,11 @@ V2 = c(-123, -0.12345),
 V3 = c(1.0012345, 0.1),
 V4 = c(1.1, 0.0012345),
 V5 = c(1.000000012345, 0),
-V6 = c(NA, -5.0018)
+V6 = c(NA, -5.0018),
+V7 = c(NA_real_, NA_real_)
 )
 
+before
 mutate(before, across(everything(), ~round_smart(.)))
 mutate(before, across(everything(), ~round_smart(., signif_digits = 3)))
 mutate(before, across(everything(), ~round_smart(., signif_digits = 3, max_digits = Inf)))

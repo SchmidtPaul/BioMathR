@@ -89,29 +89,26 @@
 <span class="r-in"><span>V3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.0012345</span>, <span class="fl">0.1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>V4 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.1</span>, <span class="fl">0.0012345</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>V5 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.000000012345</span>, <span class="fl">0</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>V6 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="op">-</span><span class="fl">5.0018</span><span class="op">)</span></span></span>
+<span class="r-in"><span>V6 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="op">-</span><span class="fl">5.0018</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>V7 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA_real_</span>, <span class="cn">NA_real_</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">before</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       V1         V2        V3        V4             V5      V6 V7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 123456 -123.00000 1.0012345 1.1000000 1.000000012345      NA NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1234   -0.12345 0.1000000 0.0012345 0.000000000000 -5.0018 NA</span>
 <span class="r-in"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">before</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span><span class="fu">round_smart</span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `mutate()`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `across(everything(), ~round_smart(.))`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning in `max()`:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> no non-missing arguments to max; returning -Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       V1     V2    V3    V4 V5     V6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 123456 -123.0 1.001 1.100  1     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1234   -0.1 0.100 0.001  0 -5.002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       V1     V2    V3    V4 V5     V6 V7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 123456 -123.0 1.001 1.100  1     NA NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1234   -0.1 0.100 0.001  0 -5.002 NA</span>
 <span class="r-in"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">before</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span><span class="fu">round_smart</span><span class="op">(</span><span class="va">.</span>, signif_digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `mutate()`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `across(everything(), ~round_smart(., signif_digits = 3))`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning in `max()`:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> no non-missing arguments to max; returning -Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       V1       V2      V3      V4 V5      V6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 123456 -123.000 1.00123 1.10000  1      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1234   -0.123 0.10000 0.00123  0 -5.0018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       V1       V2      V3      V4 V5      V6 V7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 123456 -123.000 1.00123 1.10000  1      NA NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1234   -0.123 0.10000 0.00123  0 -5.0018 NA</span>
 <span class="r-in"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">before</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span><span class="fu">round_smart</span><span class="op">(</span><span class="va">.</span>, signif_digits <span class="op">=</span> <span class="fl">3</span>, max_digits <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       V1       V2      V3      V4           V5      V6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 123456 -123.000 1.00123 1.10000 1.0000000123      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1234   -0.123 0.10000 0.00123 0.0000000000 -5.0018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       V1       V2      V3      V4           V5      V6 V7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 123456 -123.000 1.00123 1.10000 1.0000000123      NA NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1234   -0.123 0.10000 0.00123 0.0000000000 -5.0018 NA</span>
 </code></pre></div>
     </div>
   </div>
