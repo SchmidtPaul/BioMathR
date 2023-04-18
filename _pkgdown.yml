@@ -61,6 +61,7 @@ reference:
   contents:
   - docx_tab
   - partial_block_pour_docx
+  - smart_fit
 
 - title: string manipulation
   contents:

@@ -1,7 +1,7 @@
 #' @title Automatically round numbers
 #'
 #' @description
-#' This function automatically rounds numbers so that the results have as few digits as possible, but als many as necessary. It is similar to \code{signif()}, but it never alters the part before the decimal separator and also allows a cutoff value for a maximum acceptable number of digits after the decimal separator.
+#' This function automatically rounds numbers so that the results have as few digits as possible, but as many as necessary/desired. It is similar to \code{signif()}, but it never alters the part before the decimal separator and also allows a cutoff value for a maximum acceptable number of digits after the decimal separator.
 #'
 #' @param x A number of vector of numbers
 #' @param signif_digits The number of significant digits (default: 1) like in \code{signif()}, but only applied to the part after the decimal separator.
@@ -19,21 +19,24 @@
 #' @examples
 #' library(BioMathR)
 #' library(dplyr)
+#' default_opts <- options()
+#' options(digits = 10, scipen = 999)
 #'
 #' before <- data.frame(
-#' V1 = c(123456, 1234),
-#' V2 = c(-123, -0.12345),
-#' V3 = c(1.0012345, 0.1),
-#' V4 = c(1.1, 0.0012345),
-#' V5 = c(1.000000012345, 0),
-#' V6 = c(NA, -5.0018),
-#' V7 = c(NA_real_, NA_real_)
+#'   V1 = c(123456, 1234),
+#'   V2 = c(-123, -0.12345),
+#'   V3 = c(1.0012345, 0.1),
+#'   V4 = c(1.1, 0.0012345),
+#'   V5 = c(1.000000012345, 0),
+#'   V6 = c(NA, -5.0018),
+#'   V7 = c(NA_real_, NA_real_)
 #' )
 #'
 #' before
 #' mutate(before, across(everything(), ~round_smart(.)))
 #' mutate(before, across(everything(), ~round_smart(., signif_digits = 3)))
 #' mutate(before, across(everything(), ~round_smart(., signif_digits = 3, max_digits = Inf)))
+#' options(default_opts)
 round_smart <- function(x,
                         signif_digits = 1,
                         max_digits = 6) {

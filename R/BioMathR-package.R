@@ -27,6 +27,7 @@
 #' @importFrom tidyr pivot_wider
 #' @importFrom tidyr separate
 #' @importFrom utils combn
+#' @importFrom utils head
 #' @importFrom utils tail
 ## usethis namespace: end
 NULL

@@ -7,9 +7,10 @@
 describe(
   data,
   yvars,
-  digits = 2,
+  lang = c("eng", "ger")[1],
   ungroupafter = TRUE,
-  lang = c("eng", "ger")[1]
+  digits = "round_smart",
+  ...
 )
 }
 \arguments{
@@ -17,11 +18,13 @@ describe(
 
 \item{yvars}{A character vector with the names of the columns to be described.}
 
-\item{digits}{Number of digits the numeric columns should be rounded to.}
+\item{lang}{Language for table names.}
 
 \item{ungroupafter}{If \code{TRUE}, the results will be \code{ungroup()}-ed.}
 
-\item{lang}{Language for table names.}
+\item{digits}{Number of digits all numeric columns are rounded to. The default is actually \code{"round_smart"} which applies \code{BioMathR::round_smart()} to each numeric column individually.}
+
+\item{...}{Other arguments passed to \code{BioMathR::round_smart()}}
 }
 \value{
 A tibble
@@ -34,7 +37,7 @@ library(dplyr)
 library(BioMathR)
 PlantGrowth \%>\%
   group_by(group) \%>\%
-  describe("weight", lang = "ger")
+  describe("weight")
 
 PlantGrowth \%>\%
   mutate(
@@ -43,5 +46,6 @@ PlantGrowth \%>\%
     weight3 = rep(c(3, NA), 15)
   ) \%>\%
   group_by(group, group2) \%>\%
-  describe(c("weight", "weight2", "weight3"))
+  describe(c("weight", "weight2", "weight3"), lang = "ger") \%>\%
+  docx_tab()
 }

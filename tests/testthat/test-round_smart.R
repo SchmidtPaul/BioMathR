@@ -2,6 +2,9 @@ library(dplyr)
 library(testthat)
 library(BioMathR)
 
+default_opts <- options()
+options(digits = 10, scipen = 999)
+
 test_that("round_smart handles NAs", {
   x <- c(1, 1.0003, NA)
   expected_output <- c(1, 1.0003, NA)
@@ -81,4 +84,4 @@ test_that("round_smart handles the data.frame in examples", {
   expect_equal(output, expected_output)
 })
 
-
+options(default_opts)

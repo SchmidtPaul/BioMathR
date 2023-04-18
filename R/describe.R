@@ -4,9 +4,10 @@
 #'
 #' @param data A data.frame or a \code{\link{tbl_df}} or a \code{\link{grouped_df}}.
 #' @param yvars A character vector with the names of the columns to be described.
-#' @param digits Number of digits the numeric columns should be rounded to.
-#' @param ungroupafter If \code{TRUE}, the results will be \code{ungroup()}-ed.
 #' @param lang Language for table names.
+#' @param ungroupafter If \code{TRUE}, the results will be \code{ungroup()}-ed.
+#' @param digits Number of digits all numeric columns are rounded to. The default is actually \code{"round_smart"} which applies \code{BioMathR::round_smart()} to each numeric column individually.
+#' @param ... Other arguments passed to \code{BioMathR::round_smart()}
 #'
 #' @return A tibble
 #' @examples
@@ -14,7 +15,7 @@
 #' library(BioMathR)
 #' PlantGrowth %>%
 #'   group_by(group) %>%
-#'   describe("weight", lang = "ger")
+#'   describe("weight")
 #'
 #' PlantGrowth %>%
 #'   mutate(
@@ -23,14 +24,16 @@
 #'     weight3 = rep(c(3, NA), 15)
 #'   ) %>%
 #'   group_by(group, group2) %>%
-#'   describe(c("weight", "weight2", "weight3"))
+#'   describe(c("weight", "weight2", "weight3"), lang = "ger") %>%
+#'   docx_tab()
 #' @export
 describe <-
   function(data,
            yvars,
-           digits = 2,
+           lang = c("eng", "ger")[1],
            ungroupafter = TRUE,
-           lang = c("eng", "ger")[1]) {
+           digits = "round_smart",
+           ...) {
 
   Variable <- NAMESNAMES <- VALUESVALUES <- STATSTAT <- NULL # avoid package check warning
 
@@ -61,11 +64,19 @@ describe <-
     select(Variable, everything()) %>%
     arrange(Variable)
 
-  if (!is.null(digits)) {
+  # round
+  if (is.numeric(digits)) {
     out <- out %>%
       mutate(across(
         c("Mean", "StdDev", "IQR", "Min", "Median", "Max"),
         ~ round(., digits = digits)
+      ))
+  }
+  if (digits == "round_smart") {
+    out <- out %>%
+      mutate(across(
+        c("Mean", "StdDev", "IQR", "Min", "Median", "Max"),
+        ~ BioMathR::round_smart(., ...)
       ))
   }
 

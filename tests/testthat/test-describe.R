@@ -42,4 +42,3 @@ test_that("no grouping", {
 
   expect_equal(nrow(res), 1)
 })
-
