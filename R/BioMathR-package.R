@@ -2,6 +2,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom e1071 skewness
 #' @importFrom forcats fct_relevel
 #' @importFrom forcats fct_reorder
 #' @importFrom glue glue

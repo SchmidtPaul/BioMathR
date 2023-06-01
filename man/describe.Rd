@@ -10,6 +10,7 @@ describe(
   lang = c("eng", "ger")[1],
   ungroupafter = TRUE,
   digits = "round_smart",
+  addstats = character(),
   ...
 )
 }
@@ -23,6 +24,8 @@ describe(
 \item{ungroupafter}{If \code{TRUE}, the results will be \code{ungroup()}-ed.}
 
 \item{digits}{Number of digits all numeric columns are rounded to. The default is actually \code{"round_smart"} which applies \code{BioMathR::round_smart()} to each numeric column individually.}
+
+\item{addstats}{Character vector with additional statistics to be calculated besides the default. Possible entries: c("Skewness").}
 
 \item{...}{Other arguments passed to \code{BioMathR::round_smart()}}
 }

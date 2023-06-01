@@ -10,6 +10,7 @@ Description: The R package `BioMathR` provides a collection of utility and wrapp
 License: GPL-3
 Imports: 
     dplyr,
+    e1071,
     emmeans,
     forcats,
     ggplot2,
