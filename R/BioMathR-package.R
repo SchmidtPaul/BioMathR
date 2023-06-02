@@ -30,5 +30,6 @@
 #' @importFrom utils combn
 #' @importFrom utils head
 #' @importFrom utils tail
+#' @importFrom utils write.table
 ## usethis namespace: end
 NULL

@@ -35,7 +35,7 @@ reference:
   - desc_tabs
   - describe
 
-- title: ggplot etc.
+- title: ggplot & visuals
   contents:
   - desplot_across
   - gg_export
@@ -74,4 +74,5 @@ reference:
 - title: utility
   contents:
   - round_smart
+  - write_ascii
   - '`%not_in%`'
