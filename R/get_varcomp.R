@@ -84,22 +84,22 @@ get_varcomp.glmmTMB <- function(model,
   variance <- purrr::map(vc_mat, diag)
 
   variance <- data.frame(
-    group    = rep(names(variance), purrr::map_int(variance, length)),
-    effect   = unlist(purrr::map(variance, names)),
-    variance = unlist(variance)
+    group  = rep(names(variance), purrr::map_int(variance, length)),
+    effect = unlist(purrr::map(variance, names)),
+    var    = unlist(variance)
   )
 
   if (model$modelInfo$family$family == "gaussian") {
     resvar = data.frame(
-      group    = "Residual",
-      effect   = "",
-      variance = attr(vc_mat, "sc")^2
+      group  = "Residual",
+      effect = "",
+      var    = attr(vc_mat, "sc")^2
     )
 
     variance <- rbind(variance, resvar)
   }
 
-  vc <- data.frame(variance, sd = sqrt(variance$variance))
+  vc <- data.frame(variance, sd = sqrt(variance$var))
 
   vc <- vc %>%
     dplyr::mutate(
