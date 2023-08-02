@@ -3,7 +3,7 @@ Package: BioMathR
 Title: Utility functions used at BioMath
 Version: 0.6.0
 Authors@R: c(
-    person("Paul", "Schmidt", , "paul.schmidt@biomath.de", role = c("aut", "cre")),
+    person("Paul", "Schmidt", email = "paul.schmidt@biomath.de", role = c("aut", "cre")),
     person("BioMath", role = "fnd")
   )
 Description: The R package `BioMathR` provides a collection of utility and wrapper functions, all of which are often used at [BioMath](https://www.biomath.de/).

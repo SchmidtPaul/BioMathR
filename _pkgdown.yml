@@ -73,6 +73,7 @@ reference:
 
 - title: utility
   contents:
+  - project_setup
   - round_smart
   - write_ascii
   - '`%not_in%`'
