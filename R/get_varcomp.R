@@ -64,9 +64,9 @@ get_varcomp.merMod <- function(model,
     dplyr::mutate(dplyr::across(\(x) is.numeric(x), round, digits = digits)) %>%
     dplyr::mutate(effect = ifelse(effect == "", NA_character_, effect))
 
-  # TO DO: https://github.com/m-clark/mixedup/blob/f04aaea11b0fb760e3dbd171b20f3bd7f405f21f/R/extract_vc.R#LL178C17-L178C17
+  # TODO: https://github.com/m-clark/mixedup/blob/f04aaea11b0fb760e3dbd171b20f3bd7f405f21f/R/extract_vc.R#LL178C17-L178C17
 
-  vc
+  return(vc)
 }
 
 #' @export
@@ -121,4 +121,6 @@ get_varcomp.glmmTMB <- function(model,
     dplyr::mutate(effect = ifelse(effect == "", NA_character_, effect))
 
   rownames(vc) <- NULL
+
+  return(vc)
 }

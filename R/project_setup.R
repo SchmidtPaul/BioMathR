@@ -44,6 +44,10 @@ library(conflicted) # install.packages("conflicted")
 library(here) # install.packages("here")
 library(tidyverse)  # install.packages("tidyverse")
 
+# conflicts
+conflicts_prefer(dplyr::filter, .quiet = TRUE)
+conflicts_prefer(dplyr::select, .quiet = TRUE)
+
 # here wrapper functions
 here_data <- function(...) {here("10 RCode", "data", ...)}
 here_code <- function(...) {here("10 RCode", "code", ...)}
