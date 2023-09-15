@@ -46,6 +46,7 @@ reference:
 - title: linear model output
   contents:
   - emmeans_BM
+  - get_anova
   - get_residual_plots
   - get_varcomp
   - tidy_reg

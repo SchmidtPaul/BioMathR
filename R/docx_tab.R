@@ -38,6 +38,7 @@ docx_tab <- function(x,
   unifynames <- c(
     "Df" = "df",
     "Chi.Df" = "df",
+    "Df.res" = "DenDF",
     "Mean Sq" = "meansq",
     "Sum Sq" = "sumsq",
     "Sum of Sq" = "sumsq",
@@ -55,6 +56,12 @@ docx_tab <- function(x,
     "Pr..Chi." = "p.value",
     ".rownames" = "term"
   )
+
+  # special case for car::Anova()
+  if (all(c("Df", "Df.res") %in% colnames(x))) {
+    colnames(x)[colnames(x) == "Df"] <- "NumDF"
+    colnames(x)[colnames(x) == "Df.res"] <- "DenDF"
+  }
 
   names(unifynames) <- make.names(names(unifynames))
 

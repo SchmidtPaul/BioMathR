@@ -23,6 +23,5 @@ This function extracts the estimated variance components of the random-effects t
 \seealso{
 [lme4::VarCorr()],
   [glmmTMB::VarCorr()],
-  [nlme::VarCorr()],
   [mixedup::extract_vc()]
 }
