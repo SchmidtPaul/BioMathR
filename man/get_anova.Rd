@@ -2,34 +2,79 @@
 % Please edit documentation in R/get_anova.R
 \name{get_anova}
 \alias{get_anova}
-\alias{get_anova.lm}
-\alias{get_anova.lmerMod}
-\alias{get_anova.glmmTMB}
 \title{Obtain analysis of variance table}
 \usage{
-get_anova(model, type, ...)
-
-\method{get_anova}{lm}(model, type = c("I", "II", "III")[3], ...)
-
-\method{get_anova}{lmerMod}(model, type = c("I", "II", "III")[3], ...)
-
-\method{get_anova}{glmmTMB}(model, type = c("I", "II", "III")[3], ...)
+get_anova(model, type = "III", ..., info = FALSE)
 }
 \arguments{
-\item{model}{a fitted model object. Supported classes: \code{"lm"}, \code{"lmerMod"} & \code{"glmmTMB"}.}
+\item{model}{a fitted model object. Supported classes: \code{"lm"}, \code{"lmerModLmerTest"}, \code{"glmmTMB"}, \code{"gls"}, \code{"lme"}.}
 
 \item{type}{Type of ANOVA test: \code{"I"}, \code{"II"} or \code{"III"} (default).}
 
 \item{...}{additional arguments to be passed to the specific anova function.}
+
+\item{info}{Logical, if \code{TRUE}, information about the type of ANOVA and
+test statistic used is printed to the console. Default is \code{FALSE}.}
 }
 \description{
 This function obtains the ANOVA table for a model.
 }
 \details{
-The function utilizes \code{car::Anova()} for all supported model classes. For models of class 'lm' and 'lmerMod', the F-test is employed. In contrast, for models of the 'glmmTMB' class, the Chi-Square test is used since the F-test is \href{https://github.com/glmmTMB/glmmTMB/blob/bd1932addbfb4edf2ce933675f5a8bf72abc0e7c/glmmTMB/R/Anova.R#L73C8-L73C8}{currently unavailable}. It's worth noting that only the 'lmerMod' models support (and default to) the Kenward-Roger method as a degrees of freedom method.
+The function utilizes \code{car::Anova()} for all supported model
+classes and defaults to type III of sum of squares. For models of class
+'lm' and 'lmerModLmerTest', the F-test is employed. In contrast, for models of the
+'glmmTMB', 'gls', and 'lme' class, the Chi-Square test is used since the
+F-test is
+\href{https://github.com/glmmTMB/glmmTMB/blob/bd1932addbfb4edf2ce933675f5a8bf72abc0e7c/glmmTMB/R/Anova.R#L73C8-L73C8}{currently
+unavailable}. It's worth noting that only the 'lmerModLmerTest' models support (and
+default to) the Kenward-Roger method as a degrees of freedom method.
+
+\itemize{
+\item{\code{lm} (Package: stats):} {Types I/II/III; F-Test; Standard df.}
+\item{\code{lmer/lmerTest} (Packages: lme4/lmerTest):} {Types I/II/III; F-Test; Kenward-Roger (KR) df.}
+\item{\code{lme} (Package: nlme):} {Types I/II/III; Chi-Square Test (Chisq*); Standard df.}
+\item{\code{gls} (Package: nlme):} {Types I/II/III; Chi-Square Test (Chisq*); Standard df.}
+\item{\code{glmmTMB} (Package: glmmTMB):} {Types I/II/III; Chi-Square Test; Standard df.}
+}
+\itemize{
+\item You can obtain the F-Test only for type I/II via \code{stats::anova()}
+}
+
+The \code{type} argument specifies the type of sum of squares to be used in the analysis:
+\itemize{
+\item{Type I (Sequential) sum of squares:}{
+The order in which factors are entered into the model does matter. Each factor is adjusted for the factors listed before it.
+}
+\item{Type II (Marginal) sum of squares:}{
+The order in which factors are entered into the model does not matter. Each factor is adjusted for all of the other factors in the model.
+}
+\item{Type III sum of squares:}{
+The order in which factors are entered into the model does not matter, similar to Type II. However, each factor is adjusted for all
+of the other factors as well as for itself, which allows for the testing of each factor in the presence of interactions.
+}
+}
+
+Kenward-Roger Degrees of Freedom: The Kenward-Roger (KR) method is
+a sophisticated approach to approximating the degrees of freedom in mixed
+models, particularly in the presence of small sample sizes or unbalanced
+data. It is not applicable to non-mixed models. Unlike the classical
+degrees of freedom methods which may overestimate the significance of
+effects, the KR approximation tends to provide a more conservative and
+accurate estimation. This method adjusts the degrees of freedom to account
+for the complexity of the mixed model structure, thereby enhancing the
+robustness of the resulting inference. The Kenward-Roger method is
+especially beneficial when working with complex models that include
+multiple random effects and/or nested structures, as it helps to mitigate
+the risk of Type I errors, offering a more reliable foundation for
+hypothesis testing. Importantly, employing the KR method is never
+disadvantageous when compared to using the default method; it provides a
+more accurate reflection of the model's complexity and the data structure,
+thus leading to more reliable statistical inferences.
 }
 \seealso{
-[car::Anova()],
-  [lmerTest::lmer()],
-  [glmmTMB::glmmTMB()]
+\code{\link[car:Anova]{car::Anova()}},
+\code{\link[lmerTest:lmer]{lmerTest::lmer()}},
+\code{\link[glmmTMB:glmmTMB]{glmmTMB::glmmTMB()}},
+\code{\link[nlme:gls]{nlme::gls()}},
+\code{\link[nlme:lme]{nlme::lme()}}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/str_wrap_br.R
 \name{str_wrap_br}
 \alias{str_wrap_br}
-\title{\code{str_wrap()} with <br> instead}
+\title{\code{str_wrap()} with \if{html}{\out{<br>}} instead}
 \usage{
 str_wrap_br(string, whitespace_only = FALSE, ...)
 }
@@ -14,5 +14,5 @@ str_wrap_br(string, whitespace_only = FALSE, ...)
 \item{...}{other arguments passed to \code{stringr::str_wrap()}}
 }
 \description{
-\code{str_wrap()} with <br> instead
+\code{str_wrap()} with \if{html}{\out{<br>}} instead
 }

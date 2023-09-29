@@ -74,6 +74,7 @@ reference:
 
 - title: utility
   contents:
+  - add_group_column
   - project_setup
   - round_smart
   - write_ascii

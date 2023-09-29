@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BioMathR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
@@ -56,22 +56,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_anova</span><span class="op">(</span><span class="va">model</span>, <span class="va">type</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for lm</span></span>
-<span><span class="fu">get_anova</span><span class="op">(</span><span class="va">model</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"I"</span>, <span class="st">"II"</span>, <span class="st">"III"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for lmerMod</span></span>
-<span><span class="fu">get_anova</span><span class="op">(</span><span class="va">model</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"I"</span>, <span class="st">"II"</span>, <span class="st">"III"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for glmmTMB</span></span>
-<span><span class="fu">get_anova</span><span class="op">(</span><span class="va">model</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"I"</span>, <span class="st">"II"</span>, <span class="st">"III"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_anova</span><span class="op">(</span><span class="va">model</span>, type <span class="op">=</span> <span class="st">"III"</span>, <span class="va">...</span>, info <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>model</dt>
-<dd><p>a fitted model object. Supported classes: <code>"lm"</code>, <code>"lmerMod"</code> &amp; <code>"glmmTMB"</code>.</p></dd>
+<dd><p>a fitted model object. Supported classes: <code>"lm"</code>, <code>"lmerModLmerTest"</code>, <code>"glmmTMB"</code>, <code>"gls"</code>, <code>"lme"</code>.</p></dd>
 
 
 <dt>type</dt>
@@ -81,16 +72,59 @@
 <dt>...</dt>
 <dd><p>additional arguments to be passed to the specific anova function.</p></dd>
 
+
+<dt>info</dt>
+<dd><p>Logical, if <code>TRUE</code>, information about the type of ANOVA and
+test statistic used is printed to the console. Default is <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
-    <p>The function utilizes <code><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">car::Anova()</a></code> for all supported model classes. For models of class 'lm' and 'lmerMod', the F-test is employed. In contrast, for models of the 'glmmTMB' class, the Chi-Square test is used since the F-test is <a href="https://github.com/glmmTMB/glmmTMB/blob/bd1932addbfb4edf2ce933675f5a8bf72abc0e7c/glmmTMB/R/Anova.R#L73C8-L73C8" class="external-link">currently unavailable</a>. It's worth noting that only the 'lmerMod' models support (and default to) the Kenward-Roger method as a degrees of freedom method.</p>
+    <p>The function utilizes <code><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">car::Anova()</a></code> for all supported model
+classes and defaults to type III of sum of squares. For models of class
+'lm' and 'lmerModLmerTest', the F-test is employed. In contrast, for models of the
+'glmmTMB', 'gls', and 'lme' class, the Chi-Square test is used since the
+F-test is
+<a href="https://github.com/glmmTMB/glmmTMB/blob/bd1932addbfb4edf2ce933675f5a8bf72abc0e7c/glmmTMB/R/Anova.R#L73C8-L73C8" class="external-link">currently
+unavailable</a>. It's worth noting that only the 'lmerModLmerTest' models support (and
+default to) the Kenward-Roger method as a degrees of freedom method.</p>
+<ul><li><p><code>lm</code> (Package: stats): Types I/II/III; F-Test; Standard df.</p></li>
+<li><p><code>lmer/lmerTest</code> (Packages: lme4/lmerTest): Types I/II/III; F-Test; Kenward-Roger (KR) df.</p></li>
+<li><p><code>lme</code> (Package: nlme): Types I/II/III; Chi-Square Test (Chisq*); Standard df.</p></li>
+<li><p><code>gls</code> (Package: nlme): Types I/II/III; Chi-Square Test (Chisq*); Standard df.</p></li>
+<li><p><code>glmmTMB</code> (Package: glmmTMB): Types I/II/III; Chi-Square Test; Standard df.</p></li>
+</ul><ul><li><p>You can obtain the F-Test only for type I/II via <code><a href="https://rdrr.io/r/stats/anova.html" class="external-link">stats::anova()</a></code></p></li>
+</ul><p>The <code>type</code> argument specifies the type of sum of squares to be used in the analysis:</p><ul><li><p>Type I (Sequential) sum of squares:
+The order in which factors are entered into the model does matter. Each factor is adjusted for the factors listed before it.</p></li>
+<li><p>Type II (Marginal) sum of squares:
+The order in which factors are entered into the model does not matter. Each factor is adjusted for all of the other factors in the model.</p></li>
+<li><p>Type III sum of squares:
+The order in which factors are entered into the model does not matter, similar to Type II. However, each factor is adjusted for all
+of the other factors as well as for itself, which allows for the testing of each factor in the presence of interactions.</p></li>
+</ul><p>Kenward-Roger Degrees of Freedom: The Kenward-Roger (KR) method is
+a sophisticated approach to approximating the degrees of freedom in mixed
+models, particularly in the presence of small sample sizes or unbalanced
+data. It is not applicable to non-mixed models. Unlike the classical
+degrees of freedom methods which may overestimate the significance of
+effects, the KR approximation tends to provide a more conservative and
+accurate estimation. This method adjusts the degrees of freedom to account
+for the complexity of the mixed model structure, thereby enhancing the
+robustness of the resulting inference. The Kenward-Roger method is
+especially beneficial when working with complex models that include
+multiple random effects and/or nested structures, as it helps to mitigate
+the risk of Type I errors, offering a more reliable foundation for
+hypothesis testing. Importantly, employing the KR method is never
+disadvantageous when compared to using the default method; it provides a
+more accurate reflection of the model's complexity and the data structure,
+thus leading to more reliable statistical inferences.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p>[car::Anova()],
-  [lmerTest::lmer()],
-  [glmmTMB::glmmTMB()]</p></div>
+    <div class="dont-index"><p><code><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">car::Anova()</a></code>,
+<code><a href="https://rdrr.io/pkg/lmerTest/man/lmer.html" class="external-link">lmerTest::lmer()</a></code>,
+<code><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB::glmmTMB()</a></code>,
+<code><a href="https://rdrr.io/pkg/nlme/man/gls.html" class="external-link">nlme::gls()</a></code>,
+<code><a href="https://rdrr.io/pkg/nlme/man/lme.html" class="external-link">nlme::lme()</a></code></p></div>
     </div>
 
   </div>

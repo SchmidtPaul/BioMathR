@@ -79,14 +79,14 @@ describe <-
   if (is.numeric(digits)) {
     out <- out %>%
       mutate(across(
-        cols_to_round,
+        all_of(cols_to_round),
         ~ round(., digits = digits)
       ))
   }
   if (digits == "round_smart") {
     out <- out %>%
       mutate(across(
-        cols_to_round,
+        all_of(cols_to_round),
         ~ BioMathR::round_smart(., ...)
       ))
   }

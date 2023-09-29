@@ -21,7 +21,7 @@ get_varcomp(model, digits = 3)
 This function extracts the estimated variance components of the random-effects terms in a linear mixed model. It is very heavily based on \href{https://m-clark.github.io/mixedup/reference/extract_vc.html}{\code{mixedup::extract_vc()}}.
 }
 \seealso{
-[lme4::VarCorr()],
-  [glmmTMB::VarCorr()],
-  [mixedup::extract_vc()]
+\code{\link[lme4:VarCorr]{lme4::VarCorr()}},
+\code{\link[glmmTMB:VarCorr.glmmTMB]{glmmTMB::VarCorr()}},
+\href{https://github.com/m-clark/mixedup}{mixedup::extract_vc()}
 }

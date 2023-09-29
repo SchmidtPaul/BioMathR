@@ -40,9 +40,9 @@ project_setup <- function() {
   # Create setup file
   setup_file <- file.path(root_dir, "code", "00 setup.R")
   setup_content <- 'library(BioMathR) # remotes::install_github("SchmidtPaul/BioMathR")
-library(conflicted) # install.packages("conflicted")
-library(here) # install.packages("here")
-library(tidyverse)  # install.packages("tidyverse")
+library(conflicted)
+library(here)
+library(tidyverse)
 
 # conflicts
 conflicts_prefer(dplyr::filter, .quiet = TRUE)
@@ -57,6 +57,11 @@ here_out  <- function(...) {here("10 RCode", "out", ...)}
 BMcols <- BioMathR::palette_getset("BioMath")'
   writeLines(setup_content, setup_file)
 
+  # Create import file
+  import_file <- file.path(root_dir, "code", "01 import.R")
+  import_content <- 'source(here::here("10 RCode", "code", "00 setup.R"), encoding = "UTF-8")'
+  writeLines(import_content, import_file)
+
   # send message
-  message("Directories and 00 setup.R created successfully!")
+  message("Directories, '00 setup.R' and '01 import.R' created successfully!")
 }

@@ -12,7 +12,7 @@
 #' @seealso
 #'   [lme4::VarCorr()],
 #'   [glmmTMB::VarCorr()],
-#'   [mixedup::extract_vc()]
+#'   [mixedup::extract_vc()](https://github.com/m-clark/mixedup)
 #'
 #' @export
 get_varcomp <- function(model,
@@ -73,7 +73,7 @@ get_varcomp.merMod <- function(model,
 get_varcomp.glmmTMB <- function(model,
                                 digits = 3) {
 
-  if (!requireNamespace("glmmTMB", quietly = TRUE)) {
+  if (!suppressWarnings(requireNamespace("glmmTMB", quietly = TRUE))) {
     stop("When model object is 'glmmTMB', package 'glmmTMB' must be installed.")
   }
 
