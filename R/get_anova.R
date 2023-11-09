@@ -7,6 +7,7 @@
 #' @param ... additional arguments to be passed to the specific anova function.
 #' @param info Logical, if \code{TRUE}, information about the type of ANOVA and
 #'   test statistic used is printed to the console. Default is \code{FALSE}.
+#' @param suppressWarnings Logical; if \code{TRUE}, suppresses warnings from \code{car::Anova()}. Default is TRUE.
 #'
 #' @details The function utilizes \code{car::Anova()} for all supported model
 #' classes and defaults to type III of sum of squares. For models of class
@@ -66,9 +67,17 @@
 #'   [nlme::lme()]
 #'
 #' @export
-get_anova <- function(model, type = "III", ..., info = FALSE) {
-  assertthat::assert_that(inherits(model, c("lm", "lmerMod", "lmerModLmerTest", "glmmTMB", "gls", "lme")),
-                          msg = "This is not a supported model class.")
+get_anova <- function(model, type = "III", ..., info = FALSE, suppressWarnings = TRUE) {
+
+  # return NULL if model is NULL
+  if (is.null(model)) {
+    return(NULL)
+  }
+
+  assertthat::assert_that(
+    inherits(model, c("lm", "lmerMod", "lmerModLmerTest", "glmmTMB", "gls", "lme")),
+    msg = "This is not a supported model class."
+  )
 
   model_class <- class(model)[1]  # Extract the primary class name of the model
 
@@ -100,12 +109,19 @@ get_anova <- function(model, type = "III", ..., info = FALSE) {
 
   if (!is.null(necessary_package)) {
     for (pkg in necessary_package) {
-      assertthat::assert_that(requireNamespace(pkg, quietly = TRUE),
-                              msg = sprintf("When model object is '%s', package '%s' must be installed.", model_class, pkg))
+      assertthat::assert_that(
+        requireNamespace(pkg, quietly = TRUE),
+        msg = sprintf("When model object is '%s', package '%s' must be installed.", model_class, pkg)
+      )
     }
   }
 
-  anova_table <- car::Anova(model, type = type, test.statistic = test_statistic, ddf = ddf, ...)
+  # If suppressWarnings is TRUE, suppress warnings from car::Anova
+  if (suppressWarnings) {
+    anova_table <- suppressWarnings(car::Anova(model, type = type, test.statistic = test_statistic, ddf = ddf, ...))
+  } else {
+    anova_table <- car::Anova(model, type = type, test.statistic = test_statistic, ddf = ddf, ...)
+  }
 
   # Get an info summary above the table
   anova_summary <- sprintf(

@@ -4,7 +4,7 @@
 \alias{get_anova}
 \title{Obtain analysis of variance table}
 \usage{
-get_anova(model, type = "III", ..., info = FALSE)
+get_anova(model, type = "III", ..., info = FALSE, suppressWarnings = TRUE)
 }
 \arguments{
 \item{model}{a fitted model object. Supported classes: \code{"lm"}, \code{"lmerModLmerTest"}, \code{"glmmTMB"}, \code{"gls"}, \code{"lme"}.}
@@ -15,6 +15,8 @@ get_anova(model, type = "III", ..., info = FALSE)
 
 \item{info}{Logical, if \code{TRUE}, information about the type of ANOVA and
 test statistic used is printed to the console. Default is \code{FALSE}.}
+
+\item{suppressWarnings}{Logical; if \code{TRUE}, suppresses warnings from \code{car::Anova()}. Default is TRUE.}
 }
 \description{
 This function obtains the ANOVA table for a model.

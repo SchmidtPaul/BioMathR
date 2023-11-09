@@ -1,12 +1,19 @@
-library(BioMathR)
 library(emmeans)
 library(dplyr)
+library(testthat)
 library(tibble)
 
-pigsmod <- lm(conc ~ source, data = pigs)
+# model is NULL
+test_that("get_emmeans returns NULL if model is NULL", {
+  expect_null(get_emmeans(NULL))
+  expect_error(get_emmeans(NULL), NA)
+})
 
+
+# compare results to emmeans ----------------------------------------------
+pigsmod <- lm(conc ~ source, data = pigs)
 EM <- emmeans::emmeans(object = pigsmod, specs = "source", lmer.df = "Satterthwaite", infer = c(TRUE, FALSE))
-BM <- emmeans_BM(model = pigsmod, specs_string = "~ source", lmer.df = "Satterthwaite")
+BM <- get_emmeans(model = pigsmod, specs_string = "~ source", lmer.df = "Satterthwaite")
 
 test_that("emmeans-table identical (Satterthwaite)", {
   expect_true(

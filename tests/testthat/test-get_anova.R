@@ -1,5 +1,10 @@
-# Load necessary libraries
 library(testthat)
+
+# model is NULL
+test_that("get_anova returns NULL if model is NULL", {
+  expect_null(get_anova(NULL))
+  expect_error(get_anova(NULL), NA)
+})
 
 # lm test
 test_that("get_anova does not throw an error for lm class", {
@@ -20,9 +25,7 @@ test_that("get_anova does not throw an error for lmerTest class", {
 # glmmTMB test
 test_that("get_anova does not throw an error for glmmTMB class", {
   if (suppressWarnings(requireNamespace("glmmTMB", quietly = TRUE))) {
-    fabricated_data <- mtcars
-    fabricated_data$Response <- ifelse(fabricated_data$mpg > 20, 1, 0)
-    glmmTMB_model <- suppressWarnings(glmmTMB::glmmTMB(Response ~ wt + hp + (1 | cyl), data = fabricated_data, family = binomial()))
+    glmmTMB_model <- suppressWarnings(glmmTMB::glmmTMB(mpg ~ wt + hp + (1 | cyl), data = mtcars, REML = TRUE))
     expect_error(get_anova(glmmTMB_model), NA)
   } else {
     skip()

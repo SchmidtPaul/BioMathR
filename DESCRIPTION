@@ -1,7 +1,7 @@
 Type: Package
 Package: BioMathR
 Title: Utility functions used at BioMath
-Version: 0.7.0
+Version: 0.8.0
 Authors@R: c(
     person("Paul", "Schmidt", email = "paul.schmidt@biomath.de", role = c("aut", "cre")),
     person("BioMath", role = "fnd")
@@ -26,6 +26,7 @@ Imports:
     officer,
     openxlsx,
     purrr,
+    qqplotr,
     rstudioapi,
     scales,
     stats,

@@ -1,6 +1,6 @@
 #' @title Extract variance components
 #'
-#' @description This function extracts the estimated variance components of the random-effects terms in a linear mixed model. It is very heavily based on \href{https://m-clark.github.io/mixedup/reference/extract_vc.html}{\code{mixedup::extract_vc()}}.
+#' @description This function extracts the estimated variance components of a linear (mixed) model. It is compatible with models from \code{lme4}, \code{glmmTMB}, and \code{lm} functions. The resulting output is a tibble that contains the variance components, their proportion of the total variance, and standard deviations. This function is heavily based on \code{mixedup::extract_vc()}.
 #'
 #' @param model a fitted model object
 #' @param digits Rounding. Default is 3.
@@ -12,17 +12,84 @@
 #' @seealso
 #'   [lme4::VarCorr()],
 #'   [glmmTMB::VarCorr()],
-#'   [mixedup::extract_vc()](https://github.com/m-clark/mixedup)
+#'   [mixedup::extract_vc()](https://m-clark.github.io/mixedup/reference/extract_vc.html)
 #'
 #' @export
 get_varcomp <- function(model,
                         digits = 3) {
 
-  assertthat::assert_that(inherits(model, c("merMod", "glmmTMB")),
+  # return NULL if model is NULL
+  if (is.null(model)) {
+    return(NULL)
+  }
+
+  assertthat::assert_that(inherits(model, c("lm", "merMod", "glmmTMB")),
                           msg = "This is not a supported model class.")
 
   UseMethod("get_varcomp")
 }
+
+
+# internal helper functions -----------------------------------------------
+# obtain percentages
+varcomp_percentages <- function(vc) {
+
+  var <- NULL # avoid package check warning
+
+  vc <- vc %>%
+    dplyr::mutate(
+      var_prop = var / sum(var),
+      var_p = dplyr::case_when(
+        var_prop < 0.000001 ~ "   0%",
+        TRUE ~ scales::percent(var_prop, accuracy = 0.1, trim = TRUE)
+      )
+    )
+  return(vc)
+}
+
+# format final table
+varcomp_formatter <- function(vc, digits) {
+
+  effect <- NULL # avoid package check warning
+
+  vc <- vc %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(dplyr::across(where(is.numeric), ~ round(., digits = digits))) %>%
+    dplyr::mutate(effect = gsub(effect, pattern = "[\\(,\\)]", replacement = "")) %>%
+    dplyr::mutate(effect = ifelse(is.na(effect) | effect == "", NA_character_, effect)) %>%
+    dplyr::relocate("group", "effect", "var", "var_p", "var_prop", "sd", .before = 1)
+
+  rownames(vc) <- NULL
+
+  return(vc)
+}
+
+
+# methods for different model classes -------------------------------------
+#' @export
+#' @rdname get_varcomp
+get_varcomp.lm <- function(model, digits = 3) {
+
+  effect <- NULL # avoid package check warning
+
+  # Extract the residual variance
+  resvar <- summary(model)$sigma^2
+
+  # Create the data frame
+  vc <- data.frame(
+    group = "Residual",
+    effect = NA,
+    var = resvar,
+    sd = sqrt(resvar),
+    stringsAsFactors = FALSE
+  )
+
+  vc <- varcomp_percentages(vc)
+  vc <- varcomp_formatter(vc, digits)
+
+  return(vc)
+}
+
 
 #' @export
 #' @rdname get_varcomp
@@ -43,25 +110,8 @@ get_varcomp.merMod <- function(model,
     data.frame() %>%
     dplyr::filter(is.na(effect) | is.na(effect_2))
 
-  vc <- vc %>%
-    dplyr::mutate(
-      var_prop = var / sum(var),
-      var_p = case_when(
-        var_prop < 0.000001 ~ "   0%",
-        TRUE ~ scales::percent(var_prop, accuracy = 0.1, trim = FALSE)
-      ),
-      effect = gsub(effect, pattern = "[\\(,\\)]", replacement = ""),
-      effect = ifelse(is.na(effect), "", effect)
-    )
-
-  vc <- vc %>%
-    dplyr::select("group", "effect", "var", "var_p", "var_prop", "sd",  everything())
-
-
-  vc <- vc %>%
-    tibble::as_tibble() %>%
-    dplyr::mutate(dplyr::across(\(x) is.numeric(x), round, digits = digits)) %>%
-    dplyr::mutate(effect = ifelse(effect == "", NA_character_, effect))
+  vc <- varcomp_percentages(vc)
+  vc <- varcomp_formatter(vc, digits)
 
   # TODO: https://github.com/m-clark/mixedup/blob/f04aaea11b0fb760e3dbd171b20f3bd7f405f21f/R/extract_vc.R#LL178C17-L178C17
 
@@ -100,26 +150,8 @@ get_varcomp.glmmTMB <- function(model,
 
   vc <- data.frame(variance, sd = sqrt(variance$var))
 
-  vc <- vc %>%
-    dplyr::mutate(
-      var_prop = var / sum(var),
-      var_p = case_when(
-        var_prop < 0.000001 ~ "   0%",
-        TRUE ~ scales::percent(var_prop, accuracy = 0.1, trim = FALSE)
-      ),
-      effect = gsub(effect, pattern = "[\\(,\\)]", replacement = ""),
-      effect = ifelse(is.na(effect), "", effect)
-    )
-
-  vc <- vc %>%
-    dplyr::select("group", "effect", "var", "var_p", "var_prop", "sd",  everything())
-
-  vc <- vc %>%
-    tibble::as_tibble() %>%
-    dplyr::mutate(dplyr::across(\(x) is.numeric(x), round, digits = digits)) %>%
-    dplyr::mutate(effect = ifelse(effect == "", NA_character_, effect))
-
-  rownames(vc) <- NULL
+  vc <- varcomp_percentages(vc)
+  vc <- varcomp_formatter(vc, digits)
 
   return(vc)
 }

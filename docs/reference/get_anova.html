@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BioMathR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0</span>
       </span>
     </div>
 
@@ -56,7 +56,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_anova</span><span class="op">(</span><span class="va">model</span>, type <span class="op">=</span> <span class="st">"III"</span>, <span class="va">...</span>, info <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_anova</span><span class="op">(</span><span class="va">model</span>, type <span class="op">=</span> <span class="st">"III"</span>, <span class="va">...</span>, info <span class="op">=</span> <span class="cn">FALSE</span>, suppressWarnings <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -76,6 +76,10 @@
 <dt>info</dt>
 <dd><p>Logical, if <code>TRUE</code>, information about the type of ANOVA and
 test statistic used is printed to the console. Default is <code>FALSE</code>.</p></dd>
+
+
+<dt>suppressWarnings</dt>
+<dd><p>Logical; if <code>TRUE</code>, suppresses warnings from <code><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">car::Anova()</a></code>. Default is TRUE.</p></dd>
 
 </dl></div>
     <div id="details">

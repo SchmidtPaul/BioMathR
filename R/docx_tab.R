@@ -136,12 +136,16 @@ docx_tab <- function(x,
     return(tab)
   }
 
-  assertthat::assert_that(requireNamespace("flextable", quietly = TRUE),
-                          msg = "When makeft = TRUE, package 'flextable' must be installed.")
+  assertthat::assert_that(
+    requireNamespace("flextable", quietly = TRUE),
+    msg = "When makeft = TRUE, package 'flextable' must be installed."
+  )
 
   if (lang == "ger") {
-    flextable::set_flextable_defaults(decimal.mark = ",",
-                                      big.mark = ".")
+    flextable::set_flextable_defaults(
+      decimal.mark = ",",
+      big.mark = "."
+    )
   }
 
   ftab <- flextable::flextable(tab) %>%

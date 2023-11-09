@@ -49,6 +49,9 @@
     <loc>schmidtpaul.github.io/BioMathR/reference/get_d3_colourScale.html</loc>
   </url>
   <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/get_emmeans.html</loc>
+  </url>
+  <url>
     <loc>schmidtpaul.github.io/BioMathR/reference/get_residual_plots.html</loc>
   </url>
   <url>
@@ -67,6 +70,9 @@
     <loc>schmidtpaul.github.io/BioMathR/reference/index.html</loc>
   </url>
   <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/join_anovas.html</loc>
+  </url>
+  <url>
     <loc>schmidtpaul.github.io/BioMathR/reference/palette_getset.html</loc>
   </url>
   <url>
@@ -83,6 +89,9 @@
   </url>
   <url>
     <loc>schmidtpaul.github.io/BioMathR/reference/smart_fit.html</loc>
+  </url>
+  <url>
+    <loc>schmidtpaul.github.io/BioMathR/reference/str_collapse_with.html</loc>
   </url>
   <url>
     <loc>schmidtpaul.github.io/BioMathR/reference/str_unGer.html</loc>

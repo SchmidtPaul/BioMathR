@@ -45,10 +45,11 @@ reference:
 
 - title: linear model output
   contents:
-  - emmeans_BM
+  - get_emmeans
   - get_anova
   - get_residual_plots
   - get_varcomp
+  - join_anovas
   - tidy_reg
 
 - title: MS Excel
@@ -69,6 +70,7 @@ reference:
   - format_p
   - get_d3_colourScale
   - get_unique_references
+  - str_collapse_with
   - str_unGer
   - str_wrap_br
 
@@ -79,3 +81,7 @@ reference:
   - round_smart
   - write_ascii
   - '`%not_in%`'
+
+- title: deprecated
+  contents:
+  - emmeans_BM
