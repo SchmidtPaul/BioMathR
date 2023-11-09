@@ -116,7 +116,7 @@ desplot_across <-
           out2.gpar = out1.gpar,
           show.key = FALSE,
           ...
-        )
+        ) %>% suppressWarnings()
       } else if (type_i %in% c("double", "numeric")) {
         # desplot
         dps[[var_i]] <- desplot::desplot(
@@ -131,7 +131,7 @@ desplot_across <-
           out2.gpar = out1.gpar,
           show.key = FALSE,
           ...
-        )
+        ) %>% suppressWarnings()
       } else {
         stop('vars should be "integer", "factor", "character", "double" or "numeric"!')
       }
