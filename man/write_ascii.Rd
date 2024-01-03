@@ -4,7 +4,16 @@
 \alias{write_ascii}
 \title{Write a Data Frame to an ASCII Text File}
 \usage{
-write_ascii(data, path, dec = ".")
+write_ascii(
+  data,
+  path,
+  dec = ".",
+  sep = "\\t",
+  quote = FALSE,
+  row.names = FALSE,
+  col.names = TRUE,
+  use_fwrite = FALSE
+)
 }
 \arguments{
 \item{data}{A data frame that will be written to a text file.}
@@ -12,14 +21,28 @@ write_ascii(data, path, dec = ".")
 \item{path}{The file path where the text file will be written.}
 
 \item{dec}{The character to be used as decimal point. Default is ".".}
+
+\item{sep}{The field separator character. Default is "\\t" (tab).}
+
+\item{quote}{Logical; if TRUE, fields will be surrounded by quotes.
+Default is FALSE, meaning no quotes are used.}
+
+\item{row.names}{Logical; if TRUE, row names are written to the file.
+Default is FALSE, meaning row names are not included.}
+
+\item{col.names}{Logical; if TRUE, column names are written to the file.
+Default is TRUE, meaning column names are included.}
+
+\item{use_fwrite}{A boolean flag indicating whether to use \code{data.table::fwrite()}
+for file writing. Default is FALSE, which uses \code{write.table}.}
 }
 \value{
-NULL. The function is invoked for its side effect, which is writing the data frame
-to a text file.
+NULL. The function is invoked for its side effect, which is writing
+the data frame to a text file.
 }
 \description{
-This function takes a data frame, a file path, and a decimal point character as input,
-and writes the data frame to the file as a tab-separated ASCII text file,
-with no quotes around the values, no row names. The decimal point representation
-is by default a dot, but can be changed by the user.
+This function writes a data frame to a specified file path as a tab-separated ASCII text file.
+It offers flexibility in formatting the output, including the choice of decimal point character,
+whether to include quotes, row names, and column names. The function can operate using either
+the base R \code{write.table} function or \code{data.table}'s \code{fwrite} function for file writing.
 }

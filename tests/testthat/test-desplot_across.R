@@ -13,7 +13,6 @@ test_that("desplot_across throws no warnings with special characters", {
   )
 })
 
-
 test_that("desplot_across returns a list of desplots", {
   data <- agridat::yates.oats
   vars <- c("nitro", "gen", "block")
