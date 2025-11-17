@@ -135,7 +135,7 @@ docx_tab <- function(x,
   # Add abbreviation footnotes
   if (add_abbrev_footnote) {
     vcat("\n--- Adding abbreviation footnotes ---")
-    ftab <- add_abbreviation_footnotes(ftab, tab, lang, verbose = verbose)
+    ftab <- add_abbreviation_footnotes(ftab, tab, lang, ft_fontsize, verbose = verbose)
   }
 
   # Apply fit mode
@@ -288,9 +288,9 @@ rename_columns <- function(tab, lang, verbose = FALSE) {
 
   renamers <- list(
     eng = c(
-      "F.value" = "F value",
+      "F.value" = "F-value",
       "meansq" = "MS",
-      "p.value" = "p value",
+      "p.value" = "p-value",
       "sumsq" = "SS",
       "term" = "Term",
       "df.residual" = "Resid. df",
@@ -419,17 +419,19 @@ apply_fit_mode <- function(ftab, fit_mode, page_width, landscape, verbose = FALS
 
 #' Add footnotes for abbreviated column names
 #' @noRd
-add_abbreviation_footnotes <- function(ftab, tab, lang, verbose = FALSE) {
+add_abbreviation_footnotes <- function(ftab, tab, lang, ft_fontsize = 9, verbose = FALSE) {
   vcat <- function(...) if (verbose) cat("[docx_tab]", ..., "\n")
 
+  # Calculate footnote font size (smaller than table font)
+  footnote_fontsize <- max(6, ft_fontsize - 2)  # At least 6pt, typically 2pt smaller
+
   # Define abbreviations for each language
+  # Note: F-value and p-value are not included as they are full terms, not abbreviations
   abbreviations <- list(
     eng = list(
       "df" = "degrees of freedom",
       "MS" = "mean squares",
       "SS" = "sum of squares",
-      "F value" = "F-value",
-      "p value" = "p-value",
       "NumDF" = "numerator degrees of freedom",
       "DenDF" = "denominator degrees of freedom",
       "Resid. df" = "residual degrees of freedom",
@@ -441,8 +443,6 @@ add_abbreviation_footnotes <- function(ftab, tab, lang, verbose = FALSE) {
       "FG" = "Freiheitsgrade",
       "MQ" = "Mittelquadrate",
       "SQ" = "Summe der Quadrate",
-      "F-Wert" = "F-Wert",
-      "p-Wert" = "p-Wert",
       "Zähler-FG" = "Zähler-Freiheitsgrade",
       "Nenner-FG" = "Nenner-Freiheitsgrade",
       "Residual-FG" = "Residual-Freiheitsgrade",
@@ -468,6 +468,7 @@ add_abbreviation_footnotes <- function(ftab, tab, lang, verbose = FALSE) {
   }
 
   vcat("Found", length(present_abbrevs), "abbreviated columns:", paste(present_abbrevs, collapse = ", "))
+  vcat("Using footnote font size:", footnote_fontsize, "pt (table font:", ft_fontsize, "pt)")
 
   # Add footnotes for each abbreviated column
   for (i in seq_along(present_abbrevs)) {
@@ -488,6 +489,11 @@ add_abbreviation_footnotes <- function(ftab, tab, lang, verbose = FALSE) {
       )
   }
 
-  vcat("Added", length(present_abbrevs), "abbreviation footnotes")
+  # Format footnotes: smaller font size and minimal padding
+  ftab <- ftab %>%
+    flextable::fontsize(size = footnote_fontsize, part = "footer") %>%
+    flextable::padding(padding.top = 0, padding.bottom = 0, part = "footer")
+
+  vcat("Added", length(present_abbrevs), "abbreviation footnotes with", footnote_fontsize, "pt font")
   return(ftab)
 }
