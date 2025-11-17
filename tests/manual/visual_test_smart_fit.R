@@ -14,6 +14,7 @@
 
 library(flextable)
 library(officer)
+library(dplyr)
 library(BioMathR)
 
 cat("\n")
