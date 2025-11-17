@@ -22,12 +22,16 @@ desc_tabs <-
 
     Variable <- name <- value <- NULL # avoid package check warning
 
+    # validate groupvars parameter
+    assertthat::assert_that(length(groupvars) > 0,
+                            msg = "'groupvars' must contain at least one variable name")
+
     wb <- BioMathR::create_wb()
 
-    for (i in 1:length(groupvars)) {
+    for (i in seq_along(groupvars)) {
       combs_i <- t(combn(groupvars, i))
 
-      for (ij in 1:nrow(combs_i)) {
+      for (ij in seq_len(nrow(combs_i))) {
         comb_ij     <- combs_i[ij, ]
         comb_ij_lab <- comb_ij %>% str_sub(1, 3) %>% str_c(collapse = "-")
 

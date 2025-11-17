@@ -17,13 +17,13 @@ join_anovas <- function(anova_list, anova_names) {
   process_anova_table <- function(table) {
     # Check if NULL
     if(is.null(table[[1]])) {
-      return(tibble(Term = "(Intercept)", pvalue = NA_real_))
+      return(tibble::tibble(Term = "(Intercept)", pvalue = NA_real_))
     }
 
     table %>%
-      rownames_to_column(var = "Term") %>%
-      as_tibble() %>%
-      rename_with(~ ifelse(str_starts(.x, "Pr"), "pvalue", .x)) %>%
+      tibble::rownames_to_column(var = "Term") %>%
+      tibble::as_tibble() %>%
+      rename_with(~ ifelse(stringr::str_starts(.x, "Pr"), "pvalue", .x)) %>%
       select("Term", "pvalue")
   }
 
@@ -34,7 +34,7 @@ join_anovas <- function(anova_list, anova_names) {
   # Merge the processed tables together
   merged_table <- purrr::reduce(
     .x = processed_list,
-    .f = full_join,
+    .f = dplyr::full_join,
     by = "Term"
   )
 

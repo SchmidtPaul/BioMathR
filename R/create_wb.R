@@ -64,7 +64,7 @@ create_wb <- function(fontSize = 10,
     openxlsx::setColWidths(
       wb = wb,
       sheet = utils::tail(openxlsx::worksheetOrder(wb), n = 1),
-      cols = c(1:ncol(info)),
+      cols = seq_len(ncol(info)),
       widths = 15
     )
   }

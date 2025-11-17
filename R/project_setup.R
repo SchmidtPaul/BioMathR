@@ -1,6 +1,6 @@
-#' @title Intitiate an R-project
+#' @title Initiate an R-project
 #'
-#' @description This function intitiates a new R-project with the typical folder structure
+#' @description This function initiates a new R-project with the typical folder structure
 #' and a \code{00 setup.R} file.
 #'
 #' @details

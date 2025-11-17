@@ -76,7 +76,7 @@ round_smart <- function(x,
   digits <- (max_relevant_zeros_after_decsep + 1) + (signif_digits - 1)
 
   # in case adding signif_digits lead to digits > max_digits => reduce down to max_digits again
-  digits <- if_else(digits > max_digits, 6, digits)
+  digits <- if_else(digits > max_digits, max_digits, digits)
 
   # round only frac_part, leave int_part untouched
   rounded_x <- int_part + sign(x) * round(frac_part, digits = digits)

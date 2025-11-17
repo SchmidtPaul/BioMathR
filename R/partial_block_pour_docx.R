@@ -18,7 +18,7 @@
 
 partial_block_pour_docx <- function(file, heading1title, includeheader = TRUE){
 
-  filename <- nr <- NULL
+  filename <- NULL
 
   # import and summary ------------------------------------------------------
   doc <- officer::read_docx(file)
@@ -52,8 +52,8 @@ partial_block_pour_docx <- function(file, heading1title, includeheader = TRUE){
   }
 
   # delete everything before part
-  if (i[1]>1) {
-    for (j in 1:(i[1]-1)) {
+  if (i[1] > 1) {
+    for (j in 1:(i[1] - 1)) {
       docpart <- docpart %>% officer::cursor_begin() %>% officer::body_remove()
     }
   }
@@ -66,12 +66,10 @@ partial_block_pour_docx <- function(file, heading1title, includeheader = TRUE){
 
   # pour --------------------------------------------------------------------
   # create temporary docx file
-  filename <- "tempfileplsdelete"
-  nr <- length(list.files(filename)) + 1
-  filename <- paste0(filename, nr, ".docx")
+  filename <- tempfile(fileext = ".docx")
   print(docpart, target = filename)
 
   # pour it into Rmd
-  knitr::knit_print(officer::block_pour_docx(filename))
+  return(knitr::knit_print(officer::block_pour_docx(filename)))
 
 }

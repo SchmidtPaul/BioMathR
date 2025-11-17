@@ -84,14 +84,14 @@ add_sheet <-
     )
 
     # format worksheet
-    bodyrows <- c(1:nrow(data)) + 1
+    bodyrows <- seq_len(nrow(data)) + 1
 
     ## general
     openxlsx::addStyle(
       wb = wb,
       sheet = utils::tail(openxlsx::worksheetOrder(wb), n = 1),
       style = BMbodystyle,
-      cols = c(1:ncol(data)),
+      cols = seq_len(ncol(data)),
       rows = bodyrows,
       gridExpand = TRUE
     )
@@ -142,7 +142,7 @@ add_sheet <-
         wb = wb,
         sheet = utils::tail(openxlsx::worksheetOrder(wb), n = 1),
         rows = 1,
-        cols = 1:ncol(data)
+        cols = seq_len(ncol(data))
       )
     }
 
@@ -153,7 +153,7 @@ add_sheet <-
     openxlsx::setColWidths(
       wb = wb,
       sheet = utils::tail(openxlsx::worksheetOrder(wb), n = 1),
-      cols = c(1:ncol(data)),
+      cols = seq_len(ncol(data)),
       widths = "auto"
     )
 

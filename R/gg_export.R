@@ -1,6 +1,6 @@
 #' @title Conveniently export (gg)plots
 #'
-#' @description This function is mostly a wrapper function for \code{ggplot2::ggsave()} that makes it easy to \itemize{ \item{simultaneously export a plot into pdf, svg and/or png (even multiple pngs with different dpi)} \item{immediately open the exported files in your OS}} Additionally, it offers alternatives to rendering via \code{ggplot2::ggsave()} - see arguments \code{png_from_pdf} and \code{svg_device}.
+#' @description This function is mostly a wrapper function for \code{ggplot2::ggsave()} that makes it easy to \itemize{ \item{simultaneously export a plot into pdf, svg and/or png (even multiple pngs with different dpi)} \item{immediately open the exported files in your OS (cross-platform support for Windows, macOS, and Linux)}} Additionally, it offers alternatives to rendering via \code{ggplot2::ggsave()} - see arguments \code{png_from_pdf} and \code{svg_device}.
 #'
 #' @param plot_obj Plot object to save.
 #' @param folder_path Path to the destination folder (i.e. correct: \code{"Folder/Subfolder"}, wrong: \code{"Folder/Subfolder/File.png"}).
@@ -59,6 +59,9 @@ gg_export <-
            png_from_pdf = FALSE,
            svg_device = "ggsave") {
 
+    # validate folder_path ----------------------------------------------------
+    assertthat::assert_that(dir.exists(folder_path),
+                            msg = paste0("Folder path does not exist: '", folder_path, "'"))
 
     # convert non-ggplot2 objects ---------------------------------------------
     # for a manually curated list of non-ggplot2 plot objects,
@@ -146,9 +149,7 @@ gg_export <-
 
           # prevent error: too many open devices
           # https://stackoverflow.com/questions/24207960/too-many-open-devices-r
-          for (i in grDevices::dev.list()[1]:grDevices::dev.list()[length(grDevices::dev.list())]) {
-            grDevices::dev.off()
-          }
+          grDevices::graphics.off()
         }
 
         # create png by forcing it to be copy of pdf
@@ -206,7 +207,7 @@ gg_export <-
     # open files --------------------------------------------------------------
     # open pdf
     if (pdf == "open") {
-      system(stringr::str_c('open "', pdf_path, '"'))
+      open_file(pdf_path)
     }
 
     # open png
@@ -216,12 +217,12 @@ gg_export <-
         if (length(png_dpi) > 1) {
           png_path_i <- stringr::str_replace(png_path, ".png", stringr::str_c("_", dpi_i, "dpi.png"))
         }
-        system(stringr::str_c('open "', png_path_i, '"'))
+        open_file(png_path_i)
       }
     }
 
     # open svg
     if (svg == "open") {
-      system(stringr::str_c('open "', svg_path, '"'))
+      open_file(svg_path)
     }
   }

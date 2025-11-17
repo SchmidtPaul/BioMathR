@@ -10,6 +10,7 @@
 #' @importFrom graphics pairs
 #' @importFrom grDevices cairo_pdf
 #' @importFrom grDevices dev.off
+#' @importFrom grDevices graphics.off
 #' @importFrom grDevices svg
 #' @importFrom insight format_p
 #' @importFrom knitr knit_print

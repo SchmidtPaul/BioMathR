@@ -1,6 +1,6 @@
 #' @title Save a Workbook object to Excel file
 #'
-#' @description This function is a wrapper for\code{openxlsx::saveWorkbook()}, but can also open the Excel file immediately after saving.
+#' @description This function is a wrapper for\code{openxlsx::saveWorkbook()}, but can also open the Excel file immediately after saving. File opening is cross-platform compatible (Windows, macOS, and Linux).
 #'
 #' @param wb A Workbook object to write to file
 #' @param file A character string naming an xlsx file
@@ -33,6 +33,6 @@ save_wb <-
                            ...)
 
     if (open_file) {
-      system(paste0('open "', file, '"'))
+      open_file(file)
     }
   }
