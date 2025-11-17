@@ -30,6 +30,9 @@
 #'
 #' @export
 open_file <- function(path) {
+  # Normalize to absolute path for proper file existence checking and opening
+  path <- normalizePath(path, winslash = "/", mustWork = FALSE)
+
   if (!file.exists(path)) {
     warning("File does not exist: ", path)
     return(invisible(NULL))
