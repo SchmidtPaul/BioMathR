@@ -61,6 +61,11 @@ add_test_table <- function(doc, test_num, description, df, width_param = "A4",
   # Create flextable
   ft <- flextable::flextable(df)
 
+  # Apply docx_tab() for tests 11-20
+  if (test_num >= 11) {
+    ft <- ft %>% BioMathR::docx_tab()
+  }
+
   # Capture verbose output and apply smart_fit
   if (!is.null(custom_width)) {
     captured <- capture_verbose({
@@ -91,7 +96,7 @@ add_test_table <- function(doc, test_num, description, df, width_param = "A4",
   return(doc)
 }
 
-cat("Creating 10 test tables...\n")
+cat("Creating 20 test tables (10 standard + 10 with docx_tab)...\n")
 
 # ==============================================================================
 # PORTRAIT TESTS (A4 Portrait)
@@ -216,6 +221,129 @@ doc <- add_test_table(doc, 10,
                      "4 columns, very wide content forcing auto-scale (landscape)",
                      test10_df, landscape = TRUE, prev_landscape = TRUE)
 
+# ==============================================================================
+# TESTS WITH docx_tab() - PORTRAIT
+# ==============================================================================
+
+# Test 11: Same as Test 1, but with docx_tab()
+test11_df <- data.frame(
+  ID = 1:5
+)
+doc <- add_test_table(doc, 11, "1 column, short name (with docx_tab)", test11_df,
+                     prev_landscape = TRUE)
+
+# Test 12: Same as Test 2, but with docx_tab()
+test12_df <- data.frame(
+  `This is an extremely long column name that should definitely wrap` = 1:5
+)
+names(test12_df) <- "This is an extremely long column name that should definitely wrap"
+doc <- add_test_table(doc, 12, "1 column, very long name (with docx_tab)", test12_df,
+                     prev_landscape = FALSE)
+
+# Test 13: Same as Test 3, but with docx_tab()
+test13_df <- data.frame(
+  A = 1:5,
+  B = 6:10,
+  C = 11:15
+)
+doc <- add_test_table(doc, 13, "3 columns, all short names (with docx_tab)", test13_df,
+                     prev_landscape = FALSE)
+
+# Test 14: Same as Test 4, but with docx_tab()
+test14_df <- data.frame(
+  A = 1:5,
+  B = 2:6,
+  C = 3:7,
+  D = 4:8,
+  E = 5:9,
+  F = 6:10
+)
+doc <- add_test_table(doc, 14, "6 columns, all short names (2-3 chars) (with docx_tab)", test14_df,
+                     prev_landscape = FALSE)
+
+# Test 15: Same as Test 5, but with docx_tab()
+test15_df <- data.frame(
+  `Very Long Column Name One` = 1:5,
+  `Another Extremely Long Name` = 2:6,
+  `Third Long Column Header` = 3:7,
+  `Fourth Extended Name Here` = 4:8,
+  `Fifth Long Name Column` = 5:9,
+  `Sixth And Final Long Name` = 6:10
+)
+names(test15_df) <- c("Very Long Column Name One", "Another Extremely Long Name",
+                     "Third Long Column Header", "Fourth Extended Name Here",
+                     "Fifth Long Name Column", "Sixth And Final Long Name")
+doc <- add_test_table(doc, 15, "6 columns, all long names (20+ chars) (with docx_tab)", test15_df,
+                     prev_landscape = FALSE)
+
+# Test 16: Same as Test 6, but with docx_tab()
+test16_df <- data.frame(
+  ID = 1:5,
+  `Very Long Name` = letters[1:5],
+  Nm = 1:5,
+  `Medium Length Name` = 1:5,
+  X = letters[6:10],
+  `Another Long Column Name Here` = 1:5
+)
+names(test16_df) <- c("ID", "Very Long Name", "Nm", "Medium Length Name",
+                     "X", "Another Long Column Name Here")
+doc <- add_test_table(doc, 16, "6 columns, mixed name lengths (with docx_tab)", test16_df,
+                     prev_landscape = FALSE)
+
+# Test 17: Same as Test 7, but with docx_tab()
+test17_df <- data.frame(
+  ID = 1:5,
+  Name = c("Short", "Medium length", "antidisestablishmentarianism", "Normal", "Text"),
+  Value = 10:14,
+  Category = c("A", "B", "C", "D", "E"),
+  Status = c("OK", "OK", "OK", "OK", "OK"),
+  Notes = c("Fine", "Good", "Excellent performance here", "OK", "Great")
+)
+doc <- add_test_table(doc, 17, "6 columns, one VERY long cell value (with docx_tab)", test17_df,
+                     prev_landscape = FALSE)
+
+# ==============================================================================
+# TESTS WITH docx_tab() - LANDSCAPE
+# ==============================================================================
+
+# Test 18: Same as Test 8, but with docx_tab()
+test18_df <- data.frame(matrix(1:50, nrow = 5, ncol = 10))
+names(test18_df) <- paste0("C", 1:10)
+doc <- add_test_table(doc, 18, "10 columns, short names (landscape) (with docx_tab)", test18_df,
+                     landscape = TRUE, prev_landscape = FALSE)
+
+# Test 19: Same as Test 9, but with docx_tab()
+test19_df <- data.frame(
+  Product = c("Widget A", "Widget B", "Widget C", "Widget D", "Widget E"),
+  Price = c(19.99, 29.99, 39.99, 49.99, 59.99),
+  Stock = c(100, 250, 50, 75, 125),
+  Supplier = c("ABC Corp", "XYZ Ltd", "ABC Corp", "DEF Inc", "XYZ Ltd"),
+  Rating = c(4.5, 4.8, 4.2, 4.7, 4.6)
+)
+doc <- add_test_table(doc, 19, "5 columns, custom width = 15 cm (landscape) (with docx_tab)",
+                     test19_df, landscape = TRUE, custom_width = 15,
+                     prev_landscape = TRUE)
+
+# Test 20: Same as Test 10, but with docx_tab()
+test20_df <- data.frame(
+  `First Very Long Column Name That Takes Up Space` =
+    c("Some extremely long content here", "Short", "Medium length text",
+      "Another very long piece of text that should wrap", "Brief"),
+  `Second Incredibly Long Column Header` =
+    c("More long content", "Text", "Data values here", "Information", "Content"),
+  `Third Extended Column Name` =
+    c("Lorem ipsum dolor sit amet", "Short", "Text", "More data", "Values"),
+  `Fourth And Final Long Name` =
+    c("Additional information here", "Brief", "Data", "Text values", "Info")
+)
+names(test20_df) <- c("First Very Long Column Name That Takes Up Space",
+                      "Second Incredibly Long Column Header",
+                      "Third Extended Column Name",
+                      "Fourth And Final Long Name")
+doc <- add_test_table(doc, 20,
+                     "4 columns, very wide content forcing auto-scale (landscape) (with docx_tab)",
+                     test20_df, landscape = TRUE, prev_landscape = TRUE)
+
 # End the final section as landscape
 doc <- doc %>%
   officer::body_end_section_landscape()
@@ -241,4 +369,6 @@ cat("  - All tables fit within page margins\n")
 cat("  - No unnecessary line breaks\n")
 cat("  - Column widths look balanced\n")
 cat("  - Verbose output shows correct logic\n")
+cat("  - Tests 1-10: Standard flextables\n")
+cat("  - Tests 11-20: With docx_tab() styling\n")
 cat("=========================================\n\n")
