@@ -159,24 +159,57 @@ prepare_table <- function(x) {
 unify_column_names <- function(tab, verbose = FALSE) {
   vcat <- function(...) if (verbose) cat("[docx_tab]", ..., "\n")
   unifynames <- c(
+    # Degrees of freedom
     "Df" = "df",
     "Chi.Df" = "df",
     "Df.res" = "DenDF",
+    "numDF" = "NumDF",           # nlme
+    "denDF" = "DenDF",           # nlme
+    "Resid. Df" = "df.residual", # Base R glm
+
+    # Sum of squares / Mean squares
     "Mean Sq" = "meansq",
     "Sum Sq" = "sumsq",
     "Sum of Sq" = "sumsq",
+
+    # F-values
     "F value" = "F.value",
     "F" = "F.value",
+    "F-value" = "F.value",       # nlme
+
+    # Test statistics
     "Chisq" = "statistic",
     "Chi.sq" = "statistic",
     "LR.Chisq" = "statistic",
     "LR Chisq" = "statistic",
+    "L.Ratio" = "statistic",     # nlme
+    "t.ratio" = "statistic",     # emmeans
+    "t value" = "statistic",     # multcomp
+    "z value" = "statistic",     # multcomp
+
+    # P-values
     "Pr(>F)" = "p.value",
     "P(>|Chi|)" = "p.value",
     "Pr(>|Chi|)" = "p.value",
     "Pr(>Chi)" = "p.value",
     "Pr..Chisq." = "p.value",
     "Pr..Chi." = "p.value",
+    "p-value" = "p.value",       # nlme
+    "Pr(>|t|)" = "p.value",      # multcomp
+    "Pr(>|z|)" = "p.value",      # multcomp
+
+    # Estimates and standard errors
+    "Estimate" = "estimate",     # multcomp/broom
+    "Std. Error" = "std.error",  # multcomp
+
+    # Confidence intervals
+    "lwr" = "conf.low",          # multcomp confint
+    "upr" = "conf.high",         # multcomp confint
+
+    # Deviance
+    "Deviance" = "deviance",     # Base R glm
+
+    # Row names
     ".rownames" = "term"
   )
 
@@ -247,7 +280,13 @@ rename_columns <- function(tab, lang, verbose = FALSE) {
       "meansq" = "MS",
       "p.value" = "p value",
       "sumsq" = "SS",
-      "term" = "Term"
+      "term" = "Term",
+      "df.residual" = "Resid. df",
+      "estimate" = "Estimate",
+      "std.error" = "Std. Error",
+      "conf.low" = "Lower CL",
+      "conf.high" = "Upper CL",
+      "deviance" = "Deviance"
     ),
     ger = c(
       "df" = "FG",
@@ -258,7 +297,13 @@ rename_columns <- function(tab, lang, verbose = FALSE) {
       "p.value" = "p-Wert",
       "statistic" = "Statistik",
       "sumsq" = "SQ",
-      "term" = "Term"
+      "term" = "Term",
+      "df.residual" = "Residual-FG",
+      "estimate" = "Schätzwert",
+      "std.error" = "Standardfehler",
+      "conf.low" = "Untere KG",
+      "conf.high" = "Obere KG",
+      "deviance" = "Devianz"
     )
   )
 
