@@ -34,7 +34,52 @@ docx_tab <- function(x,
                      digits = "round_smart",
                      ...) {
 
-  # format column names -----------------------------------------------------
+  # Input validation --------------------------------------------------------
+  assertthat::assert_that(
+    lang %in% c("eng", "ger"),
+    msg = "lang must be either 'eng' or 'ger'"
+  )
+
+  assertthat::assert_that(
+    is.numeric(digits) || identical(digits, "round_smart"),
+    msg = "digits must be numeric or 'round_smart'"
+  )
+
+  # Main workflow -----------------------------------------------------------
+  tab <- prepare_table(x)
+  tab <- unify_column_names(tab)
+  tab <- format_columns(tab, pvalform, digits, lang, ...)
+  tab <- rename_columns(tab, lang)
+
+
+  # Flextable ---------------------------------------------------------------
+  if (!asft) {
+    return(tab)
+  }
+
+  ftab <- create_flextable(tab, lang)
+  return(ftab)
+}
+
+# Helper functions --------------------------------------------------------
+
+#' Prepare table for formatting
+#' @noRd
+prepare_table <- function(x) {
+  # convert x into tibble
+  tab <- tibble::as_tibble(x)
+  if (tibble::has_rownames(x)) {
+    tab <- mutate(tab,
+                  .rownames = rownames(x),
+                  .before = everything())
+  }
+  colnames(tab) <- make.names(names(tab))
+  return(tab)
+}
+
+#' Unify column names to standard format
+#' @noRd
+unify_column_names <- function(tab) {
   unifynames <- c(
     "Df" = "df",
     "Chi.Df" = "df",
@@ -58,13 +103,56 @@ docx_tab <- function(x,
   )
 
   # special case for car::Anova()
-  if (all(c("Df", "Df.res") %in% colnames(x))) {
-    colnames(x)[colnames(x) == "Df"] <- "NumDF"
-    colnames(x)[colnames(x) == "Df.res"] <- "DenDF"
+  if (all(c("Df", "Df.res") %in% colnames(tab))) {
+    colnames(tab)[colnames(tab) == "Df"] <- "NumDF"
+    colnames(tab)[colnames(tab) == "Df.res"] <- "DenDF"
   }
 
   names(unifynames) <- make.names(names(unifynames))
 
+  # unify column names
+  colnames(tab) <- dplyr::recode(colnames(tab), !!!unifynames)
+
+  # handle duplicates
+  if (anyDuplicated(colnames(tab))) {
+    dups <- duplicated(colnames(tab))
+    colnames(tab)[dups] <- paste0(colnames(tab)[dups], ".", seq_len(sum(dups)))
+  }
+
+  return(tab)
+}
+
+#' Format column contents (p-values and rounding)
+#' @noRd
+format_columns <- function(tab, pvalform, digits, lang, ...) {
+  # format p-values
+  if (!is.null(pvalform)) {
+    if (length(pvalform) == 1 && all(pvalform == "p.value")) {
+      tab <- tab %>% mutate(across(
+        starts_with(pvalform),
+        ~ BioMathR::format_p(., lang = lang)))
+    } else {
+      tab <- tab %>% mutate(across(
+        any_of(pvalform),
+        ~ BioMathR::format_p(., lang = lang)))
+    }
+  }
+
+  # round all remaining numeric cols
+  if (is.numeric(digits)) {
+    tab <- tab %>%
+      mutate(across(where(is.numeric), ~ round(., digits)))
+  } else if (identical(digits, "round_smart")) {
+    tab <- tab %>%
+      mutate(across(where(is.numeric), ~ BioMathR::round_smart(., ...)))
+  }
+
+  return(tab)
+}
+
+#' Rename columns according to language
+#' @noRd
+rename_columns <- function(tab, lang) {
   renamers <- list(
     eng = c(
       "F.value" = "F value",
@@ -86,59 +174,16 @@ docx_tab <- function(x,
     )
   )
 
-  # convert x into tibble
-  tab <- tibble::as_tibble(x)
-  if (tibble::has_rownames(x)) {
-    tab <- mutate(tab,
-                  .rownames = rownames(x),
-                  .before = everything())
-  }
-  colnames(tab) <- make.names(names(tab))
+  colnames(tab) <- dplyr::recode(colnames(tab), !!!renamers[[lang]])
+  return(tab)
+}
 
-  # unify column names
-  colnames(tab) <- dplyr::recode(colnames(tab),!!!unifynames)
-
-  if (anyDuplicated(colnames(tab))) {
-    dups <- duplicated(colnames(tab))
-    colnames(tab)[dups] <- paste0(colnames(tab)[dups], ".", seq_along(dups)[dups])
-  }
-
-  # format column contents --------------------------------------------------
-  # format p-values
-  if (!is.null(pvalform)) {
-    if (length(pvalform) == 1 & all(pvalform == "p.value")) {
-      tab <- tab %>% mutate(across(
-        starts_with(pvalform),
-        ~ BioMathR::format_p(., lang = lang)))
-    } else {
-      tab <- tab %>% mutate(across(
-        any_of(pvalform),
-        ~ BioMathR::format_p(., lang = lang)))
-    }
-  }
-
-  # round all remaining numeric cols
-  if (is.numeric(digits)) {
-    tab <- tab %>%
-      mutate(across(where(is.numeric), ~ round(., digits)))
-  }
-  if (digits == "round_smart") {
-    tab <- tab %>%
-      mutate(across(where(is.numeric), ~ BioMathR::round_smart(., ...)))
-  }
-
-  # rename columns according to language
-  colnames(tab) <- dplyr::recode(colnames(tab),!!!renamers[[lang]])
-
-
-  # Flextable ---------------------------------------------------------------
-  if (!asft) {
-    return(tab)
-  }
-
+#' Create and format flextable
+#' @noRd
+create_flextable <- function(tab, lang) {
   assertthat::assert_that(
     requireNamespace("flextable", quietly = TRUE),
-    msg = "When makeft = TRUE, package 'flextable' must be installed."
+    msg = "When asft = TRUE, package 'flextable' must be installed."
   )
 
   if (lang == "ger") {
