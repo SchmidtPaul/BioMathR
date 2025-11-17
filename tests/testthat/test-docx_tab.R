@@ -138,4 +138,44 @@ test_that("duplicate column numbering with mixed duplicates", {
   expect_true("p.value.1" %in% colnames(output))
 })
 
+test_that("abbreviation footnotes work correctly", {
+  anova <- anova(lm(weight ~ group, data = PlantGrowth))
+
+  # Test that footnotes are added by default (English)
+  ftab_eng <- docx_tab(anova, lang = "eng", asft = TRUE, add_abbrev_footnote = TRUE)
+  expect_equal(class(ftab_eng), "flextable")
+
+  # Test that footnotes are added by default (German)
+  ftab_ger <- docx_tab(anova, lang = "ger", asft = TRUE, add_abbrev_footnote = TRUE)
+  expect_equal(class(ftab_ger), "flextable")
+
+  # Test that footnotes can be disabled
+  ftab_no_footnote <- docx_tab(anova, lang = "eng", asft = TRUE, add_abbrev_footnote = FALSE)
+  expect_equal(class(ftab_no_footnote), "flextable")
+
+  # Test that it works without errors for different table types
+  expect_no_error(docx_tab(anova, lang = "eng", add_abbrev_footnote = TRUE))
+  expect_no_error(docx_tab(anova, lang = "ger", add_abbrev_footnote = TRUE))
+})
+
+test_that("abbreviation footnotes work with verbose output", {
+  anova <- anova(lm(weight ~ group, data = PlantGrowth))
+
+  # Should run without errors and produce verbose output
+  expect_output(
+    ftab <- docx_tab(anova, lang = "eng", verbose = TRUE, add_abbrev_footnote = TRUE),
+    "Adding abbreviation footnotes"
+  )
+  expect_equal(class(ftab), "flextable")
+})
+
+test_that("abbreviation footnotes handle tables without abbreviations", {
+  # Create a table with no abbreviated columns
+  x <- data.frame(Category = c("A", "B"), Value = c(1, 2))
+
+  # Should not add footnotes but should not error
+  ftab <- docx_tab(x, lang = "eng", asft = TRUE, add_abbrev_footnote = TRUE)
+  expect_equal(class(ftab), "flextable")
+})
+
 options(default_opts)

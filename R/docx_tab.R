@@ -14,6 +14,7 @@
 #' @param page_width Page width for \code{fit_mode}. Can be \code{"A4"} (default), \code{"letter"}, \code{"legal"}, \code{"executive"}, or a numeric value in cm. Ignored if \code{fit_mode = "none"}.
 #' @param landscape Logical. If \code{TRUE}, use landscape orientation for standard page sizes. Default is \code{FALSE}. Ignored if \code{page_width} is numeric or \code{fit_mode = "none"}.
 #' @param verbose If \code{TRUE}, prints detailed information about transformations. Useful for debugging. Default is \code{FALSE}.
+#' @param add_abbrev_footnote If \code{TRUE} (default), adds footnotes explaining abbreviated column names (e.g., "df" = "Degrees of freedom").
 #' @param ft_padding Padding for flextable cells (in points). Default is 2.
 #' @param ft_fontsize Font size for flextable (in points). Default is 9.
 #' @param ft_border_width Border width for flextable (in points). Default is 0.1.
@@ -58,6 +59,10 @@
 #'
 #' # Fit to different page sizes
 #' docx_tab(anova, page_width = "letter", landscape = TRUE)
+#'
+#' # Control abbreviation footnotes
+#' docx_tab(anova, add_abbrev_footnote = TRUE)  # default: adds footnotes
+#' docx_tab(anova, add_abbrev_footnote = FALSE) # no footnotes
 docx_tab <- function(x,
                      lang = c("eng", "ger")[1],
                      pvalform = "p.value",
@@ -67,6 +72,7 @@ docx_tab <- function(x,
                      page_width = "A4",
                      landscape = FALSE,
                      verbose = FALSE,
+                     add_abbrev_footnote = TRUE,
                      ft_padding = 2,
                      ft_fontsize = 9,
                      ft_border_width = 0.1,
@@ -125,6 +131,12 @@ docx_tab <- function(x,
 
   vcat("\n--- Creating flextable ---")
   ftab <- create_flextable(tab, lang, ft_padding, ft_fontsize, ft_border_width, verbose = verbose)
+
+  # Add abbreviation footnotes
+  if (add_abbrev_footnote) {
+    vcat("\n--- Adding abbreviation footnotes ---")
+    ftab <- add_abbreviation_footnotes(ftab, tab, lang, verbose = verbose)
+  }
 
   # Apply fit mode
   if (fit_mode != "none") {
@@ -402,5 +414,80 @@ apply_fit_mode <- function(ftab, fit_mode, page_width, landscape, verbose = FALS
 
   }
 
+  return(ftab)
+}
+
+#' Add footnotes for abbreviated column names
+#' @noRd
+add_abbreviation_footnotes <- function(ftab, tab, lang, verbose = FALSE) {
+  vcat <- function(...) if (verbose) cat("[docx_tab]", ..., "\n")
+
+  # Define abbreviations for each language
+  abbreviations <- list(
+    eng = list(
+      "df" = "degrees of freedom",
+      "MS" = "mean squares",
+      "SS" = "sum of squares",
+      "F value" = "F-value",
+      "p value" = "p-value",
+      "NumDF" = "numerator degrees of freedom",
+      "DenDF" = "denominator degrees of freedom",
+      "Resid. df" = "residual degrees of freedom",
+      "Std. Error" = "standard error",
+      "Lower CL" = "lower confidence limit",
+      "Upper CL" = "upper confidence limit"
+    ),
+    ger = list(
+      "FG" = "Freiheitsgrade",
+      "MQ" = "Mittelquadrate",
+      "SQ" = "Summe der Quadrate",
+      "F-Wert" = "F-Wert",
+      "p-Wert" = "p-Wert",
+      "Zähler-FG" = "Zähler-Freiheitsgrade",
+      "Nenner-FG" = "Nenner-Freiheitsgrade",
+      "Residual-FG" = "Residual-Freiheitsgrade",
+      "Statistik" = "Teststatistik",
+      "Schätzwert" = "geschätzter Wert",
+      "Standardfehler" = "Standardfehler",
+      "Untere KG" = "untere Konfidenzgrenze",
+      "Obere KG" = "obere Konfidenzgrenze",
+      "Devianz" = "Devianz"
+    )
+  )
+
+  # Get the abbreviation dictionary for the selected language
+  abbrev_dict <- abbreviations[[lang]]
+
+  # Find which abbreviated columns are present in the table
+  col_names <- colnames(tab)
+  present_abbrevs <- intersect(col_names, names(abbrev_dict))
+
+  if (length(present_abbrevs) == 0) {
+    vcat("No abbreviated column names found, skipping footnotes")
+    return(ftab)
+  }
+
+  vcat("Found", length(present_abbrevs), "abbreviated columns:", paste(present_abbrevs, collapse = ", "))
+
+  # Add footnotes for each abbreviated column
+  for (i in seq_along(present_abbrevs)) {
+    col_name <- present_abbrevs[i]
+    col_idx <- which(col_names == col_name)
+    full_text <- abbrev_dict[[col_name]]
+
+    vcat(sprintf("  Adding footnote %d: '%s' = '%s'", i, col_name, full_text))
+
+    # Add footnote to the column
+    ftab <- ftab %>%
+      flextable::footnote(
+        i = 1,
+        j = col_idx,
+        value = flextable::as_paragraph(full_text),
+        ref_symbols = as.character(i),
+        part = "header"
+      )
+  }
+
+  vcat("Added", length(present_abbrevs), "abbreviation footnotes")
   return(ftab)
 }
