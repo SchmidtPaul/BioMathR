@@ -38,7 +38,7 @@ get_residual_plots <-
 
 
     # Homoscedasticity --------------------------------------------------------
-    if (class(model) %in% c("lm", "lmerMod", "lmerModLmerTest")) {
+    if (inherits(model, c("lm", "lmerMod", "lmerModLmerTest"))) {
       rp1 <- plot(performance::check_heteroscedasticity(model))
     } else if (inherits(model, "glmmTMB")) {
       x <- data.frame(
@@ -95,7 +95,7 @@ get_residual_plots <-
 
 
     # Normality ---------------------------------------------------------------
-    if (class(model) %in% c("lm", "lmerMod", "lmerModLmerTest")) {
+    if (inherits(model, c("lm", "lmerMod", "lmerModLmerTest"))) {
       rp2 <- plot(performance::check_normality(model), type = "qq")
     } else if (inherits(model, "glmmTMB")) {
 

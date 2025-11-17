@@ -59,6 +59,10 @@ desplot_across <-
 
     dps <- list()
 
+    # validate vars parameter
+    assertthat::assert_that(length(vars) > 0,
+                            msg = "'vars' must contain at least one variable name")
+
     # add copies of row & column variables given in form as "row" & "col"
     colrow <- str_extract_all(formright, "\\w+")[[1]][1:2]
     data$col <- data[[colrow[1]]]

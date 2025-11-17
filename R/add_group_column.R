@@ -22,7 +22,7 @@ add_group_column <- function(data, name, group_by = NULL) {
   } else {
     data <- data %>%
       group_by(across(all_of(group_by))) %>%
-      mutate(temp____col = paste0(name, str_pad(cur_group_id(), width = 2, pad = "0")) %>% as.factor()) %>%
+      mutate(temp____col = paste0(name, stringr::str_pad(cur_group_id(), width = 2, pad = "0")) %>% as.factor()) %>%
       ungroup()
 
     names(data)[which(names(data) == "temp____col")] <- name

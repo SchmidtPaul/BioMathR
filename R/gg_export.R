@@ -59,6 +59,9 @@ gg_export <-
            png_from_pdf = FALSE,
            svg_device = "ggsave") {
 
+    # validate folder_path ----------------------------------------------------
+    assertthat::assert_that(dir.exists(folder_path),
+                            msg = paste0("Folder path does not exist: '", folder_path, "'"))
 
     # convert non-ggplot2 objects ---------------------------------------------
     # for a manually curated list of non-ggplot2 plot objects,
@@ -146,9 +149,7 @@ gg_export <-
 
           # prevent error: too many open devices
           # https://stackoverflow.com/questions/24207960/too-many-open-devices-r
-          for (i in grDevices::dev.list()[1]:grDevices::dev.list()[length(grDevices::dev.list())]) {
-            grDevices::dev.off()
-          }
+          grDevices::graphics.off()
         }
 
         # create png by forcing it to be copy of pdf

@@ -10,7 +10,7 @@
 
 emmeans_BM <- function(...) {
   # Display a warning about the deprecation
-  .Deprecated(new = "get_emmeans", package = "your_package_name", msg = "emmeans_BM will be deprecated in a future version. Please use get_emmeans instead.")
+  .Deprecated(new = "get_emmeans", package = "BioMathR", msg = "emmeans_BM will be deprecated in a future version. Please use get_emmeans instead.")
 
   # Call the new function
   get_emmeans(...)

@@ -37,7 +37,7 @@ describe <-
            addstats = character(),
            ...) {
 
-  Variable <- NAMESNAMES <- VALUESVALUES <- STATSTAT <- NULL # avoid package check warning
+  Variable <- temp_names <- temp_values <- temp_stat <- NULL # avoid package check warning
 
   data <- data %>% select(all_of(group_vars(data)), all_of(yvars))
 
@@ -67,9 +67,9 @@ describe <-
       Skewness_fn)
     )) %>%
     suppressMessages() %>%
-    tidyr::pivot_longer(cols = -all_of(group_vars(data)), names_to = "NAMESNAMES" , values_to = "VALUESVALUES") %>%
-    tidyr::separate(NAMESNAMES, into = c("Variable", "STATSTAT"), sep = "__________") %>%
-    tidyr::pivot_wider(names_from = STATSTAT, values_from = VALUESVALUES) %>%
+    tidyr::pivot_longer(cols = -all_of(group_vars(data)), names_to = "temp_names" , values_to = "temp_values") %>%
+    tidyr::separate(temp_names, into = c("Variable", "temp_stat"), sep = "__________") %>%
+    tidyr::pivot_wider(names_from = temp_stat, values_from = temp_values) %>%
     select(Variable, everything()) %>%
     arrange(Variable)
 

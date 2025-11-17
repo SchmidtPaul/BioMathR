@@ -41,7 +41,7 @@ cond_format <- function(wb,
   }
 
   # get row index for rows to be conditionally formatted
-  rowindex <- (1:nrow(dat_copy))+1
+  rowindex <- seq_len(nrow(dat_copy)) + 1
 
 
   # docolourScale -----------------------------------------------------------

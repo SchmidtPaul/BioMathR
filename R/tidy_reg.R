@@ -152,22 +152,3 @@ tidy_reg.openair<- function(x, reg_dat, n_preds = 10, ..., adjust_x0 = TRUE){
 
   return(out)
 }
-
-# library(tidyverse)
-#
-# dtidx <-
-#   seq(
-#     from = lubridate::ymd_h("2020010100"),
-#     to = lubridate::ymd_h("2022123123"),
-#     by = "hour"
-#   )
-#
-# dat <- tibble(date = dtidx,
-#               T = rnorm(length(dtidx), mean = 15, sd = 5)) %>%
-#   mutate(year = difftime(date, min(date) , units = "days") %>% as.numeric())
-#
-# reg_lm <- lm(T ~ year,  data = dat)
-# reg_ts <- openair::TheilSen(dat, pollutant = "T")
-#
-# library(BioMathR)
-# tidy_reg(reg_lm)

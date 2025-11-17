@@ -35,8 +35,11 @@ smart_fit <- function(ft,
     )
     matched_width <- standard_widths[standard_widths$type == width, ]
     margin <- ifelse(page_margin == "default", matched_width$total_margin, page_margin)
-    total_width <- ifelse(landscape, matched_width$landscape, matched_width$portrait) - margin
+    final_width <- ifelse(landscape, matched_width$landscape, matched_width$portrait) - margin
   }
+
+  # Set total_width as the maximum allowed width
+  total_width <- final_width
 
   # get widths information
   wi <- data.frame(
