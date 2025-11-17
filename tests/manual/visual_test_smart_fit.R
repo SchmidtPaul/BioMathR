@@ -36,18 +36,20 @@ capture_verbose <- function(expr) {
 
 # Helper function to add a test table to the document
 add_test_table <- function(doc, test_num, description, df, width_param = "A4",
-                          landscape = FALSE, custom_width = NULL) {
+                          landscape = FALSE, custom_width = NULL,
+                          prev_landscape = FALSE) {
 
   cat(sprintf("  ✓ Table %d: %s\n", test_num, description))
 
-  # Change page orientation if needed
-  if (landscape) {
-    doc <- doc %>%
-      officer::body_end_section_landscape()
-  } else if (test_num > 1) {
-    # Add page break before new table (except first)
-    doc <- doc %>%
-      officer::body_add_break()
+  # Add section break with orientation based on PREVIOUS test
+  if (test_num > 1) {
+    if (prev_landscape) {
+      doc <- doc %>%
+        officer::body_end_section_landscape()
+    } else {
+      doc <- doc %>%
+        officer::body_end_section_portrait()
+    }
   }
 
   # Add title
@@ -99,14 +101,16 @@ cat("Creating 10 test tables...\n")
 test1_df <- data.frame(
   ID = 1:5
 )
-doc <- add_test_table(doc, 1, "1 column, short name", test1_df)
+doc <- add_test_table(doc, 1, "1 column, short name", test1_df,
+                     prev_landscape = FALSE)
 
 # Test 2: Single column, very long name
 test2_df <- data.frame(
   `This is an extremely long column name that should definitely wrap` = 1:5
 )
 names(test2_df) <- "This is an extremely long column name that should definitely wrap"
-doc <- add_test_table(doc, 2, "1 column, very long name", test2_df)
+doc <- add_test_table(doc, 2, "1 column, very long name", test2_df,
+                     prev_landscape = FALSE)
 
 # Test 3: Three columns, all short names
 test3_df <- data.frame(
@@ -114,7 +118,8 @@ test3_df <- data.frame(
   B = 6:10,
   C = 11:15
 )
-doc <- add_test_table(doc, 3, "3 columns, all short names", test3_df)
+doc <- add_test_table(doc, 3, "3 columns, all short names", test3_df,
+                     prev_landscape = FALSE)
 
 # Test 4: Six columns, all short names
 test4_df <- data.frame(
@@ -125,7 +130,8 @@ test4_df <- data.frame(
   E = 5:9,
   F = 6:10
 )
-doc <- add_test_table(doc, 4, "6 columns, all short names (2-3 chars)", test4_df)
+doc <- add_test_table(doc, 4, "6 columns, all short names (2-3 chars)", test4_df,
+                     prev_landscape = FALSE)
 
 # Test 5: Six columns, all long names
 test5_df <- data.frame(
@@ -139,7 +145,8 @@ test5_df <- data.frame(
 names(test5_df) <- c("Very Long Column Name One", "Another Extremely Long Name",
                      "Third Long Column Header", "Fourth Extended Name Here",
                      "Fifth Long Name Column", "Sixth And Final Long Name")
-doc <- add_test_table(doc, 5, "6 columns, all long names (20+ chars)", test5_df)
+doc <- add_test_table(doc, 5, "6 columns, all long names (20+ chars)", test5_df,
+                     prev_landscape = FALSE)
 
 # Test 6: Six columns, mixed name lengths
 test6_df <- data.frame(
@@ -152,7 +159,8 @@ test6_df <- data.frame(
 )
 names(test6_df) <- c("ID", "Very Long Name", "Nm", "Medium Length Name",
                      "X", "Another Long Column Name Here")
-doc <- add_test_table(doc, 6, "6 columns, mixed name lengths", test6_df)
+doc <- add_test_table(doc, 6, "6 columns, mixed name lengths", test6_df,
+                     prev_landscape = FALSE)
 
 # Test 7: Six columns, one very long cell value
 test7_df <- data.frame(
@@ -163,7 +171,8 @@ test7_df <- data.frame(
   Status = c("OK", "OK", "OK", "OK", "OK"),
   Notes = c("Fine", "Good", "Excellent performance here", "OK", "Great")
 )
-doc <- add_test_table(doc, 7, "6 columns, one VERY long cell value", test7_df)
+doc <- add_test_table(doc, 7, "6 columns, one VERY long cell value", test7_df,
+                     prev_landscape = FALSE)
 
 # ==============================================================================
 # LANDSCAPE TESTS (A4 Landscape)
@@ -173,7 +182,7 @@ doc <- add_test_table(doc, 7, "6 columns, one VERY long cell value", test7_df)
 test8_df <- data.frame(matrix(1:50, nrow = 5, ncol = 10))
 names(test8_df) <- paste0("C", 1:10)
 doc <- add_test_table(doc, 8, "10 columns, short names (landscape)", test8_df,
-                     landscape = TRUE)
+                     landscape = TRUE, prev_landscape = FALSE)
 
 # Test 9: Five columns, constrained custom width (landscape)
 test9_df <- data.frame(
@@ -184,7 +193,8 @@ test9_df <- data.frame(
   Rating = c(4.5, 4.8, 4.2, 4.7, 4.6)
 )
 doc <- add_test_table(doc, 9, "5 columns, custom width = 15 cm (landscape)",
-                     test9_df, landscape = TRUE, custom_width = 15)
+                     test9_df, landscape = TRUE, custom_width = 15,
+                     prev_landscape = TRUE)
 
 # Test 10: Four columns, content already too wide (forcing auto-scale)
 test10_df <- data.frame(
@@ -204,7 +214,11 @@ names(test10_df) <- c("First Very Long Column Name That Takes Up Space",
                       "Fourth And Final Long Name")
 doc <- add_test_table(doc, 10,
                      "4 columns, very wide content forcing auto-scale (landscape)",
-                     test10_df, landscape = TRUE)
+                     test10_df, landscape = TRUE, prev_landscape = TRUE)
+
+# End the final section as landscape
+doc <- doc %>%
+  officer::body_end_section_landscape()
 
 # ==============================================================================
 # Save and open document
