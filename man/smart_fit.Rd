@@ -8,7 +8,8 @@ smart_fit(
   ft,
   width = c("A4", "letter", "legal", "executive")[1],
   landscape = FALSE,
-  page_margin = "default"
+  page_margin = "default",
+  verbose = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ smart_fit(
 \item{landscape}{If \code{TRUE}, landscape width for standard paper size provided in \code{width} is used. Default is \code{FALSE}, i.e. portrait width. Ignored if \code{width} is provided as a numeric value.}
 
 \item{page_margin}{Total page margin (sum of left and right margin) that is subtracted from the total page width of the standard paper width provided in \code{width}. Ignored if \code{width} is provided as a numeric value.}
+
+\item{verbose}{If \code{TRUE}, prints detailed information about width calculations. Useful for debugging. Default is \code{FALSE}.}
 }
 \description{
 Adjust column widths for flextables

@@ -24,5 +24,5 @@ save_wb(
 \item{...}{Other arguments passed to\code{openxlsx::saveWorkbook()}}
 }
 \description{
-This function is a wrapper for\code{openxlsx::saveWorkbook()}, but can also open the Excel file immediately after saving.
+This function is a wrapper for\code{openxlsx::saveWorkbook()}, but can also open the Excel file immediately after saving. File opening is cross-platform compatible (Windows, macOS, and Linux).
 }
