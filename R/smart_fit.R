@@ -79,8 +79,13 @@ smart_fit <- function(ft,
   # Convert inches to cm
   wi <- wi %>% dplyr::mutate(dplyr::across(c(min_head, min_body), function(x) {x * 2.54}))
 
+  # Add buffer like autofit() does (0.1 inches = 0.254 cm per column)
+  # dim_pretty() returns absolute minimum, but rendering needs this buffer
+  buffer_cm <- 0.254
+  wi <- wi %>% dplyr::mutate(dplyr::across(c(min_head, min_body), function(x) {x + buffer_cm}))
+
   if (verbose) {
-    vcat("\nColumn width requirements (in cm):")
+    vcat("\nColumn width requirements (in cm, with autofit buffer):")
     for (i in seq_len(nrow(wi))) {
       vcat(sprintf("  %-25s | header: %5.2f | body: %5.2f",
                    wi$name[i], wi$min_head[i], wi$min_body[i]))
