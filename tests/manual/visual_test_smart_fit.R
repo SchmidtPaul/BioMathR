@@ -65,11 +65,6 @@ add_test_table <- function(doc, test_num, description, df, width_param = "A4",
     ft <- flextable::flextable(df)
   }
 
-  # Apply docx_tab() for tests 11-20
-  if (test_num >= 11) {
-    ft <- ft %>% BioMathR::docx_tab()
-  }
-
   # Capture verbose output and apply smart_fit
   if (!is.null(custom_width)) {
     captured <- capture_verbose({
