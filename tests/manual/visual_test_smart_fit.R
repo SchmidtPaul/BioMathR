@@ -58,8 +58,12 @@ add_test_table <- function(doc, test_num, description, df, width_param = "A4",
                          style = "heading 1") %>%
     officer::body_add_par(" ")
 
-  # Create flextable
-  ft <- flextable::flextable(df)
+  # Create flextable (with docx_tab for tests 11-20)
+  if (test_num >= 11) {
+    ft <- df %>% BioMathR::docx_tab()
+  } else {
+    ft <- flextable::flextable(df)
+  }
 
   # Apply docx_tab() for tests 11-20
   if (test_num >= 11) {
