@@ -40,7 +40,9 @@ test_that("flextable does not throw error/warning", {
 
 test_that("docx_tab unifies column names correctly", {
   x <- data.frame(`Pr(>Chi)` = 1:3, `Chisq` = 4:6, `P(>|Chi|)` = 7:9)
-  expected_output <- tibble("p value" = rep(">.999", 3), statistic = 4:6, p.value.3 = rep(">.999", 3))
+  # After unification: p.value, statistic, p.value (duplicate)
+  # Duplicate should be numbered .1 (first duplicate), not .3 (old bug)
+  expected_output <- tibble("p value" = rep(">.999", 3), statistic = 4:6, p.value.1 = rep(">.999", 3))
   output <- docx_tab(x, asft = FALSE)
   expect_equal(output, expected_output)
 })
@@ -66,6 +68,74 @@ test_that("round_smart works in docx_tab", {
   )
   expect_no_warning(output <- as.data.frame(docx_tab(before, asft = FALSE, signif_digits = 2, max_digits = 10)))
   expect_equal(output, expected_output)
+})
+
+test_that("input validation works correctly", {
+  anova <- anova(lm(weight ~ group, data = PlantGrowth))
+
+  # Invalid lang parameter
+  expect_error(
+    docx_tab(anova, lang = "french"),
+    "lang must be either 'eng' or 'ger'"
+  )
+
+  expect_error(
+    docx_tab(anova, lang = "spanish"),
+    "lang must be either 'eng' or 'ger'"
+  )
+
+  # Invalid digits parameter
+  expect_error(
+    docx_tab(anova, digits = "invalid"),
+    "digits must be numeric or 'round_smart'"
+  )
+
+  expect_error(
+    docx_tab(anova, digits = TRUE),
+    "digits must be numeric or 'round_smart'"
+  )
+
+  # Valid parameters should not error
+  expect_no_error(docx_tab(anova, lang = "eng", digits = 2))
+  expect_no_error(docx_tab(anova, lang = "ger", digits = "round_smart"))
+})
+
+test_that("duplicate column numbering works with multiple duplicates", {
+  # Test with 3 columns that all become the same name
+  x <- data.frame(
+    `Pr(>F)` = 1:3,
+    `Pr(>Chi)` = 4:6,
+    `P(>|Chi|)` = 7:9
+  )
+
+  output <- docx_tab(x, asft = FALSE)
+
+  # First p.value is not numbered, duplicates are numbered .1, .2
+  expect_true("p value" %in% colnames(output))
+  expect_true("p.value.1" %in% colnames(output))
+  expect_true("p.value.2" %in% colnames(output))
+
+  # Check values are preserved
+  expect_equal(as.character(output[[1]]), rep(">.999", 3))
+  expect_equal(as.character(output[[2]]), rep(">.999", 3))
+  expect_equal(as.character(output[[3]]), rep(">.999", 3))
+})
+
+test_that("duplicate column numbering with mixed duplicates", {
+  # Test with some duplicates
+  x <- data.frame(
+    A = 1:3,
+    `Pr(>F)` = 4:6,
+    B = 7:9,
+    `Pr(>Chi)` = 10:12
+  )
+
+  output <- docx_tab(x, asft = FALSE)
+
+  # Should have: A, p value, B, p.value.1
+  expect_equal(ncol(output), 4)
+  expect_true("p value" %in% colnames(output))
+  expect_true("p.value.1" %in% colnames(output))
 })
 
 options(default_opts)
