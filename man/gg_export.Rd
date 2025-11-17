@@ -48,7 +48,7 @@ gg_export(
 \item{svg_device}{If \code{"svg"}, the svg file is not exported via \code{ggplot2::ggsave(..., device = "svg")}, but instead via \code{grDevices::svg()}/\code{grDevices::dev.off()}. This can in some cases circumvent issues with e.g. transparency.}
 }
 \description{
-This function is mostly a wrapper function for \code{ggplot2::ggsave()} that makes it easy to \itemize{ \item{simultaneously export a plot into pdf, svg and/or png (even multiple pngs with different dpi)} \item{immediately open the exported files in your OS}} Additionally, it offers alternatives to rendering via \code{ggplot2::ggsave()} - see arguments \code{png_from_pdf} and \code{svg_device}.
+This function is mostly a wrapper function for \code{ggplot2::ggsave()} that makes it easy to \itemize{ \item{simultaneously export a plot into pdf, svg and/or png (even multiple pngs with different dpi)} \item{immediately open the exported files in your OS (cross-platform support for Windows, macOS, and Linux)}} Additionally, it offers alternatives to rendering via \code{ggplot2::ggsave()} - see arguments \code{png_from_pdf} and \code{svg_device}.
 }
 \examples{
 \dontrun{

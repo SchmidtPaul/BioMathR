@@ -2,7 +2,7 @@
 % Please edit documentation in R/project_setup.R
 \name{project_setup}
 \alias{project_setup}
-\title{Intitiate an R-project}
+\title{Initiate an R-project}
 \usage{
 project_setup()
 }
@@ -10,7 +10,7 @@ project_setup()
 Prints a success message if the directories and setup file are created successfully.
 }
 \description{
-This function intitiates a new R-project with the typical folder structure
+This function initiates a new R-project with the typical folder structure
 and a \code{00 setup.R} file.
 }
 \details{

@@ -4,14 +4,23 @@
 #' @param width Maximum width allowed for the table. Can be a numeric value (in cm) or one of the following strings referring to standard paper sizes \code{"A4"} (=default), \code{"letter"}, \code{"legal"} or \code{"executive"}.
 #' @param landscape If \code{TRUE}, landscape width for standard paper size provided in \code{width} is used. Default is \code{FALSE}, i.e. portrait width. Ignored if \code{width} is provided as a numeric value.
 #' @param page_margin Total page margin (sum of left and right margin) that is subtracted from the total page width of the standard paper width provided in \code{width}. Ignored if \code{width} is provided as a numeric value.
+#' @param verbose If \code{TRUE}, prints detailed information about width calculations. Useful for debugging. Default is \code{FALSE}.
 #'
 #' @export
 smart_fit <- function(ft,
                      width = c("A4", "letter", "legal", "executive")[1],
                      landscape = FALSE,
-                     page_margin = "default") {
+                     page_margin = "default",
+                     verbose = FALSE) {
 
-  make_wider <- min_body <- min_body_lwrd <- min_head <- min_head_lwrd <- NULL # avoid package check warning
+  min_body <- min_head <- ideal_width <- NULL # avoid package check warning
+
+  # Helper function for verbose output
+  vcat <- function(...) {
+    if (verbose) cat("[smart_fit]", ..., "\n")
+  }
+
+  vcat("Starting smart_fit for flextable...")
 
   # Check if 'ft' is a flextable object
   if (!inherits(ft, "flextable")) {
@@ -22,9 +31,18 @@ smart_fit <- function(ft,
   # get underlying data.frame
   df <- ft$body$dataset
 
-  # Determine final_width of table
+  # Check for empty data frame
+  if (nrow(df) == 0 || ncol(df) == 0) {
+    warning("Flextable has no data (0 rows or 0 columns). Returning unchanged.")
+    return(ft)
+  }
+
+  vcat("Data frame has", nrow(df), "rows and", ncol(df), "columns")
+
+  # Determine page width
   if (is.numeric(width)) {
-    final_width <- width
+    page_width <- width
+    vcat("Using numeric width:", page_width, "cm")
   } else {
     standard_widths <- data.frame(
       type = c("A4", "letter", "legal", "executive"),
@@ -33,99 +51,120 @@ smart_fit <- function(ft,
       total_margin = c(4.8, 3, 3, 3),
       stringsAsFactors = FALSE
     )
+
+    # Validate width parameter
+    assertthat::assert_that(width %in% standard_widths$type,
+                            msg = paste0("Invalid width type '", width, "'. Must be one of: ",
+                                        paste(standard_widths$type, collapse = ", ")))
+
     matched_width <- standard_widths[standard_widths$type == width, ]
     margin <- ifelse(page_margin == "default", matched_width$total_margin, page_margin)
-    final_width <- ifelse(landscape, matched_width$landscape, matched_width$portrait) - margin
+    page_width <- ifelse(landscape, matched_width$landscape, matched_width$portrait) - margin
+
+    vcat("Using", width, ifelse(landscape, "landscape", "portrait"),
+         "- Width:", ifelse(landscape, matched_width$landscape, matched_width$portrait),
+         "cm, Margin:", margin, "cm, Available:", page_width, "cm")
   }
 
-  # Set total_width as the maximum allowed width
-  total_width <- final_width
+  vcat("\n--- Calculating width requirements ---")
 
-  # get widths information
+  # Get width requirements from flextable
   wi <- data.frame(
     name = names(df),
     min_head = flextable::dim_pretty(ft, part = "header")$widths,
     min_body = flextable::dim_pretty(ft, part = "body")$widths,
-    min_head_lwrd = sapply(names(df), function(col_name) {
-      words <- unlist(strsplit(col_name, " "))
-      word_fts <- lapply(words, function(word) {
-        word_ft <- flextable::flextable(data.frame(value = word, check.names = FALSE))
-        flextable::dim_pretty(word_ft, part = "body")$widths[1]
-      })
-      max(unlist(word_fts))
-    }),
-    min_body_lwrd = sapply(names(df), function(col_name) {
-      words <- unlist(strsplit(as.character(df[[col_name]]), " "))
-      sorted_words <- sort(words, decreasing = TRUE, method = "radix", index.return = FALSE, na.last = NA)
-      top_words <- utils::head(sorted_words, 3)
-      word_fts <- lapply(top_words, function(word) {
-        word_ft <- flextable::flextable(data.frame(value = word, check.names = FALSE))
-        flextable::dim_pretty(word_ft, part = "body")$widths[1]
-      })
-      max(unlist(word_fts))
-    }),
     row.names = NULL
   )
 
-  # inch -> cm
-  wi <- wi %>% mutate(across(contains("min_"), function(x) {x * 2.54}))
+  # Convert inches to cm
+  wi <- wi %>% dplyr::mutate(dplyr::across(c(min_head, min_body), function(x) {x * 2.54}))
 
-  # function to check if flextable has reached maximum width
-  toowide <- function(wi){sum(wi$final_width) > total_width}
+  # Add buffer like autofit() does (0.1 inches = 0.254 cm per column)
+  # dim_pretty() returns absolute minimum, but rendering needs this buffer
+  buffer_cm <- 0.254
+  wi <- wi %>% dplyr::mutate(dplyr::across(c(min_head, min_body), function(x) {x + buffer_cm}))
 
-  # default final_width: longest word
-  wi <- mutate(wi, final_width = pmax(min_head_lwrd, min_body_lwrd))
-
-  if (toowide(wi)) {
-    ft <- flextable::autofit(ft)
-    warning("Even default width of longest word per column is already too wide!\n 'flextable::autofit(ft)' is applied")
-    return(ft)
+  if (verbose) {
+    vcat("\nColumn width requirements (in cm, with autofit buffer):")
+    for (i in seq_len(nrow(wi))) {
+      vcat(sprintf("  %-25s | header: %5.2f | body: %5.2f",
+                   wi$name[i], wi$min_head[i], wi$min_body[i]))
+    }
   }
 
-  # Allow column names that are only slightly longer than final_width
-  wi2 <- wi %>% mutate(
-    final_width = case_when(
-      0.8 < final_width / min_head & final_width / min_head < 1 ~ min_head,
-      TRUE ~ final_width
-    )
-  )
+  # Calculate ideal width (width needed to eliminate all line breaks)
+  wi <- wi %>% dplyr::mutate(ideal_width = pmax(min_head, min_body))
 
-  if (!toowide(wi2)) {wi <- wi2}
+  total_ideal <- sum(wi$ideal_width)
 
-  # Allow cell contents that are only slightly longer that final_width
-  wi2 <- wi %>% mutate(
-    final_width = case_when(
-      0.8 < final_width / min_body & final_width / min_body < 1 ~ min_body,
-      TRUE ~ final_width
-    )
-  )
+  vcat("\n--- Determining final column widths ---")
+  vcat(sprintf("Ideal total width (no line breaks): %.2f cm", total_ideal))
+  vcat(sprintf("Page width available: %.2f cm", page_width))
 
-  if (!toowide(wi2)) {wi <- wi2}
+  # NEW SIMPLIFIED LOGIC
+  if (total_ideal <= page_width) {
+    # Case 1: Everything fits without breaks - use ideal widths
+    vcat("\n✓ All content fits without line breaks!")
+    vcat(sprintf("  Using ideal widths (table will be %.2f cm wide)", total_ideal))
+    vcat(sprintf("  Unused space: %.2f cm", page_width - total_ideal))
 
-  # Allow extra width for all columns that could still be wider because of their content
-  wi2 <- wi %>% mutate(make_wider = min_body > final_width) # which columns wanted to be wider
-  remaining_width <- total_width - sum(wi2$final_width) # how much width is left
-  p_remain <- wi2[wi2$make_wider, "min_body"] / sum(wi2[wi2$make_wider, "min_body"]) # proportional desired width
-  wi2[wi2$make_wider, "final_width"] <- wi2[wi2$make_wider, "final_width"] + p_remain * remaining_width # distribute width proportionally
+    wi <- wi %>% dplyr::mutate(final_width = ideal_width)
 
-  wi2 <- wi2 %>%
-    mutate(final_width = if_else(
-      make_wider & final_width > pmax(min_head, min_body, min_head_lwrd, min_body_lwrd),
-      pmax(min_head, min_body, min_head_lwrd, min_body_lwrd),
-      final_width
-    ))
+  } else {
+    # Case 2: Content too wide - need to scale down proportionally
+    vcat("\n⚠ Content too wide to fit without line breaks")
+    vcat(sprintf("  Need %.2f cm, but only %.2f cm available", total_ideal, page_width))
 
-  if (!toowide(wi2)) {wi <- wi2}
+    # Special case: If we're close to page width (within 2.2 cm), just use full width
+    if (total_ideal >= (page_width - 2.2)) {
+      vcat("  Content is close to page width, using full page width")
+      vcat("  Distributing line breaks proportionally across columns")
+    } else {
+      vcat("  Distributing line breaks proportionally across columns")
+    }
 
-  # If there is still remaining width, remove line breaks for columns that are relatively narrow (e.g. "A 2")
-  if (sum(wi$final_width) < total_width) {
-    wi2 <- wi %>% mutate(final_width = if_else(
-      min_head > final_width & min_head < 3,
-      min_head,
-      final_width
-    ))
+    # Scale proportionally: each column gets (ideal_width / total_ideal) × page_width
+    wi <- wi %>%
+      dplyr::mutate(final_width = (ideal_width / total_ideal) * page_width)
 
-    if (!toowide(wi2)) {wi <- wi2}
+    if (verbose) {
+      vcat("\nProportional distribution:")
+      for (i in seq_len(nrow(wi))) {
+        pct <- (wi$ideal_width[i] / total_ideal) * 100
+        vcat(sprintf("  %-25s | %.1f%% of total = %.2f cm",
+                     wi$name[i], pct, wi$final_width[i]))
+      }
+    }
+  }
+
+  # Final validation
+  vcat("\n--- Final validation ---")
+  final_total <- sum(wi$final_width)
+  vcat(sprintf("Final table width: %.2f cm (limit: %.2f cm)", final_total, page_width))
+
+  if (final_total > page_width + 0.01) {  # Allow tiny rounding error
+    # Safety check - should not happen with new logic, but just in case
+    scale_factor <- page_width / final_total
+    wi <- wi %>% dplyr::mutate(final_width = final_width * scale_factor)
+    warning(sprintf("Table was %.2f cm too wide. Scaled all columns by %.1f%% to fit.",
+                    final_total - page_width, scale_factor * 100))
+    vcat("  SCALED DOWN by", sprintf("%.1f%%", scale_factor * 100), "to fit")
+    final_total <- sum(wi$final_width)
+  }
+
+  if (final_total < page_width - 0.01) {
+    unused <- page_width - final_total
+    vcat(sprintf("  ✓ Table fits with %.2f cm unused (intentional - minimizes line breaks)", unused))
+  } else {
+    vcat("  ✓ Table uses full page width")
+  }
+
+  if (verbose) {
+    vcat("\nFinal column widths:")
+    for (i in seq_len(nrow(wi))) {
+      vcat(sprintf("  %-25s | %.2f cm", wi$name[i], wi$final_width[i]))
+    }
+    vcat(sprintf("\nTotal: %.2f cm / %.2f cm available\n", final_total, page_width))
   }
 
   # Apply widths to flextable
