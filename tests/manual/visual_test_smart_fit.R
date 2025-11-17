@@ -74,7 +74,7 @@ add_test_table <- function(doc, test_num, description, df, width_param = "A4",
 
   # Add the fitted table
   doc <- doc %>%
-    officer::body_add_flextable(captured$result) %>%
+    flextable::body_add_flextable(captured$result) %>%
     officer::body_add_par(" ") %>%
     officer::body_add_par("Verbose Output:", style = "heading 2") %>%
     officer::body_add_par(" ")
