@@ -1,0 +1,6 @@
+# Ignore all generated output files from manual tests
+*.docx
+*.xlsx
+*.pdf
+*.png
+*.html
