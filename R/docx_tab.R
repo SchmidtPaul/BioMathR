@@ -326,7 +326,7 @@ apply_fit_mode <- function(ftab, fit_mode, page_width, landscape, verbose = FALS
     # Extract the proportions and scale to full page width
     # Get smart_fit widths
     smart_widths <- ftab_smart$col_keys
-    current_widths <- flextable::dim(ftab_smart)$widths
+    current_widths <- flextable::flextable_dim(ftab_smart)$widths
 
     # Calculate available page width in inches (smart_fit returns inches)
     if (is.numeric(page_width)) {
