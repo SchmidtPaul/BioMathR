@@ -107,18 +107,27 @@ test_that("smart_fit verbose parameter works", {
 })
 
 test_that("smart_fit handles data frames with empty data", {
-  # Empty data frame
-  df_empty <- data.frame()
+  # Note: flextable::flextable() itself errors on completely empty data frames
+  # So we test smart_fit's handling directly
+
+  # Create a flextable with data, then manually clear it to simulate empty case
+  df_with_data <- data.frame(A = 1, B = 2)
+  ft <- flextable::flextable(df_with_data)
+
+  # Manually set empty dataset to test smart_fit's empty data handling
+  ft$body$dataset <- data.frame()
 
   expect_warning(
-    smart_fit(flextable::flextable(df_empty)),
+    smart_fit(ft),
     "no data"
   )
 
-  # Data frame with 0 rows
+  # Data frame with 0 rows but columns defined
   df_zero_rows <- data.frame(A = numeric(0), B = character(0))
+  ft_zero <- flextable::flextable(df_zero_rows)
+
   expect_warning(
-    smart_fit(flextable::flextable(df_zero_rows)),
+    smart_fit(ft_zero),
     "no data"
   )
 })
@@ -131,14 +140,21 @@ test_that("smart_fit converts non-flextable objects", {
   expect_s3_class(result, "flextable")
 })
 
-test_that("smart_fit produces warnings for extremely wide tables", {
+test_that("smart_fit handles extremely wide tables without warning", {
   # Create a table with many columns with long names
   df <- data.frame(matrix(1:100, nrow = 5))
   names(df) <- paste("Very Long Column Name Number", 1:20)
   ft <- flextable::flextable(df)
 
-  # Should produce a warning about being too wide or using autofit
-  expect_warning(smart_fit(ft, width = 10), "too wide|autofit")
+  # New smart_fit logic handles wide tables by proportional scaling
+  # It should NOT produce a warning - just scale down to fit
+  expect_no_warning(result <- smart_fit(ft, width = 10))
+
+  # Verify it returns a flextable
+  expect_s3_class(result, "flextable")
+
+  # The table should be scaled to fit the width
+  # (We don't check exact dimensions as that's tested elsewhere)
 })
 
 test_that("smart_fit handles different data types", {
