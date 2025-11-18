@@ -470,53 +470,23 @@ add_abbreviation_footnotes <- function(ftab, tab, lang, ft_fontsize = 9, verbose
   vcat("Found", length(present_abbrevs), "abbreviated columns:", paste(present_abbrevs, collapse = ", "))
   vcat("Using footnote font size:", footnote_fontsize, "pt (table font:", ft_fontsize, "pt)")
 
-  # Build combined inline footnote text with superscript numbers
-  # Format: ¹ degrees of freedom; ² sum of squares; ³ mean squares
-  footnote_parts <- character(length(present_abbrevs))
-
-  for (i in seq_along(present_abbrevs)) {
-    col_name <- present_abbrevs[i]
-    full_text <- abbrev_dict[[col_name]]
-
-    # Create each footnote part: superscript number + text
-    footnote_parts[i] <- paste0(i, " ", full_text)
-
-    vcat(sprintf("  Footnote %d: '%s' = '%s'", i, col_name, full_text))
-  }
-
-  # Combine all footnotes with semicolon separator
-  combined_footnote <- paste(footnote_parts, collapse = "; ")
-
-  vcat("Combined footnote text:", combined_footnote)
-
-  # Add superscript references to each column header and combined footnote
-  # We add the footnote to the first abbreviated column with the combined text,
-  # then add references to the remaining columns
+  # Add separate footnote for each abbreviated column
   for (i in seq_along(present_abbrevs)) {
     col_name <- present_abbrevs[i]
     col_idx <- which(col_names == col_name)
+    full_text <- abbrev_dict[[col_name]]
 
-    if (i == 1) {
-      # First column: add the combined footnote text
-      ftab <- ftab %>%
-        flextable::footnote(
-          i = 1,
-          j = col_idx,
-          value = flextable::as_paragraph(combined_footnote),
-          ref_symbols = as.character(i),
-          part = "header"
-        )
-    } else {
-      # Other columns: add reference but no additional footnote text
-      ftab <- ftab %>%
-        flextable::footnote(
-          i = 1,
-          j = col_idx,
-          value = flextable::as_paragraph(""),
-          ref_symbols = as.character(i),
-          part = "header"
-        )
-    }
+    vcat(sprintf("  Adding footnote %d: '%s' = '%s'", i, col_name, full_text))
+
+    # Add footnote to the column
+    ftab <- ftab %>%
+      flextable::footnote(
+        i = 1,
+        j = col_idx,
+        value = flextable::as_paragraph(full_text),
+        ref_symbols = as.character(i),
+        part = "header"
+      )
   }
 
   # Format footnotes: smaller font size and minimal padding
@@ -524,6 +494,6 @@ add_abbreviation_footnotes <- function(ftab, tab, lang, ft_fontsize = 9, verbose
     flextable::fontsize(size = footnote_fontsize, part = "footer") %>%
     flextable::padding(padding.top = 0, padding.bottom = 0, part = "footer")
 
-  vcat("Added", length(present_abbrevs), "abbreviation footnotes with", footnote_fontsize, "pt font (inline format)")
+  vcat("Added", length(present_abbrevs), "abbreviation footnotes with", footnote_fontsize, "pt font")
   return(ftab)
 }
