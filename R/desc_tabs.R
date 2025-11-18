@@ -45,14 +45,38 @@ desc_tabs <-
                             sheetName = comb_ij_lab,
                             data = comb_ij_tab)
 
-        BioMathR::cond_format(
-          wb = wb,
-          sheetName = comb_ij_lab,
-          columns = which(names(comb_ij_tab) %in% c("MW", "Mean"), arr.ind = TRUE),
-          style = c("#ed6a5a", "#f0a202", "#00923f"),
-          rule = NULL,
-          type = "colourScale"
-        )
+        # Apply conditional formatting separately for each variable to handle different scales
+        if ("Variable" %in% names(comb_ij_tab)) {
+          # Get unique variables
+          unique_vars <- unique(comb_ij_tab$Variable)
+
+          # Apply conditional formatting for each variable's rows separately
+          for (var in unique_vars) {
+            # Get row indices for this variable (add 1 for header row in Excel)
+            var_rows <- which(comb_ij_tab$Variable == var) + 1
+
+            # Apply color scale only to this variable's rows
+            BioMathR::cond_format(
+              wb = wb,
+              sheetName = comb_ij_lab,
+              columns = which(names(comb_ij_tab) %in% c("MW", "Mean"), arr.ind = TRUE),
+              style = c("#ed6a5a", "#f0a202", "#00923f"),
+              rule = NULL,
+              type = "colourScale",
+              rows = var_rows  # Only format rows for this specific variable
+            )
+          }
+        } else {
+          # Fallback: if no Variable column, apply formatting to all rows as before
+          BioMathR::cond_format(
+            wb = wb,
+            sheetName = comb_ij_lab,
+            columns = which(names(comb_ij_tab) %in% c("MW", "Mean"), arr.ind = TRUE),
+            style = c("#ed6a5a", "#f0a202", "#00923f"),
+            rule = NULL,
+            type = "colourScale"
+          )
+        }
       }
     }
 

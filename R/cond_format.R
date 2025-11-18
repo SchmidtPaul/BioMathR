@@ -5,6 +5,7 @@
 #' @param wb a Workbook object
 #' @param sheetName a name or index of a worksheet
 #' @param columns column names or indices to apply conditional formatting to
+#' @param rows optional row indices to apply conditional formatting to. If NULL (default), applies to all data rows.
 #' @param colourScale shortcut argument to apply "colourScale" formatting, e.g. \code{c("red" = 0, "grey" = 50, "green" = 100)}
 #' @param contains shortcut argument to apply "contains" formatting, e.g. \code{"word"}
 #' @param expression shortcut argument to apply "expression" formatting, e.g. \code{">=50"}
@@ -20,6 +21,7 @@
 cond_format <- function(wb,
                         sheetName = NULL,
                         columns,
+                        rows = NULL,  # Optional: specific rows to format (default: all rows)
                         colourScale = NULL, # c("red" = 0, "grey" = 50, "green" = 100)
                         contains = NULL, # "word"
                         expression = NULL, # ">=50"
@@ -41,7 +43,12 @@ cond_format <- function(wb,
   }
 
   # get row index for rows to be conditionally formatted
-  rowindex <- seq_len(nrow(dat_copy)) + 1
+  # If rows parameter is provided, use it; otherwise format all data rows
+  if (!is.null(rows)) {
+    rowindex <- rows
+  } else {
+    rowindex <- seq_len(nrow(dat_copy)) + 1
+  }
 
 
   # docolourScale -----------------------------------------------------------
