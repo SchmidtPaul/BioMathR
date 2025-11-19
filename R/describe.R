@@ -2,7 +2,7 @@
 #'
 #' @description This function computes common descriptive statistics of numeric variables for grouped or ungrouped data and converts it to a tidy formatted table. This function tried to copy \code{dlookr::describe()} because of \href{https://github.com/choonghyunryu/dlookr/issues/79}{this issue}.
 #'
-#' @param data A data.frame or a \code{\link{tbl_df}} or a \code{\link{grouped_df}}.
+#' @param data A data.frame or a \code{\link[tibble]{tbl_df}} or a \code{\link[dplyr]{grouped_df}}.
 #' @param yvars A character vector with the names of the columns to be described.
 #' @param lang Language for table names.
 #' @param ungroupafter If \code{TRUE}, the results will be \code{ungroup()}-ed.
