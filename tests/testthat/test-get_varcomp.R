@@ -32,36 +32,27 @@ test_that("get_varcomp does not throw an error for glmmTMB class", {
   }
 })
 
-# German language tests
-test_that("get_varcomp supports German language", {
+# Column names test
+test_that("get_varcomp returns consistent column names", {
   lm_model <- lm(mpg ~ wt + hp, data = mtcars)
-  vc_ger <- get_varcomp(lm_model, lang = "ger")
+  vc <- get_varcomp(lm_model)
 
-  expect_true("Gruppe" %in% names(vc_ger))
-  expect_true("Varianz" %in% names(vc_ger))
-  expect_true("Standardabweichung" %in% names(vc_ger))
+  # Should always return these column names (programmatic, not pretty)
+  expect_true("group" %in% names(vc))
+  expect_true("var" %in% names(vc))
+  expect_true("sd" %in% names(vc))
+  expect_true("var_p" %in% names(vc))
+  expect_true("var_prop" %in% names(vc))
 })
 
-# Flextable output tests
-test_that("get_varcomp can output as flextable", {
-  if (requireNamespace("flextable", quietly = TRUE)) {
+# Integration with docx_tab test
+test_that("get_varcomp works with docx_tab for formatting", {
+  if (requireNamespace("BioMathR", quietly = TRUE)) {
     lm_model <- lm(mpg ~ wt + hp, data = mtcars)
-    vc_ft <- get_varcomp(lm_model, asft = TRUE)
 
-    expect_equal(class(vc_ft), "flextable")
+    # Should work without error
+    expect_error(get_varcomp(lm_model) %>% BioMathR::docx_tab(asft = FALSE), NA)
   } else {
-    skip("flextable not available")
-  }
-})
-
-# Combined German + flextable test
-test_that("get_varcomp supports German language with flextable", {
-  if (requireNamespace("lmerTest", quietly = TRUE) && requireNamespace("flextable", quietly = TRUE)) {
-    lmerTest_model <- lmerTest::lmer(mpg ~ wt + hp + (1 | cyl), data = mtcars)
-    vc_ger_ft <- get_varcomp(lmerTest_model, lang = "ger", asft = TRUE)
-
-    expect_equal(class(vc_ger_ft), "flextable")
-  } else {
-    skip("lmerTest or flextable not available")
+    skip("BioMathR not available")
   }
 })

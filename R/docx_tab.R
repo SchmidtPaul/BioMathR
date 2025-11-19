@@ -288,6 +288,7 @@ rename_columns <- function(tab, lang, verbose = FALSE) {
 
   renamers <- list(
     eng = c(
+      # ANOVA/regression columns
       "F.value" = "F-value",
       "meansq" = "MS",
       "p.value" = "p-value",
@@ -298,9 +299,17 @@ rename_columns <- function(tab, lang, verbose = FALSE) {
       "std.error" = "Std. Error",
       "conf.low" = "Lower CL",
       "conf.high" = "Upper CL",
-      "deviance" = "Deviance"
+      "deviance" = "Deviance",
+      # Variance component columns (from get_varcomp)
+      "group" = "Group",
+      "effect" = "Effect",
+      "var" = "Variance",
+      "var_p" = "Variance %",
+      "var_prop" = "Var. Prop.",
+      "sd" = "SD"
     ),
     ger = c(
+      # ANOVA/regression columns
       "df" = "FG",
       "DenDF" = "Nenner-FG",
       "F.value" = "F-Wert",
@@ -315,7 +324,14 @@ rename_columns <- function(tab, lang, verbose = FALSE) {
       "std.error" = "Standardfehler",
       "conf.low" = "Untere KG",
       "conf.high" = "Obere KG",
-      "deviance" = "Devianz"
+      "deviance" = "Devianz",
+      # Variance component columns (from get_varcomp)
+      "group" = "Gruppe",
+      "effect" = "Effekt",
+      "var" = "Varianz",
+      "var_p" = "Varianz %",
+      "var_prop" = "Varianzanteil",
+      "sd" = "Standardabweichung"
     )
   )
 

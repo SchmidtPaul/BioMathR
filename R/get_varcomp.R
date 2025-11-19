@@ -1,11 +1,9 @@
 #' @title Extract variance components
 #'
-#' @description This function extracts the estimated variance components of a linear (mixed) model. It is compatible with models from \code{lme4}, \code{glmmTMB}, and \code{lm} functions. The resulting output is a tibble that contains the variance components, their proportion of the total variance, and standard deviations. This function is heavily based on \code{mixedup::extract_vc()}.
+#' @description This function extracts the estimated variance components of a linear (mixed) model. It is compatible with models from \code{lme4}, \code{glmmTMB}, and \code{lm} functions. The resulting output is a tibble that contains the variance components, their proportion of the total variance, and standard deviations. This function is heavily based on \code{mixedup::extract_vc()}. Use \code{docx_tab()} to format output for reports.
 #'
 #' @param model a fitted model object
 #' @param digits Rounding. Default is 3.
-#' @param lang Language for column names. Either \code{"eng"} (default) or \code{"ger"}.
-#' @param asft If \code{TRUE}, output is formatted as flextable. If \code{FALSE} (default), returns a tibble.
 #'
 #' @import dplyr
 #' @import tibble
@@ -14,32 +12,29 @@
 #' @seealso
 #'   [lme4::VarCorr()],
 #'   [glmmTMB::VarCorr()],
-#'   [mixedup::extract_vc()](https://m-clark.github.io/mixedup/reference/extract_vc.html)
+#'   [mixedup::extract_vc()](https://m-clark.github.io/mixedup/reference/extract_vc.html),
+#'   [BioMathR::docx_tab()]
 #'
 #' @examples
 #' # Simple linear model
 #' lm_model <- lm(mpg ~ wt + hp, data = mtcars)
 #' get_varcomp(lm_model)
 #'
-#' # German language output
-#' get_varcomp(lm_model, lang = "ger")
-#'
-#' # Formatted as flextable for reports
+#' # Format for reports using docx_tab()
 #' \dontrun{
-#' get_varcomp(lm_model, asft = TRUE)
+#' get_varcomp(lm_model) %>% docx_tab()
+#' get_varcomp(lm_model) %>% docx_tab(lang = "ger")
 #'
-#' # Mixed model with German language and flextable formatting
+#' # Mixed model with formatted output
 #' if (requireNamespace("lme4", quietly = TRUE)) {
 #'   mm_model <- lme4::lmer(mpg ~ wt + hp + (1 | cyl), data = mtcars)
-#'   get_varcomp(mm_model, lang = "ger", asft = TRUE)
+#'   get_varcomp(mm_model) %>% docx_tab(lang = "ger")
 #' }
 #' }
 #'
 #' @export
 get_varcomp <- function(model,
-                        digits = 3,
-                        lang = c("eng", "ger")[1],
-                        asft = FALSE) {
+                        digits = 3) {
 
   # return NULL if model is NULL
   if (is.null(model)) {
@@ -48,9 +43,6 @@ get_varcomp <- function(model,
 
   assertthat::assert_that(inherits(model, c("lm", "merMod", "glmmTMB")),
                           msg = "This is not a supported model class.")
-
-  assertthat::assert_that(lang %in% c("eng", "ger"),
-                          msg = "lang must be either 'eng' or 'ger'")
 
   UseMethod("get_varcomp")
 }
@@ -90,45 +82,11 @@ varcomp_formatter <- function(vc, digits) {
   return(vc)
 }
 
-# apply language translation and flextable formatting
-varcomp_finalize <- function(vc, lang, asft) {
-
-  # Apply language translation
-  if (lang == "ger") {
-    rename_ger <- c(
-      "Gruppe" = "group",
-      "Effekt" = "effect",
-      "Varianz" = "var",
-      "Varianz %" = "var_p",
-      "Varianzanteil" = "var_prop",
-      "Standardabweichung" = "sd"
-    )
-
-    vc <- vc %>%
-      dplyr::rename(dplyr::any_of(rename_ger))
-  }
-
-  # Apply flextable formatting if requested
-  if (asft) {
-    assertthat::assert_that(
-      requireNamespace("flextable", quietly = TRUE),
-      msg = "When asft = TRUE, package 'flextable' must be installed."
-    )
-
-    vc <- vc %>%
-      flextable::flextable() %>%
-      flextable::theme_booktabs() %>%
-      flextable::autofit()
-  }
-
-  return(vc)
-}
-
 
 # methods for different model classes -------------------------------------
 #' @export
 #' @rdname get_varcomp
-get_varcomp.lm <- function(model, digits = 3, lang = c("eng", "ger")[1], asft = FALSE) {
+get_varcomp.lm <- function(model, digits = 3) {
 
   effect <- NULL # avoid package check warning
 
@@ -146,7 +104,6 @@ get_varcomp.lm <- function(model, digits = 3, lang = c("eng", "ger")[1], asft = 
 
   vc <- varcomp_percentages(vc)
   vc <- varcomp_formatter(vc, digits)
-  vc <- varcomp_finalize(vc, lang, asft)
 
   return(vc)
 }
@@ -154,10 +111,7 @@ get_varcomp.lm <- function(model, digits = 3, lang = c("eng", "ger")[1], asft = 
 
 #' @export
 #' @rdname get_varcomp
-get_varcomp.merMod <- function(model,
-                               digits = 3,
-                               lang = c("eng", "ger")[1],
-                               asft = FALSE) {
+get_varcomp.merMod <- function(model, digits = 3) {
 
   if (!requireNamespace("lme4", quietly = TRUE)) {
     stop("When model object is 'merMod', package 'lme4' must be installed.")
@@ -175,7 +129,6 @@ get_varcomp.merMod <- function(model,
 
   vc <- varcomp_percentages(vc)
   vc <- varcomp_formatter(vc, digits)
-  vc <- varcomp_finalize(vc, lang, asft)
 
   # TODO: https://github.com/m-clark/mixedup/blob/f04aaea11b0fb760e3dbd171b20f3bd7f405f21f/R/extract_vc.R#LL178C17-L178C17
 
@@ -184,10 +137,7 @@ get_varcomp.merMod <- function(model,
 
 #' @export
 #' @rdname get_varcomp
-get_varcomp.glmmTMB <- function(model,
-                                digits = 3,
-                                lang = c("eng", "ger")[1],
-                                asft = FALSE) {
+get_varcomp.glmmTMB <- function(model, digits = 3) {
 
   if (!suppressWarnings(requireNamespace("glmmTMB", quietly = TRUE))) {
     stop("When model object is 'glmmTMB', package 'glmmTMB' must be installed.")
@@ -218,7 +168,6 @@ get_varcomp.glmmTMB <- function(model,
 
   vc <- varcomp_percentages(vc)
   vc <- varcomp_formatter(vc, digits)
-  vc <- varcomp_finalize(vc, lang, asft)
 
   return(vc)
 }
