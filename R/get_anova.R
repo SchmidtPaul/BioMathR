@@ -18,18 +18,18 @@
 #' unavailable}. It's worth noting that only the 'lmerModLmerTest' models support (and
 #' default to) the Kenward-Roger method as a degrees of freedom method.
 #'
-#' \itemize{
-#'   \item{\code{lm} (Package: stats):} {Types I/II/III; F-Test; Standard df.}
-#'   \item{\code{lmer/lmerTest} (Packages: lme4/lmerTest):} {Types I/II/III; F-Test; Kenward-Roger (KR) df.}
-#'   \item{\code{lme} (Package: nlme):} {Types I/II/III; Chi-Square Test (Chisq*); Standard df.}
-#'   \item{\code{gls} (Package: nlme):} {Types I/II/III; Chi-Square Test (Chisq*); Standard df.}
-#'   \item{\code{glmmTMB} (Package: glmmTMB):} {Types I/II/III; Chi-Square Test; Standard df.}
+#' \describe{
+#'   \item{\code{lm} (Package: stats):}{Types I/II/III; F-Test; Standard df.}
+#'   \item{\code{lmer/lmerTest} (Packages: lme4/lmerTest):}{Types I/II/III; F-Test; Kenward-Roger (KR) df.}
+#'   \item{\code{lme} (Package: nlme):}{Types I/II/III; Chi-Square Test (Chisq*); Standard df.}
+#'   \item{\code{gls} (Package: nlme):}{Types I/II/III; Chi-Square Test (Chisq*); Standard df.}
+#'   \item{\code{glmmTMB} (Package: glmmTMB):}{Types I/II/III; Chi-Square Test; Standard df.}
 #' }
 #'
 #' * You can obtain the F-Test only for type I/II via \code{stats::anova()}
 #'
 #' The \code{type} argument specifies the type of sum of squares to be used in the analysis:
-#' \itemize{
+#' \describe{
 #'   \item{Type I (Sequential) sum of squares:}{
 #'     The order in which factors are entered into the model does matter. Each factor is adjusted for the factors listed before it.
 #'   }

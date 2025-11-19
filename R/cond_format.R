@@ -1,6 +1,6 @@
 #' @title Add conditional formatting to columns of a worksheet
 #'
-#' @description This function is a wrapper for \code{openxlsx::conditionalFormatting()} allowing for a more convenient application of conditional formatting to a sheet in a Workbook object. The arguments \code{colourScale}, \code{contains} and \code{expression} serve as shortcuts to obtaining the respective conditional formatting, but it is still possible to obtain \href{https://rdrr.io/cran/openxlsx/man/conditionalFormatting.html}{all possible conditional formatting styles available in {openxlsx}} via the arguments \code{rule}, \code{style} and \code{type} which are directly passed to \code{openxlsx::conditionalFormatting()}.
+#' @description This function is a wrapper for \code{openxlsx::conditionalFormatting()} allowing for a more convenient application of conditional formatting to a sheet in a Workbook object. The arguments \code{colourScale}, \code{contains} and \code{expression} serve as shortcuts to obtaining the respective conditional formatting, but it is still possible to obtain \href{https://rdrr.io/cran/openxlsx/man/conditionalFormatting.html}{all possible conditional formatting styles available in \{openxlsx\}} via the arguments \code{rule}, \code{style} and \code{type} which are directly passed to \code{openxlsx::conditionalFormatting()}.
 #'
 #' @param wb a Workbook object
 #' @param sheetName a name or index of a worksheet
