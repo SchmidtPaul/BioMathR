@@ -7,7 +7,7 @@
 #' @param lang Language for table names.
 #' @param ungroupafter If \code{TRUE}, the results will be \code{ungroup()}-ed.
 #' @param digits Number of digits all numeric columns are rounded to. The default is actually \code{"round_smart"} which applies \code{BioMathR::round_smart()} to each numeric column individually.
-#' @param addstats Character vector with additional statistics to be calculated besides the default. Possible entries: c("Skewness").
+#' @param addstats Character vector with additional statistics to be calculated besides the default. Possible entries: c("Skewness", "Kurtosis", "Mode").
 #' @param ... Other arguments passed to \code{BioMathR::round_smart()}
 #'
 #' @return A tibble
@@ -44,10 +44,21 @@ describe <-
   assertthat::assert_that("Variable" %not_in% names(data),
                           msg = "You must not have a column named 'Variable' in your data!")
 
-  assertthat::assert_that(all(addstats %in% c("Skewness")),
-                          msg = "Unknown statistic in 'addstats'. Known statistics are: 'Skewness'")
+  assertthat::assert_that(all(addstats %in% c("Skewness", "Kurtosis", "Mode")),
+                          msg = "Unknown statistic in 'addstats'. Known statistics are: 'Skewness', 'Kurtosis', 'Mode'")
+
+  # Helper function for mode (most frequent value)
+  mode_fn <- function(x) {
+    x <- x[!is.na(x)]
+    if (length(x) == 0) return(NA_real_)
+    ux <- unique(x)
+    tab <- tabulate(match(x, ux))
+    ux[which.max(tab)]
+  }
 
   Skewness_fn <- if ("Skewness" %in% addstats) list(Skewness = ~ e1071::skewness(., na.rm = TRUE)) else list()
+  Kurtosis_fn <- if ("Kurtosis" %in% addstats) list(Kurtosis = ~ e1071::kurtosis(., na.rm = TRUE)) else list()
+  Mode_fn <- if ("Mode" %in% addstats) list(Mode = ~ mode_fn(.)) else list()
 
   out <- data %>%
     summarise(across(
@@ -64,7 +75,9 @@ describe <-
           Median = ~ median(., na.rm = TRUE),
           Max = ~ max(., na.rm = TRUE)
         ),
-      Skewness_fn)
+      Skewness_fn,
+      Kurtosis_fn,
+      Mode_fn)
     )) %>%
     suppressMessages() %>%
     tidyr::pivot_longer(cols = -all_of(group_vars(data)), names_to = "temp_names" , values_to = "temp_values") %>%
@@ -101,7 +114,9 @@ describe <-
       "StdAbw" = "StdDev",
       "IQA" = "IQR",
       "Fehl" = "Miss",
-      "Schiefe" = "Skewness"
+      "Schiefe" = "Skewness",
+      "Kurtosis" = "Kurtosis",  # Kurtosis is the same in German
+      "Modus" = "Mode"
     )
 
     out <- out %>%

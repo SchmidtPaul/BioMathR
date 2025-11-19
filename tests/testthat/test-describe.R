@@ -42,3 +42,24 @@ test_that("no grouping", {
 
   expect_equal(nrow(res), 1)
 })
+
+test_that("addstats: Skewness, Kurtosis, Mode", {
+  expect_no_error(res <- df %>%
+                    group_by(group) %>%
+                    BioMathR::describe("weight", addstats = c("Skewness", "Kurtosis", "Mode")))
+
+  expect_true("Skewness" %in% names(res))
+  expect_true("Kurtosis" %in% names(res))
+  expect_true("Mode" %in% names(res))
+  expect_equal(ncol(res), 13)  # Variable + group + N + Miss + Mean + StdDev + IQR + Min + Median + Max + Skewness + Kurtosis + Mode
+})
+
+test_that("addstats with German language", {
+  expect_no_error(res <- df %>%
+                    group_by(group) %>%
+                    BioMathR::describe("weight", lang = "ger", addstats = c("Skewness", "Kurtosis", "Mode")))
+
+  expect_true("Schiefe" %in% names(res))
+  expect_true("Kurtosis" %in% names(res))  # Same in German
+  expect_true("Modus" %in% names(res))
+})
