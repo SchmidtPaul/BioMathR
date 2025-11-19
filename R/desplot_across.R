@@ -3,7 +3,7 @@
 #' @description The goal of this function is to allow the user a quick and easy glance at the experimental layout of a trial by creating multiple \code{desplot}s at once - one for each variable that is provided (see example below).
 #'
 #' @param data A data frame.
-#' @param vars Vector with variables/column names for which a desplot should be created.
+#' @param vars <[`tidy-select`][dplyr::dplyr_tidy_select]> Variables/column names for which a desplot should be created. You can use tidyselect helpers like \code{starts_with()}, \code{ends_with()}, \code{contains()}, etc.
 #' @param formright A formula like \code{x*y|location}, i.e. the right-hand side of the formula \code{yield~x*y|location} that would usually be passed to \code{desplot::desplot(form = ...)}. Note that \code{x} and \code{y} are numeric and the default is \code{"col + row"}.
 #' @param lang Language for plots labels.
 #' @param title Can either be \code{"none"}, \code{"short"} or \code{"long"}. For the respective \code{var}, it gives information about the number of levels and their respective frequency in the data.
@@ -18,9 +18,15 @@
 #' @examples
 #' library(BioMathR)
 #'
+#' # Using explicit column names
 #' dps <- desplot_across(data = agridat::yates.oats,
 #'                       vars = c("nitro", "gen", "block"),
 #'                       cex = 1)
+#'
+#' # Using tidyselect helpers
+#' dps2 <- desplot_across(data = agridat::yates.oats,
+#'                        vars = starts_with("n"),
+#'                        cex = 1)
 #'
 #' dps$nitro
 #' dps$gen
@@ -38,10 +44,10 @@ desplot_across <-
            ...) {
     assertthat::assert_that(requireNamespace("desplot", quietly = TRUE),
                             msg = "To use desplot_across(), package 'desplot' must be installed.")
-    assertthat::assert_that(all(vars %in% names(data)),
-                            msg = "Not all provided variables exist in data")
 
-    # TODO: use dplyr's tidyselect for vars
+    # Use tidyselect to evaluate vars parameter
+    vars_selected <- tidyselect::eval_select(rlang::enquo(vars), data)
+    vars <- names(vars_selected)
 
     # language labels
     txt <- list(

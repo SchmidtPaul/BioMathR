@@ -8,7 +8,8 @@ Authors@R: c(
   )
 Description: The R package `BioMathR` provides a collection of utility and wrapper functions, all of which are often used at [BioMath](https://www.biomath.de/).
 License: GPL-3
-Imports: 
+Imports:
+    assertthat,
     dplyr,
     e1071,
     emmeans,
@@ -27,16 +28,17 @@ Imports:
     openxlsx,
     purrr,
     qqplotr,
+    rlang,
     rstudioapi,
     scales,
     stats,
     stringr,
     tibble,
     tidyr,
+    tidyselect,
     utils
-Suggests: 
+Suggests:
     agridat,
-    assertthat,
     broom,
     car,
     cowplot,

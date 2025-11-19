@@ -138,17 +138,5 @@ tidy_reg.openair<- function(x, reg_dat, n_preds = 10, ..., adjust_x0 = TRUE){
       Predicted = out$parms$wide$int.estimate + year * out$parms$wide$slo.estimate
     )
 
-  # residuals # TODO: Does this collide with adjust_x0?
-  # out$resid <- x$data$main.data %>%
-  #   as_tibble() %>%
-  #   transmute(date = date,
-  #             obs = conc) %>%
-  #   mutate(
-  #     year = difftime(date, min(date), units = "days") %>% as.numeric() %>% \code{/}(365.25),
-  #     predicted = out$parms$wide$int.estimate + year * out$parms$wide$slo.estimate
-  #   ) %>%
-  #   select(-year) %>%
-  #   mutate(resid = obs - predicted)
-
   return(out)
 }
