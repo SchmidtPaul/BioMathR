@@ -16,7 +16,7 @@ test_that("desplot_across throws no warnings with special characters", {
 test_that("desplot_across returns a list of desplots", {
   data <- agridat::yates.oats
   vars <- c("nitro", "gen", "block")
-  result <- desplot_across(data = data, vars = vars)
+  result <- desplot_across(data = data, vars = all_of(vars))
   expect_type(result, "list")
   expect_length(result, length(vars))
   expect_s3_class(result[[1]], "trellis")
@@ -29,13 +29,13 @@ test_that("desplot_across throws an error with invalid data input", {
 test_that("desplot_across throws an error for non-existing vars", {
   data <- agridat::yates.oats
   vars <- c("non_existing_var")
-  expect_error(desplot_across(data = data, vars = vars))
+  expect_error(desplot_across(data = data, vars = all_of(vars)))
 })
 
 test_that("desplot_across works with different data types", {
   data <- agridat::yates.oats
   vars <- c("nitro", "gen")
-  result <- desplot_across(data = data, vars = vars)
+  result <- desplot_across(data = data, vars = all_of(vars))
   expect_s3_class(result$nitro, "trellis")
   expect_s3_class(result$gen, "trellis")
 })
@@ -43,8 +43,8 @@ test_that("desplot_across works with different data types", {
 test_that("desplot_across responds to different parameters correctly", {
   data <- agridat::yates.oats
   vars <- c("nitro")
-  result_eng <- desplot_across(data = data, vars = vars, lang = "eng")
-  result_ger <- desplot_across(data = data, vars = vars, lang = "ger")
+  result_eng <- desplot_across(data = data, vars = all_of(vars), lang = "eng")
+  result_ger <- desplot_across(data = data, vars = all_of(vars), lang = "ger")
   expect_false(identical(result_eng, result_ger))
 })
 
