@@ -1,6 +1,6 @@
 #' @title Extract variance components
 #'
-#' @description This function extracts the estimated variance components of a linear (mixed) model. It is compatible with models from \code{lme4}, \code{glmmTMB}, and \code{lm} functions. The resulting output is a tibble that contains the variance components, their proportion of the total variance, and standard deviations. This function is heavily based on \code{mixedup::extract_vc()}.
+#' @description This function extracts the estimated variance components of a linear (mixed) model. It is compatible with models from \code{lme4}, \code{glmmTMB}, and \code{lm} functions. The resulting output is a tibble that contains the variance components, their proportion of the total variance, and standard deviations. This function is heavily based on \code{mixedup::extract_vc()}. Use \code{docx_tab()} to format output for reports.
 #'
 #' @param model a fitted model object
 #' @param digits Rounding. Default is 3.
@@ -12,7 +12,25 @@
 #' @seealso
 #'   [lme4::VarCorr()],
 #'   [glmmTMB::VarCorr()],
-#'   [mixedup::extract_vc()](https://m-clark.github.io/mixedup/reference/extract_vc.html)
+#'   [mixedup::extract_vc()](https://m-clark.github.io/mixedup/reference/extract_vc.html),
+#'   [BioMathR::docx_tab()]
+#'
+#' @examples
+#' # Simple linear model
+#' lm_model <- lm(mpg ~ wt + hp, data = mtcars)
+#' get_varcomp(lm_model)
+#'
+#' # Format for reports using docx_tab()
+#' \dontrun{
+#' get_varcomp(lm_model) %>% docx_tab()
+#' get_varcomp(lm_model) %>% docx_tab(lang = "ger")
+#'
+#' # Mixed model with formatted output
+#' if (requireNamespace("lme4", quietly = TRUE)) {
+#'   mm_model <- lme4::lmer(mpg ~ wt + hp + (1 | cyl), data = mtcars)
+#'   get_varcomp(mm_model) %>% docx_tab(lang = "ger")
+#' }
+#' }
 #'
 #' @export
 get_varcomp <- function(model,
@@ -93,8 +111,7 @@ get_varcomp.lm <- function(model, digits = 3) {
 
 #' @export
 #' @rdname get_varcomp
-get_varcomp.merMod <- function(model,
-                               digits = 3) {
+get_varcomp.merMod <- function(model, digits = 3) {
 
   if (!requireNamespace("lme4", quietly = TRUE)) {
     stop("When model object is 'merMod', package 'lme4' must be installed.")
@@ -120,8 +137,7 @@ get_varcomp.merMod <- function(model,
 
 #' @export
 #' @rdname get_varcomp
-get_varcomp.glmmTMB <- function(model,
-                                digits = 3) {
+get_varcomp.glmmTMB <- function(model, digits = 3) {
 
   if (!suppressWarnings(requireNamespace("glmmTMB", quietly = TRUE))) {
     stop("When model object is 'glmmTMB', package 'glmmTMB' must be installed.")

@@ -1,4 +1,6 @@
-#' @title A {ggplot2} theme based on the \href{https://www.biomath.de/}{BioMath} corporate design.
+#' @title A \{ggplot2\} theme based on the \href{https://www.biomath.de/}{BioMath} corporate design.
+#'
+#' @description A \{ggplot2\} theme based on the \href{https://www.biomath.de/}{BioMath} corporate design.
 #'
 #' @param base_size Base font size, given in pts.
 #' @param base_family Base font family

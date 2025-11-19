@@ -23,7 +23,7 @@ tidy_reg(x, reg_dat, n_preds = 10, ...)
 
 \item{conf.level}{The confidence level to use for the confidence interval}
 
-\item{adjust_x0}{If \code{TRUE} (default) the estimate and confidence limits for the intercept are adjusted so that it is no longer at {openair}'s default x = 1970, but instead at the minimum x present in the data.}
+\item{adjust_x0}{If \code{TRUE} (default) the estimate and confidence limits for the intercept are adjusted so that it is no longer at \{openair\}'s default x = 1970, but instead at the minimum x present in the data.}
 }
 \description{
 Summary of linear regression (for a time series)

@@ -21,10 +21,29 @@ get_varcomp(model, digits = 3)
 \item{digits}{Rounding. Default is 3.}
 }
 \description{
-This function extracts the estimated variance components of a linear (mixed) model. It is compatible with models from \code{lme4}, \code{glmmTMB}, and \code{lm} functions. The resulting output is a tibble that contains the variance components, their proportion of the total variance, and standard deviations. This function is heavily based on \code{mixedup::extract_vc()}.
+This function extracts the estimated variance components of a linear (mixed) model. It is compatible with models from \code{lme4}, \code{glmmTMB}, and \code{lm} functions. The resulting output is a tibble that contains the variance components, their proportion of the total variance, and standard deviations. This function is heavily based on \code{mixedup::extract_vc()}. Use \code{docx_tab()} to format output for reports.
+}
+\examples{
+# Simple linear model
+lm_model <- lm(mpg ~ wt + hp, data = mtcars)
+get_varcomp(lm_model)
+
+# Format for reports using docx_tab()
+\dontrun{
+get_varcomp(lm_model) \%>\% docx_tab()
+get_varcomp(lm_model) \%>\% docx_tab(lang = "ger")
+
+# Mixed model with formatted output
+if (requireNamespace("lme4", quietly = TRUE)) {
+  mm_model <- lme4::lmer(mpg ~ wt + hp + (1 | cyl), data = mtcars)
+  get_varcomp(mm_model) \%>\% docx_tab(lang = "ger")
+}
+}
+
 }
 \seealso{
 \code{\link[lme4:VarCorr]{lme4::VarCorr()}},
 \code{\link[glmmTMB:VarCorr.glmmTMB]{glmmTMB::VarCorr()}},
-\href{https://m-clark.github.io/mixedup/reference/extract_vc.html}{mixedup::extract_vc()}
+\href{https://m-clark.github.io/mixedup/reference/extract_vc.html}{mixedup::extract_vc()},
+\code{\link[=docx_tab]{docx_tab()}}
 }

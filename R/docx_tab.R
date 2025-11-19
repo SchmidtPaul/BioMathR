@@ -288,6 +288,7 @@ rename_columns <- function(tab, lang, verbose = FALSE) {
 
   renamers <- list(
     eng = c(
+      # ANOVA/regression columns
       "F.value" = "F-value",
       "meansq" = "MS",
       "p.value" = "p-value",
@@ -298,9 +299,17 @@ rename_columns <- function(tab, lang, verbose = FALSE) {
       "std.error" = "Std. Error",
       "conf.low" = "Lower CL",
       "conf.high" = "Upper CL",
-      "deviance" = "Deviance"
+      "deviance" = "Deviance",
+      # Variance component columns (from get_varcomp)
+      "group" = "Group",
+      "effect" = "Effect",
+      "var" = "Variance",
+      "var_p" = "Variance %",
+      "var_prop" = "Var. Prop.",
+      "sd" = "SD"
     ),
     ger = c(
+      # ANOVA/regression columns
       "df" = "FG",
       "DenDF" = "Nenner-FG",
       "F.value" = "F-Wert",
@@ -311,11 +320,18 @@ rename_columns <- function(tab, lang, verbose = FALSE) {
       "sumsq" = "SQ",
       "term" = "Term",
       "df.residual" = "Residual-FG",
-      "estimate" = "Schätzwert",
+      "estimate" = "Sch\u00E4tzwert",
       "std.error" = "Standardfehler",
       "conf.low" = "Untere KG",
       "conf.high" = "Obere KG",
-      "deviance" = "Devianz"
+      "deviance" = "Devianz",
+      # Variance component columns (from get_varcomp)
+      "group" = "Gruppe",
+      "effect" = "Effekt",
+      "var" = "Varianz",
+      "var_p" = "Varianz %",
+      "var_prop" = "Varianzanteil",
+      "sd" = "Standardabweichung"
     )
   )
 
@@ -443,11 +459,11 @@ add_abbreviation_footnotes <- function(ftab, tab, lang, ft_fontsize = 9, verbose
       "FG" = "Freiheitsgrade",
       "MQ" = "Mittelquadrate",
       "SQ" = "Summe der Quadrate",
-      "Zähler-FG" = "Zähler-Freiheitsgrade",
+      "Z\u00E4hler-FG" = "Z\u00E4hler-Freiheitsgrade",
       "Nenner-FG" = "Nenner-Freiheitsgrade",
       "Residual-FG" = "Residual-Freiheitsgrade",
       "Statistik" = "Teststatistik",
-      "Schätzwert" = "geschätzter Wert",
+      "Sch\u00E4tzwert" = "gesch\u00E4tzter Wert",
       "Standardfehler" = "Standardfehler",
       "Untere KG" = "untere Konfidenzgrenze",
       "Obere KG" = "obere Konfidenzgrenze",

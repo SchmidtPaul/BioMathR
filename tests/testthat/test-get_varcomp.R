@@ -31,3 +31,28 @@ test_that("get_varcomp does not throw an error for glmmTMB class", {
     skip()
   }
 })
+
+# Column names test
+test_that("get_varcomp returns consistent column names", {
+  lm_model <- lm(mpg ~ wt + hp, data = mtcars)
+  vc <- get_varcomp(lm_model)
+
+  # Should always return these column names (programmatic, not pretty)
+  expect_true("group" %in% names(vc))
+  expect_true("var" %in% names(vc))
+  expect_true("sd" %in% names(vc))
+  expect_true("var_p" %in% names(vc))
+  expect_true("var_prop" %in% names(vc))
+})
+
+# Integration with docx_tab test
+test_that("get_varcomp works with docx_tab for formatting", {
+  if (requireNamespace("BioMathR", quietly = TRUE)) {
+    lm_model <- lm(mpg ~ wt + hp, data = mtcars)
+
+    # Should work without error
+    expect_error(get_varcomp(lm_model) %>% BioMathR::docx_tab(asft = FALSE), NA)
+  } else {
+    skip("BioMathR not available")
+  }
+})

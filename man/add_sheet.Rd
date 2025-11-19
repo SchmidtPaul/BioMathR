@@ -24,7 +24,7 @@ add_sheet(
 \arguments{
 \item{wb}{A Workbook object to attach the new worksheet}
 
-\item{data}{Object to be written. For classes supported look at the examples in {openxlsx}.}
+\item{data}{Object to be written. For classes supported look at the examples in \{openxlsx\}.}
 
 \item{sheetName}{The name of the worksheet that is to be created and have \code{data} written into. Defaults to the \code{data} object name if left empty.}
 
@@ -51,7 +51,7 @@ add_sheet(
 \item{datetimeformat}{If not \code{"none"} (default is \code{"yyyy-mm-dd hh:mm:ss"}), all datetime-formatted columns in \code{data} are explicitly formatted with \code{numFmt = "yyyy-mm-dd hh:mm:ss"}}
 }
 \description{
-This function is a wrapper for \code{openxlsx::addWorksheet()} and \code{openxlsx::writeData()}, but also does some extra formatting via more {openxlsx} functions.
+This function is a wrapper for \code{openxlsx::addWorksheet()} and \code{openxlsx::writeData()}, but also does some extra formatting via more \{openxlsx\} functions.
 }
 \examples{
 library(BioMathR)

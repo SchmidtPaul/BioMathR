@@ -1,9 +1,9 @@
 #' @title Add a worksheet to a Workbook object
 #'
-#' @description This function is a wrapper for \code{openxlsx::addWorksheet()} and \code{openxlsx::writeData()}, but also does some extra formatting via more {openxlsx} functions.
+#' @description This function is a wrapper for \code{openxlsx::addWorksheet()} and \code{openxlsx::writeData()}, but also does some extra formatting via more \{openxlsx\} functions.
 #'
 #' @param wb A Workbook object to attach the new worksheet
-#' @param data Object to be written. For classes supported look at the examples in {openxlsx}.
+#' @param data Object to be written. For classes supported look at the examples in \{openxlsx\}.
 #' @param sheetName The name of the worksheet that is to be created and have \code{data} written into. Defaults to the \code{data} object name if left empty.
 #' @param colWidth For all columns: column width. Can either be Excel column width units or "auto" for automatic sizing
 #' @param colWidthMin For all columns: minimum column width

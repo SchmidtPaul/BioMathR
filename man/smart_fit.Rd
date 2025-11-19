@@ -23,6 +23,9 @@ smart_fit(
 
 \item{verbose}{If \code{TRUE}, prints detailed information about width calculations. Useful for debugging. Default is \code{FALSE}.}
 }
+\value{
+A flextable object with adjusted column widths.
+}
 \description{
 Adjust column widths for flextables
 }

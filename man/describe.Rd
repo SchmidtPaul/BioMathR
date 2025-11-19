@@ -15,7 +15,7 @@ describe(
 )
 }
 \arguments{
-\item{data}{A data.frame or a \code{\link{tbl_df}} or a \code{\link{grouped_df}}.}
+\item{data}{A data.frame or a \code{\link[tibble]{tbl_df}} or a \code{\link[dplyr]{grouped_df}}.}
 
 \item{yvars}{A character vector with the names of the columns to be described.}
 
@@ -25,7 +25,7 @@ describe(
 
 \item{digits}{Number of digits all numeric columns are rounded to. The default is actually \code{"round_smart"} which applies \code{BioMathR::round_smart()} to each numeric column individually.}
 
-\item{addstats}{Character vector with additional statistics to be calculated besides the default. Possible entries: c("Skewness").}
+\item{addstats}{Character vector with additional statistics to be calculated besides the default. Possible entries: c("Skewness", "Kurtosis", "Mode").}
 
 \item{...}{Other arguments passed to \code{BioMathR::round_smart()}}
 }

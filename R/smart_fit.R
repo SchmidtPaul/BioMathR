@@ -6,6 +6,8 @@
 #' @param page_margin Total page margin (sum of left and right margin) that is subtracted from the total page width of the standard paper width provided in \code{width}. Ignored if \code{width} is provided as a numeric value.
 #' @param verbose If \code{TRUE}, prints detailed information about width calculations. Useful for debugging. Default is \code{FALSE}.
 #'
+#' @return A flextable object with adjusted column widths.
+#'
 #' @export
 smart_fit <- function(ft,
                      width = c("A4", "letter", "legal", "executive")[1],
@@ -13,7 +15,7 @@ smart_fit <- function(ft,
                      page_margin = "default",
                      verbose = FALSE) {
 
-  min_body <- min_head <- ideal_width <- NULL # avoid package check warning
+  min_body <- min_head <- ideal_width <- final_width <- NULL # avoid package check warning
 
   # Helper function for verbose output
   vcat <- function(...) {
@@ -104,7 +106,7 @@ smart_fit <- function(ft,
   # NEW SIMPLIFIED LOGIC
   if (total_ideal <= page_width) {
     # Case 1: Everything fits without breaks - use ideal widths
-    vcat("\n✓ All content fits without line breaks!")
+    vcat("\n[OK] All content fits without line breaks!")
     vcat(sprintf("  Using ideal widths (table will be %.2f cm wide)", total_ideal))
     vcat(sprintf("  Unused space: %.2f cm", page_width - total_ideal))
 
@@ -112,7 +114,7 @@ smart_fit <- function(ft,
 
   } else {
     # Case 2: Content too wide - need to scale down proportionally
-    vcat("\n⚠ Content too wide to fit without line breaks")
+    vcat("\n[WARNING] Content too wide to fit without line breaks")
     vcat(sprintf("  Need %.2f cm, but only %.2f cm available", total_ideal, page_width))
 
     # Special case: If we're close to page width (within 2.2 cm), just use full width
@@ -123,7 +125,7 @@ smart_fit <- function(ft,
       vcat("  Distributing line breaks proportionally across columns")
     }
 
-    # Scale proportionally: each column gets (ideal_width / total_ideal) × page_width
+    # Scale proportionally: each column gets (ideal_width / total_ideal) * page_width
     wi <- wi %>%
       dplyr::mutate(final_width = (ideal_width / total_ideal) * page_width)
 
@@ -154,9 +156,9 @@ smart_fit <- function(ft,
 
   if (final_total < page_width - 0.01) {
     unused <- page_width - final_total
-    vcat(sprintf("  ✓ Table fits with %.2f cm unused (intentional - minimizes line breaks)", unused))
+    vcat(sprintf("  [OK] Table fits with %.2f cm unused (intentional - minimizes line breaks)", unused))
   } else {
-    vcat("  ✓ Table uses full page width")
+    vcat("  [OK] Table uses full page width")
   }
 
   if (verbose) {

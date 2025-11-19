@@ -10,19 +10,48 @@ docx_tab(
   pvalform = "p.value",
   asft = TRUE,
   digits = "round_smart",
+  fit_mode = c("smart", "page", "none")[1],
+  page_width = "A4",
+  landscape = FALSE,
+  verbose = FALSE,
+  add_abbrev_footnote = TRUE,
+  ft_padding = 2,
+  ft_fontsize = 9,
+  ft_border_width = 0.1,
   ...
 )
 }
 \arguments{
 \item{x}{Table to be formatted}
 
-\item{lang}{Language for column names.}
+\item{lang}{Language for column names. Either \code{"eng"} (default) or \code{"ger"}.}
 
-\item{pvalform}{Names of columns are that formatted via \code{BioMathR::format_p()}. Can be set to \code{NULL}. The default is \code{"p.value"}, but note that this function first unifies multiple column names such as \code{"Pr(>F)"} or \code{"P(>|Chi|)"} into \code{"p.value"}.}
+\item{pvalform}{Names of columns that are formatted via \code{BioMathR::format_p()}. Can be set to \code{NULL}. The default is \code{"p.value"}, but note that this function first unifies multiple column names such as \code{"Pr(>F)"} or \code{"P(>|Chi|)"} into \code{"p.value"}.}
 
-\item{asft}{If \code{TRUE}, output is formatted as flextable}
+\item{asft}{If \code{TRUE} (default), output is formatted as flextable. If \code{FALSE}, returns a tibble with formatted values.}
 
-\item{digits}{Number of digits all numeric columns are rounded to. The default is actually \code{"round_smart"} which applies \code{BioMathR::round_smart()} to each numeric column individually.}
+\item{digits}{Number of digits all numeric columns are rounded to. The default is \code{"round_smart"} which applies \code{BioMathR::round_smart()} to each numeric column individually. Can also be a numeric value.}
+
+\item{fit_mode}{How to fit the flextable to page width. Options:
+\itemize{
+\item \code{"smart"} (default): Apply \code{smart_fit()} to optimize column widths
+\item \code{"page"}: Stretch to full page width while maintaining smart_fit proportions
+\item \code{"none"}: Use flextable's default autofit, no additional fitting
+}}
+
+\item{page_width}{Page width for \code{fit_mode}. Can be \code{"A4"} (default), \code{"letter"}, \code{"legal"}, \code{"executive"}, or a numeric value in cm. Ignored if \code{fit_mode = "none"}.}
+
+\item{landscape}{Logical. If \code{TRUE}, use landscape orientation for standard page sizes. Default is \code{FALSE}. Ignored if \code{page_width} is numeric or \code{fit_mode = "none"}.}
+
+\item{verbose}{If \code{TRUE}, prints detailed information about transformations. Useful for debugging. Default is \code{FALSE}.}
+
+\item{add_abbrev_footnote}{If \code{TRUE} (default), adds footnotes explaining abbreviated column names (e.g., "df" = "Degrees of freedom").}
+
+\item{ft_padding}{Padding for flextable cells (in points). Default is 2.}
+
+\item{ft_fontsize}{Font size for flextable (in points). Default is 9.}
+
+\item{ft_border_width}{Border width for flextable (in points). Default is 0.1.}
 
 \item{...}{Other arguments passed to \code{BioMathR::round_smart()}}
 }
@@ -32,10 +61,15 @@ Auto-format tables for printing in MS-Word documents
 \examples{
 library(BioMathR)
 
+# Basic usage with ANOVA table
 anova <- anova(lm(weight ~ group, data = PlantGrowth))
+docx_tab(anova, lang = "eng")
 docx_tab(anova, lang = "ger")
-docx_tab(anova, lang = "eng", asft = FALSE)
 
+# Return tibble instead of flextable
+docx_tab(anova, asft = FALSE)
+
+# Different rounding options
 before <- data.frame(
   V1 = c(123456, 1234),
   V2 = c(-123, -0.12345),
@@ -45,6 +79,24 @@ before <- data.frame(
   V6 = c(NA, -5.0018),
   V7 = c(NA_real_, NA_real_)
 )
-docx_tab(before)
-docx_tab(before, digits = 2)
+docx_tab(before)  # smart rounding
+docx_tab(before, digits = 2)  # fixed 2 digits
+
+# Different fit modes
+docx_tab(anova, fit_mode = "smart")  # default: optimized widths
+docx_tab(anova, fit_mode = "page")   # full page width
+docx_tab(anova, fit_mode = "none")   # no fitting
+
+# Customize flextable appearance
+docx_tab(anova, ft_fontsize = 11, ft_padding = 3)
+
+# Verbose output to see transformations
+docx_tab(anova, verbose = TRUE)
+
+# Fit to different page sizes
+docx_tab(anova, page_width = "letter", landscape = TRUE)
+
+# Control abbreviation footnotes
+docx_tab(anova, add_abbrev_footnote = TRUE)  # default: adds footnotes
+docx_tab(anova, add_abbrev_footnote = FALSE) # no footnotes
 }

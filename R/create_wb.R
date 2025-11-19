@@ -8,7 +8,7 @@
 #' @param infosheetlabel Label for the info sheet
 #' @param ... Other arguments passed to \code{openxlsx::createWorkbook()}
 #'
-#' @return Workbook object (see {openxlsx})
+#' @return Workbook object (see \{openxlsx\})
 #'
 #' @export
 #'
