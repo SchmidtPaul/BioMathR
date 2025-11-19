@@ -8,7 +8,7 @@ save_wb(
   wb,
   file = here::here("untitled.xlsx"),
   overwrite = FALSE,
-  open_file = TRUE,
+  open_after_save = TRUE,
   ...
 )
 }
@@ -19,7 +19,7 @@ save_wb(
 
 \item{overwrite}{If \code{TRUE}, overwrites the previous excel file}
 
-\item{open_file}{If \code{TRUE}, opens the excel file after it was created}
+\item{open_after_save}{If \code{TRUE}, opens the excel file after it was created}
 
 \item{...}{Other arguments passed to\code{openxlsx::saveWorkbook()}}
 }

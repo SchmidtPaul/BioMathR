@@ -19,7 +19,7 @@ desplot_across(
 \arguments{
 \item{data}{A data frame.}
 
-\item{vars}{Vector with variables/column names for which a desplot should be created.}
+\item{vars}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> Variables/column names for which a desplot should be created. You can use tidyselect helpers like \code{starts_with()}, \code{ends_with()}, \code{contains()}, etc.}
 
 \item{formright}{A formula like \code{x*y|location}, i.e. the right-hand side of the formula \code{yield~x*y|location} that would usually be passed to \code{desplot::desplot(form = ...)}. Note that \code{x} and \code{y} are numeric and the default is \code{"col + row"}.}
 
@@ -44,9 +44,15 @@ The goal of this function is to allow the user a quick and easy glance at the ex
 \examples{
 library(BioMathR)
 
+# Using explicit column names
 dps <- desplot_across(data = agridat::yates.oats,
                       vars = c("nitro", "gen", "block"),
                       cex = 1)
+
+# Using tidyselect helpers
+dps2 <- desplot_across(data = agridat::yates.oats,
+                       vars = starts_with("n"),
+                       cex = 1)
 
 dps$nitro
 dps$gen

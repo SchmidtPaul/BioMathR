@@ -89,5 +89,5 @@ desc_tabs <-
     BioMathR::save_wb(wb,
                       file = xlsx_path,
                       overwrite = xlsx_overwrite,
-                      open_file = xlsx_open)
+                      open_after_save = xlsx_open)
   }

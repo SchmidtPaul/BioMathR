@@ -130,8 +130,6 @@ get_varcomp.merMod <- function(model, digits = 3) {
   vc <- varcomp_percentages(vc)
   vc <- varcomp_formatter(vc, digits)
 
-  # TODO: https://github.com/m-clark/mixedup/blob/f04aaea11b0fb760e3dbd171b20f3bd7f405f21f/R/extract_vc.R#LL178C17-L178C17
-
   return(vc)
 }
 

@@ -289,7 +289,7 @@ get_emmeans <- function(
     emm_out[["diffs_info"]] <- glue::glue(
       "Modelbased mean comparisons for {VARSTATMENT}{PERSTATEMENT} \\
       (df according to {lmer.df} method). \\
-      Contrasts with a p-value < 0.05 are statistically significant accordint to the \\
+      Contrasts with a p-value < 0.05 are statistically significant according to the \\
       {renames[[lang]] %>% .[. == adjust] %>% names()} \\
       at the 5% level of significance, i.e. the difference between the respective means \\
       is significantly different from 0. \\

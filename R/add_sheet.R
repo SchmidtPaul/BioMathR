@@ -165,6 +165,4 @@ add_sheet <-
       heights = rowheight
     )
 
-    # TO DO: auto-add dlookr::diagnose(df1)[,1:5]?
-
   }
