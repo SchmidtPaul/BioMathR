@@ -68,7 +68,6 @@ reference:
 - title: string manipulation
   contents:
   - format_p
-  - get_d3_colourScale
   - get_unique_references
   - str_collapse_with
   - str_unGer
