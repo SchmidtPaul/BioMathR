@@ -8,6 +8,7 @@ cond_format(
   wb,
   sheetName = NULL,
   columns,
+  rows = NULL,
   colourScale = NULL,
   contains = NULL,
   expression = NULL,
@@ -24,6 +25,8 @@ cond_format(
 
 \item{columns}{column names or indices to apply conditional formatting to}
 
+\item{rows}{optional row indices to apply conditional formatting to. If NULL (default), applies to all data rows.}
+
 \item{colourScale}{shortcut argument to apply "colourScale" formatting, e.g. \code{c("red" = 0, "grey" = 50, "green" = 100)}}
 
 \item{contains}{shortcut argument to apply "contains" formatting, e.g. \code{"word"}}
@@ -39,5 +42,5 @@ cond_format(
 \item{...}{directly passed to \code{openxlsx::conditionalFormatting()}}
 }
 \description{
-This function is a wrapper for \code{openxlsx::conditionalFormatting()} allowing for a more convenient application of conditional formatting to a sheet in a Workbook object. The arguments \code{colourScale}, \code{contains} and \code{expression} serve as shortcuts to obtaining the respective conditional formatting, but it is still possible to obtain \href{https://rdrr.io/cran/openxlsx/man/conditionalFormatting.html}{all possible conditional formatting styles available in {openxlsx}} via the arguments \code{rule}, \code{style} and \code{type} which are directly passed to \code{openxlsx::conditionalFormatting()}.
+This function is a wrapper for \code{openxlsx::conditionalFormatting()} allowing for a more convenient application of conditional formatting to a sheet in a Workbook object. The arguments \code{colourScale}, \code{contains} and \code{expression} serve as shortcuts to obtaining the respective conditional formatting, but it is still possible to obtain \href{https://rdrr.io/cran/openxlsx/man/conditionalFormatting.html}{all possible conditional formatting styles available in \{openxlsx\}} via the arguments \code{rule}, \code{style} and \code{type} which are directly passed to \code{openxlsx::conditionalFormatting()}.
 }

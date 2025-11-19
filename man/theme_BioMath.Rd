@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme_BioMath.R
 \name{theme_BioMath}
 \alias{theme_BioMath}
-\title{A {ggplot2} theme based on the \href{https://www.biomath.de/}{BioMath} corporate design.}
+\title{A \{ggplot2\} theme based on the \href{https://www.biomath.de/}{BioMath} corporate design.}
 \usage{
 theme_BioMath(
   base_size = 11,
@@ -66,7 +66,7 @@ theme_BioMath(
 \item{...}{Other arguments passed to the underlying \code{ggplot2::theme_minimal()}}
 }
 \description{
-A {ggplot2} theme based on the \href{https://www.biomath.de/}{BioMath} corporate design.
+A \{ggplot2\} theme based on the \href{https://www.biomath.de/}{BioMath} corporate design.
 }
 \examples{
 library(ggplot2)

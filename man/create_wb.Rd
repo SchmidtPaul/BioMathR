@@ -24,7 +24,7 @@ create_wb(
 \item{...}{Other arguments passed to \code{openxlsx::createWorkbook()}}
 }
 \value{
-Workbook object (see {openxlsx})
+Workbook object (see \{openxlsx\})
 }
 \description{
 This function is a wrapper for \code{openxlsx::createWorkbook()}, but also adds an info sheet including e.g. the time it was created.

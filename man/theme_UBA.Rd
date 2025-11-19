@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme_UBA.R
 \name{theme_UBA}
 \alias{theme_UBA}
-\title{A {ggplot2} theme based on the \href{https://www.umweltbundesamt.de/dokument/corporate-design-des-umweltbundesamtes}{Umweltbundesamt corporate design}.}
+\title{A \{ggplot2\} theme based on the \href{https://www.umweltbundesamt.de/dokument/corporate-design-des-umweltbundesamtes}{Umweltbundesamt corporate design}.}
 \usage{
 theme_UBA(
   base_size = 11,
@@ -69,7 +69,7 @@ theme_UBA(
 \item{legend_custom_bottom}{If \code{TRUE}, the legend is formatted in a specific way at the bottom of the plot}
 }
 \description{
-A {ggplot2} theme based on the \href{https://www.umweltbundesamt.de/dokument/corporate-design-des-umweltbundesamtes}{Umweltbundesamt corporate design}.
+A \{ggplot2\} theme based on the \href{https://www.umweltbundesamt.de/dokument/corporate-design-des-umweltbundesamtes}{Umweltbundesamt corporate design}.
 }
 \examples{
 library(ggplot2)
