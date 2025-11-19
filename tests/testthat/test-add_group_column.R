@@ -1,5 +1,5 @@
 test_that("add_group_column creates correct groups with group_by", {
-  data <- data.frame(x = c(1,2,3,1,2,3), y = c("a","b","c","a","b","c"))
+  data <- data.frame(x = c(1,1,2,2,3,3), y = c("a","b","a","b","a","b"))
   result <- data %>% add_group_column(name = "group_id", group_by = c("x", "y"))
 
   expect_true("group_id" %in% names(result))

@@ -46,7 +46,7 @@ desplot_across <-
                             msg = "To use desplot_across(), package 'desplot' must be installed.")
 
     # Use tidyselect to evaluate vars parameter
-    vars_selected <- tidyselect::eval_select(rlang::enquo(vars), data)
+    vars_selected <- tidyselect::eval_select(rlang::expr({{ vars }}), data)
     vars <- names(vars_selected)
 
     # language labels

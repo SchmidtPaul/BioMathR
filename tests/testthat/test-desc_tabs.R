@@ -5,8 +5,8 @@ test_that("desc_tabs creates xlsx file with correct sheets", {
   test_data <- data.frame(
     var1 = rnorm(20),
     var2 = rnorm(20),
-    group1 = rep(c("A", "B"), each = 10),
-    group2 = rep(c("X", "Y"), 10)
+    treatment = rep(c("A", "B"), each = 10),
+    block = rep(c("X", "Y"), 10)
   )
 
   # Create temporary file path
@@ -17,7 +17,7 @@ test_that("desc_tabs creates xlsx file with correct sheets", {
     desc_tabs(
       data = test_data,
       yvars = c("var1", "var2"),
-      groupvars = c("group1", "group2"),
+      groupvars = c("treatment", "block"),
       xlsx_path = temp_file,
       xlsx_overwrite = TRUE,
       xlsx_open = FALSE,
@@ -32,7 +32,7 @@ test_that("desc_tabs creates xlsx file with correct sheets", {
   wb <- openxlsx::loadWorkbook(temp_file)
   sheet_names <- names(wb)
 
-  # Should have: info, gro (group1), gro (group2), gro-gro (group1-group2), data
+  # Should have: info, tre (treatment), blo (block), tre-blo (treatment-block), data
   expect_true("info" %in% sheet_names)
   expect_true("data" %in% sheet_names)
   expect_true(length(sheet_names) >= 3)  # At least info, some grouping sheets, and data
@@ -46,7 +46,7 @@ test_that("desc_tabs works without data sheet", {
 
   test_data <- data.frame(
     var1 = rnorm(10),
-    group1 = rep(c("A", "B"), each = 5)
+    treatment = rep(c("A", "B"), each = 5)
   )
 
   temp_file <- tempfile(fileext = ".xlsx")
@@ -55,7 +55,7 @@ test_that("desc_tabs works without data sheet", {
     desc_tabs(
       data = test_data,
       yvars = "var1",
-      groupvars = "group1",
+      groupvars = "treatment",
       xlsx_path = temp_file,
       xlsx_overwrite = TRUE,
       xlsx_open = FALSE,
