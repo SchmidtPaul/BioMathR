@@ -14,12 +14,14 @@
 #'
 #' @examples
 #' BioMathR::format_p(c(0.04, 0.004, 0.0004, 0.00004, 0.000004))
-format_p <- function(p,
-                     name = NULL,
-                     whitespace = FALSE,
-                     stars = TRUE,
-                     lang = c("eng", "ger")[1],
-                     ...) {
+format_p <- function(
+  p,
+  name = NULL,
+  whitespace = FALSE,
+  stars = TRUE,
+  lang = c("eng", "ger")[1],
+  ...
+) {
   if (lang == "ger") {
     decimal_separator <- ","
   } else {
@@ -35,5 +37,3 @@ format_p <- function(p,
     ...
   )
 }
-
-

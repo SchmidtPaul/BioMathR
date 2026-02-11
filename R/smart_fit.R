@@ -171,5 +171,5 @@ smart_fit <- function(ft,
 
   # Apply widths to flextable
   ft %>%
-    flextable::width(width = wi$final_width, unit = "cm")
+    flextable::width(width = wi$final_width / 2.54)
 }
