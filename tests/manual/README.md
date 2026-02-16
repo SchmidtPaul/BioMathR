@@ -10,7 +10,7 @@ Some functions (like `smart_fit()`) require **visual inspection** in actual outp
 
 ### `visual_test_smart_fit.R`
 
-Tests the `smart_fit()` function by creating a Word document with 10 different table layouts.
+Tests `smart_fit()` and `docx_tab()` by creating a Word document with 20 different table layouts (10 standard flextables + 10 with `docx_tab()` styling).
 
 **How to run:**
 ```r
@@ -22,7 +22,7 @@ Rscript tests/manual/visual_test_smart_fit.R
 ```
 
 **What it does:**
-1. Creates 10 test tables with different edge cases
+1. Creates 20 test tables (10 standard + 10 with `docx_tab()`)
 2. Applies `smart_fit()` with verbose output
 3. Generates `tests/manual/smart_fit_visual_test.docx`
 4. Automatically opens the document
@@ -32,9 +32,10 @@ Rscript tests/manual/visual_test_smart_fit.R
 - No unnecessary line breaks in column names or cells
 - Column widths appear balanced and appropriate
 - Verbose output shows correct logic for each step
-- First 7 tables are portrait, last 3 are landscape
+- Tests 1-7: portrait, Tests 8-10: landscape
+- Tests 11-20: same layouts with `docx_tab()` styling
 
-**Test cases covered:**
+**Test cases covered (Tests 1-10 standard, 11-20 with docx_tab):**
 1. Single column with short name
 2. Single column with very long name
 3. Three columns with short names
