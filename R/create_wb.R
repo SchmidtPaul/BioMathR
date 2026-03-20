@@ -37,12 +37,16 @@ create_wb <- function(fontSize = 10,
         col2 = c(
           " ",
           paste(Sys.time()),
-          # this extracts the name of the R script where create_wb() is run
-          gsub(
-            x = if (rstudioapi::isAvailable()) {rstudioapi::getSourceEditorContext()$path} else {""},
-            pattern = here::here(),
-            replacement = ""
-          )
+          # this extracts the name of the R script where create_wb() is run.
+          # In Positron, rstudioapi::isAvailable() is TRUE even during
+          # rmarkdown::render(), but getSourceEditorContext()$path returns NULL
+          # (no active editor). gsub(x = NULL) yields character(0), which makes
+          # col2 shorter than col1 and data.frame() fails.
+          {
+            path <- if (rstudioapi::isAvailable()) rstudioapi::getSourceEditorContext()$path else ""
+            if (is.null(path) || length(path) == 0) path <- ""
+            gsub(x = path, pattern = here::here(), replacement = "")
+          }
         )
       )
 
