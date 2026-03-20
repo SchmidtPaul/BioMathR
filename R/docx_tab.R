@@ -162,7 +162,6 @@ prepare_table <- function(x) {
                   .rownames = rownames(x),
                   .before = everything())
   }
-  colnames(tab) <- make.names(names(tab))
   return(tab)
 }
 
@@ -231,7 +230,14 @@ unify_column_names <- function(tab, verbose = FALSE) {
     colnames(tab)[colnames(tab) == "Df.res"] <- "DenDF"
   }
 
-  names(unifynames) <- make.names(names(unifynames))
+  # Build combined lookup: match both original names and make.names variants
+  original_keys <- names(unifynames)
+  safe_keys <- make.names(original_keys)
+  combined <- c(
+    stats::setNames(unifynames, original_keys),
+    stats::setNames(unifynames, safe_keys)
+  )
+  unifynames <- combined[!duplicated(names(combined))]
 
   # unify column names
   colnames(tab) <- dplyr::recode(colnames(tab), !!!unifynames)
@@ -354,10 +360,10 @@ create_flextable <- function(tab, lang, ft_padding = 2, ft_fontsize = 9, ft_bord
   vcat("Formatting: padding =", ft_padding, "| fontsize =", ft_fontsize, "| border =", ft_border_width)
 
   if (lang == "ger") {
-    vcat("Setting German number format (decimal.mark = ',', big.mark = '.')")
+    vcat("Setting German number format (decimal.mark = ',', big.mark = '')")
     flextable::set_flextable_defaults(
       decimal.mark = ",",
-      big.mark = "."
+      big.mark = ""
     )
   }
 
