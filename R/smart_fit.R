@@ -204,17 +204,30 @@ smart_fit <- function(ft,
 
     # Calculate minimum width per column = width of longest single word
     min_word_widths <- calc_min_word_widths(ft, df, buffer_cm, verbose = verbose)
-    wi$min_word <- min_word_widths
 
-    if (sum(min_word_widths) >= page_width) {
+    # Promote cheap columns to their full header width:
+    # If a column's header fits without breaking AND granting it the full header
+    # width is affordable (header width < 2x word minimum), use header width
+    # as the effective minimum. This prevents "Treatmen\nt" style breaks.
+    effective_min <- pmax(min_word_widths, wi$min_head)
+
+    # Check if we can afford all header widths - if not, fall back to word mins
+    if (sum(effective_min) >= page_width) {
+      effective_min <- min_word_widths
+      vcat("  Header-based minimums too wide, using word-based minimums only")
+    }
+
+    wi$min_word <- effective_min
+
+    if (sum(effective_min) >= page_width) {
       # Extreme case: even minimum widths don't fit - scale minimums proportionally
       vcat("  [EXTREME] Even word-based minimums exceed page width, scaling proportionally")
       wi <- wi %>%
         dplyr::mutate(final_width = (min_word / sum(min_word)) * page_width)
     } else {
       # Normal case: guarantee minimums, distribute remaining space proportionally
-      remaining <- page_width - sum(min_word_widths)
-      extra_wanted <- pmax(wi$ideal_width - min_word_widths, 0)
+      remaining <- page_width - sum(effective_min)
+      extra_wanted <- pmax(wi$ideal_width - effective_min, 0)
       total_extra <- sum(extra_wanted)
 
       if (total_extra > 0) {
