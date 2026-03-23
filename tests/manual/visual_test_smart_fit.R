@@ -95,7 +95,7 @@ add_test_table <- function(doc, test_num, description, df, width_param = "A4",
   return(doc)
 }
 
-cat("Creating 20 test tables (10 standard + 10 with docx_tab)...\n")
+cat("Creating 22 test tables (10 standard + 10 with docx_tab + 2 stress tests)...\n")
 
 # ==============================================================================
 # PORTRAIT TESTS (A4 Portrait)
@@ -343,9 +343,63 @@ doc <- add_test_table(doc, 20,
                      "4 columns, very wide content forcing auto-scale (landscape) (with docx_tab)",
                      test20_df, landscape = TRUE, prev_landscape = TRUE)
 
-# End the final section as landscape
+# ==============================================================================
+# STRESS TEST: 2 long text columns + 4 short columns (landscape)
+# ==============================================================================
+# This is the key test case that motivated the word-based minimum width logic.
+# Without it, ID/Rating/Score headers get squeezed below readable width.
+
+test21_df <- data.frame(
+  ID = 1:6,
+  Site = c("Hohenheim", "Ihinger Hof", "Eckartsweier", "Rauischholzhausen", "Dikopshof", "Gross-Gerau"),
+  Rating = c("Good", "Fair", "Good", "Poor", "Fair", "Good"),
+  Score = c(4.2, 3.1, 4.5, 1.8, 3.3, 4.0),
+  Description = c(
+    "The field trial showed consistent results across all replicates with no visible signs of disease pressure or nutrient deficiency throughout the entire growing season from sowing to harvest.",
+    "Minor variation observed in block 3, likely due to soil heterogeneity near the field border. Additional soil sampling recommended for next season to clarify the spatial pattern.",
+    "Strong treatment effect visible already at the second assessment timepoint. The positive control performed as expected based on historical data from the previous three trial years.",
+    "Severe lodging after storm event on June 15th compromised data quality for this plot. Consider excluding from the final combined analysis or using a covariate adjustment approach.",
+    "No deviations from protocol documented. All measurements were taken within the specified time window according to the standard operating procedures of the trial network.",
+    "Excellent crop establishment with uniform plant density across all plots. This site is representative of typical commercial growing conditions in the upper Rhine valley region."
+  ),
+  Recommendation = c(
+    "Continue monitoring in next season with identical protocol. Include additional soil moisture sensors to capture within-field variability that may explain minor yield differences between blocks.",
+    "Repeat soil analysis before next planting. Consider splitting block 3 into sub-blocks or adding a spatial covariate to the statistical model to account for the gradient.",
+    "Confirm results with one additional trial year before submitting efficacy data to the regulatory authority. Current data strongly supports the expected mode of action.",
+    "Exclude plot from primary analysis but retain in sensitivity analysis as a robustness check. Document storm damage with photographs and GPS coordinates for the trial report.",
+    "Site confirmed as high-quality trial location suitable for GEP-compliant regulatory field trials. Recommend continued inclusion in the multi-environment trial network.",
+    "Expand trial design next year to include two additional treatments requested by the sponsor. Current infrastructure and site management capacity can support the larger design."
+  ),
+  stringsAsFactors = FALSE
+)
+doc <- add_test_table(doc, 21,
+                     "6 columns, 2 long text + 4 short (landscape) - word-based min widths",
+                     test21_df, landscape = TRUE, prev_landscape = TRUE)
+
+# ==============================================================================
+# EXTREME TEST: Many columns with long single words, portrait, tiny width
+# ==============================================================================
+# Forces sum(min_widths) > page_width, triggering the fallback path where
+# even word-based minimums must be scaled down proportionally.
+
+test22_df <- data.frame(
+  Betriebsmittelverbrauch = c(120, 95, 140),
+  Pflanzenschutzmassnahme = c("Herbizid", "Fungizid", "Insektizid"),
+  Versuchsdurchfuehrung = c("Standard", "Modifiziert", "Standard"),
+  Ertragsfeststellung = c(5.2, 4.8, 6.1),
+  Bodenbearbeitungsmethode = c("Pflug", "Grubber", "Direktsaat"),
+  Stickstoffduengung = c(180, 160, 200),
+  Bestandesdichtebestimmung = c(350, 280, 400),
+  Krankheitsboniturtermin = c("BBCH 39", "BBCH 55", "BBCH 65"),
+  stringsAsFactors = FALSE
+)
+doc <- add_test_table(doc, 22,
+                     "8 columns with very long German single-word headers (portrait, extreme)",
+                     test22_df, landscape = FALSE, prev_landscape = TRUE)
+
+# End the final section as portrait
 doc <- doc %>%
-  officer::body_end_section_landscape()
+  officer::body_end_section_portrait()
 
 # ==============================================================================
 # Save and open document
@@ -370,4 +424,6 @@ cat("  - Column widths look balanced\n")
 cat("  - Verbose output shows correct logic\n")
 cat("  - Tests 1-10: Standard flextables\n")
 cat("  - Tests 11-20: With docx_tab() styling\n")
+cat("  - Test 21: Stress test (2 long text + 4 short cols)\n")
+cat("  - Test 22: Extreme test (8 long German words, portrait)\n")
 cat("=========================================\n\n")

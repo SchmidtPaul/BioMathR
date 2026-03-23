@@ -1,3 +1,88 @@
+#' Calculate minimum column widths based on longest single word
+#' @param ft flextable object
+#' @param df data.frame from ft$body$dataset
+#' @param buffer_cm buffer to add per column (same as autofit buffer)
+#' @param verbose logical
+#' @return numeric vector of minimum widths in cm (one per column)
+#' @noRd
+calc_min_word_widths <- function(ft, df, buffer_cm = 0.254, verbose = FALSE) {
+  vcat <- function(...) if (verbose) cat("[smart_fit]", ..., "\n")
+
+  col_names <- names(df)
+  n_cols <- length(col_names)
+
+  # Extract font info from the flextable object
+  hdr_families <- ft$header$styles$text$font.family$data[1, ]
+  hdr_sizes <- ft$header$styles$text$font.size$data[1, ]
+  hdr_bold <- ft$header$styles$text$bold$data[1, ]
+
+  # For body: use first row as representative (font is typically uniform)
+  body_families <- ft$body$styles$text$font.family$data[1, ]
+  body_sizes <- ft$body$styles$text$font.size$data[1, ]
+
+  min_widths <- numeric(n_cols)
+
+  for (j in seq_len(n_cols)) {
+    col <- col_names[j]
+
+    # Collect all text: header name + all body values
+    body_vals <- as.character(df[[col]])
+    body_vals <- body_vals[!is.na(body_vals) & nchar(body_vals) > 0]
+    all_text <- c(col, body_vals)
+
+    # Split into words and find the longest one
+    all_words <- unlist(strsplit(all_text, "\\s+"))
+    all_words <- all_words[nchar(all_words) > 0]
+
+    if (length(all_words) == 0) {
+      min_widths[j] <- buffer_cm
+      next
+    }
+
+    # Measure header word widths (bold)
+    header_words <- unlist(strsplit(col, "\\s+"))
+    header_words <- header_words[nchar(header_words) > 0]
+
+    hdr_family <- as.character(hdr_families[j])
+    hdr_size <- as.numeric(hdr_sizes[j])
+    hdr_weight <- if (isTRUE(as.logical(hdr_bold[j]))) "bold" else "normal"
+
+    hdr_widths_px <- systemfonts::string_width(
+      header_words, family = hdr_family, size = hdr_size,
+      weight = hdr_weight, res = 72
+    )
+    max_hdr_cm <- max(hdr_widths_px) / 72 * 2.54
+
+    # Measure body word widths (normal weight)
+    body_words <- unlist(strsplit(body_vals, "\\s+"))
+    body_words <- body_words[nchar(body_words) > 0]
+
+    if (length(body_words) > 0) {
+      body_family <- as.character(body_families[j])
+      body_size <- as.numeric(body_sizes[j])
+
+      body_widths_px <- systemfonts::string_width(
+        body_words, family = body_family, size = body_size,
+        weight = "normal", res = 72
+      )
+      max_body_cm <- max(body_widths_px) / 72 * 2.54
+    } else {
+      max_body_cm <- 0
+    }
+
+    min_widths[j] <- max(max_hdr_cm, max_body_cm) + buffer_cm
+  }
+
+  if (verbose) {
+    vcat("\nMinimum widths (longest word + buffer):")
+    for (j in seq_len(n_cols)) {
+      vcat(sprintf("  %-25s | min_word: %5.2f cm", col_names[j], min_widths[j]))
+    }
+  }
+
+  min_widths
+}
+
 #' @title Adjust column widths for flextables
 #'
 #' @param ft Flextable object
@@ -113,28 +198,43 @@ smart_fit <- function(ft,
     wi <- wi %>% dplyr::mutate(final_width = ideal_width)
 
   } else {
-    # Case 2: Content too wide - need to scale down proportionally
+    # Case 2: Content too wide - use word-based minimum widths
     vcat("\n[WARNING] Content too wide to fit without line breaks")
     vcat(sprintf("  Need %.2f cm, but only %.2f cm available", total_ideal, page_width))
 
-    # Special case: If we're close to page width (within 2.2 cm), just use full width
-    if (total_ideal >= (page_width - 2.2)) {
-      vcat("  Content is close to page width, using full page width")
-      vcat("  Distributing line breaks proportionally across columns")
+    # Calculate minimum width per column = width of longest single word
+    min_word_widths <- calc_min_word_widths(ft, df, buffer_cm, verbose = verbose)
+    wi$min_word <- min_word_widths
+
+    if (sum(min_word_widths) >= page_width) {
+      # Extreme case: even minimum widths don't fit - scale minimums proportionally
+      vcat("  [EXTREME] Even word-based minimums exceed page width, scaling proportionally")
+      wi <- wi %>%
+        dplyr::mutate(final_width = (min_word / sum(min_word)) * page_width)
     } else {
-      vcat("  Distributing line breaks proportionally across columns")
+      # Normal case: guarantee minimums, distribute remaining space proportionally
+      remaining <- page_width - sum(min_word_widths)
+      extra_wanted <- pmax(wi$ideal_width - min_word_widths, 0)
+      total_extra <- sum(extra_wanted)
+
+      if (total_extra > 0) {
+        wi <- wi %>%
+          dplyr::mutate(
+            extra = pmax(ideal_width - min_word, 0),
+            final_width = min_word + (extra / total_extra) * remaining
+          )
+      } else {
+        wi <- wi %>% dplyr::mutate(final_width = min_word)
+      }
+
+      vcat(sprintf("  Guaranteed minimums, distributing remaining %.2f cm proportionally", remaining))
     }
 
-    # Scale proportionally: each column gets (ideal_width / total_ideal) * page_width
-    wi <- wi %>%
-      dplyr::mutate(final_width = (ideal_width / total_ideal) * page_width)
-
     if (verbose) {
-      vcat("\nProportional distribution:")
+      vcat("\nWord-based allocation:")
       for (i in seq_len(nrow(wi))) {
-        pct <- (wi$ideal_width[i] / total_ideal) * 100
-        vcat(sprintf("  %-25s | %.1f%% of total = %.2f cm",
-                     wi$name[i], pct, wi$final_width[i]))
+        vcat(sprintf("  %-25s | min: %5.2f | ideal: %5.2f | final: %5.2f cm",
+                     wi$name[i], wi$min_word[i], wi$ideal_width[i], wi$final_width[i]))
       }
     }
   }
