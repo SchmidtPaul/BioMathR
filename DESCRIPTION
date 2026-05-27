@@ -8,6 +8,8 @@ Authors@R: c(
   )
 Description: The R package `BioMathR` provides a collection of utility and wrapper functions, all of which are often used at [BioMath](https://www.biomath.de/).
 License: GPL-3
+URL: https://schmidtpaul.github.io/BioMathR/, https://github.com/SchmidtPaul/BioMathR
+BugReports: https://github.com/SchmidtPaul/BioMathR/issues
 Imports:
     assertthat,
     dplyr,

@@ -49,7 +49,7 @@ below the table to preserve Quarto cross-references."><meta property="og:image" 
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Print abbreviation footnote from bm_kable output</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/SchmidtPaul/BioMathR/blob/HEAD/R/bm_kable.R" class="external-link"><code>R/bm_kable.R</code></a></small>
     <div class="hidden name"><code>bm_footnote.Rd</code></div>
     </div>
 
@@ -79,7 +79,7 @@ invisibly if no footnote is present.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">BioMathR</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://schmidtpaul.github.io/BioMathR/">BioMathR</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="bm_kable.html">bm_kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">PlantGrowth</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">bm_footnote</span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "*df = degrees of freedom; SS = sum of squares; MS = mean squares*"</span>
