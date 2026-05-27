@@ -223,7 +223,7 @@ smart_fit <- function(ft,
       # Extreme case: even minimum widths don't fit - scale minimums proportionally
       vcat("  [EXTREME] Even word-based minimums exceed page width, scaling proportionally")
       wi <- wi %>%
-        dplyr::mutate(final_width = (min_word / sum(min_word)) * page_width)
+        dplyr::mutate(final_width = (.data$min_word / sum(.data$min_word)) * page_width)
     } else {
       # Normal case: guarantee minimums, distribute remaining space proportionally
       remaining <- page_width - sum(effective_min)
@@ -233,11 +233,11 @@ smart_fit <- function(ft,
       if (total_extra > 0) {
         wi <- wi %>%
           dplyr::mutate(
-            extra = pmax(ideal_width - min_word, 0),
-            final_width = min_word + (extra / total_extra) * remaining
+            extra = pmax(.data$ideal_width - .data$min_word, 0),
+            final_width = .data$min_word + (.data$extra / total_extra) * remaining
           )
       } else {
-        wi <- wi %>% dplyr::mutate(final_width = min_word)
+        wi <- wi %>% dplyr::mutate(final_width = .data$min_word)
       }
 
       vcat(sprintf("  Guaranteed minimums, distributing remaining %.2f cm proportionally", remaining))

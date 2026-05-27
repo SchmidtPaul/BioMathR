@@ -1,0 +1,2 @@
+userId,display,userName,userIdType,participantId,joinDateTime,leaveDateTime,participantStatus
+aad:00000000000000000000000000000001,Max Mustermann (FIRMA),max@firma.de,AAD,55555555-5555-5555-5555-555555555551,2026-05-20T09:00:00Z,2026-05-20T09:30:00Z,Left

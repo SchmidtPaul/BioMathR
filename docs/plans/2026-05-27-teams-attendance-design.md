@@ -29,17 +29,37 @@ Mehr-Abschnitt-Format). Relevante Spalten:
 Header-Beispiel:
 `userId,display,userName,userIdType,participantId,joinDateTime,leaveDateTime,participantStatus,hasLicense,...`
 
-## Funktions-API
+## Funktions-API (umgesetzt: `get_teams_attendance()`)
 
-Name final waehlbar (Vorschlag: `read_teams_attendance()`), eine Funktion, Rueckgabe ein Tibble.
+Eine Funktion, Rueckgabe ein Tibble; die unzusammengefuehrte Roh-Version haengt
+als `attr(result, "unmerged")` dran (fuer ein zweites Excel-Blatt).
 
 ```r
-read_teams_attendance(
+get_teams_attendance(
   files,                         # character: Pfade zu den Tages-CSVs
   unit = c("minutes", "hours"),  # Einheit der Dauer-Zellen
-  match_by_email = TRUE          # angemeldete Nutzer per E-Mail zusammenfuehren
+  match_by_email = TRUE,         # angemeldete Nutzer per E-Mail zusammenfuehren
+  merge_contained_names = TRUE   # Namens-Varianten per Praefix zusammenfuehren
 )
 ```
+
+### Namens-Merge (merge_contained_names, Default an)
+
+Normalisierter Praefix-Vergleich: Name wird lowercased und auf reine
+Alphanumerik reduziert (Komma, Unterstrich, Klammern, Leerzeichen fallen weg).
+Zwei Namen werden zusammengefuehrt, wenn der kuerzere (normalisiert) ein
+**Praefix** des laengeren ist UND mindestens **2 Wort-Tokens** hat. Merging ist
+**transitiv** (Union-Find auf Integer-Indizes -- bewusst NICHT ueber String-Namen,
+sonst `subscript out of bounds` bei leeren/`NA`-Keys). Kanonischer Name = laengster.
+
+- Loest: `"Max Mustermann"` / `"Max Mustermann, MRI"` / `"Max Mustermann_FIRMA"` /
+  `"Max Mustermann BLE 624"` / `"Max Mustermann BLE624"` -> eine Zeile.
+- Die ≥2-Woerter-Schwelle verhindert, dass `"Max"` Fremde anzieht
+  (`"Maximilian"`, `"Max Power"` bleiben getrennt).
+- Bewusst akzeptiert: gleiche Vor-/Nachnamen koennen faelschlich gemergt werden ->
+  Abgleich ueber das `"unmerged"`-Attribut.
+
+Leere `display`-Werte -> Platzhalter `"(ohne Namen)"`.
 
 ## Datenfluss
 

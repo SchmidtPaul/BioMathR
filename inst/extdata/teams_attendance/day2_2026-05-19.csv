@@ -1,0 +1,3 @@
+userId,display,userName,userIdType,participantId,joinDateTime,leaveDateTime,participantStatus
+aad:00000000000000000000000000000001,Max M.,max@firma.de,AAD,33333333-3333-3333-3333-333333333331,2026-05-19T09:00:00Z,2026-05-19T10:00:00Z,Left
+teamsvisitor:9b3d44aa55ee66ff77001122334455ab,Anna Gast,,TeamsAnonymous,44444444-4444-4444-4444-444444444441,2026-05-19T09:10:00Z,2026-05-19T09:40:00Z,Left
