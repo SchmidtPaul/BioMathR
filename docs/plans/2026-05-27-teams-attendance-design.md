@@ -29,6 +29,38 @@ Mehr-Abschnitt-Format). Relevante Spalten:
 Header-Beispiel:
 `userId,display,userName,userIdType,participantId,joinDateTime,leaveDateTime,participantStatus,hasLicense,...`
 
+## CSVs beschaffen (rueckwirkend, verifiziert 2026-06-16)
+
+Die Tages-CSVs sind **weder im Teams-Client noch in Outlook nachtraeglich** einfach
+herunterladbar (dort sieht man nur Meeting-Link, Besprechungs-ID und Passcode). Der
+zuverlaessige rueckwirkende Weg laeuft ueber das **Teams Admin Center**
+(`admin.teams.microsoft.com`):
+
+1. **Benutzer -> Verwalten von Benutzern**
+2. Den **Organisator** des Meetings auswaehlen (i.d.R. man selbst, z.B. "Paul Schmidt").
+3. Nach unten zur Registerkarte **"Besprechungen und Anrufe"**.
+4. Dort zu **"Abgeschlossene Besprechungen"** scrollen und das Meeting suchen.
+5. Auf die **Besprechungs-ID** klicken -> Meeting-Ansicht mit Teilnehmer-Zeitachse.
+6. Oben rechts (neben der Suche "Nach teilnehmenden Personen suchen") der
+   **Download-Knopf** -> liefert die CSV im bekannten Format.
+
+Hinweise:
+- **NICHT** unter "Analysen und Berichte / Verwendungsberichte" - das sind nur
+  aggregierte Nutzungsstatistiken, nicht das pro-Meeting-Format.
+- Nur **Organisator/Mitorganisator** kommt an den Bericht; der Report haengt am
+  Organisator-Account (geht verloren, wenn dieser die Organisation verlaesst).
+- Microsofts Doku nennt fuer diesen Admin-Weg eine 24-h-Grenze; in der Praxis war ein
+  Meeting vom 1. Juni noch am 16. Juni abrufbar (~15 Tage). Verlass dich aber nicht
+  darauf - Anwesenheitsberichte werden standardmaessig nur **90 Tage** vorgehalten.
+- Feature muss in der **Besprechungsrichtlinie** ("Anwesenheits- und Engagementbericht")
+  aktiviert sein.
+- Alternative fuer Organisatoren ohne Admin-Rechte: Teams-**Kalender** -> vergangene
+  Besprechungen -> Meeting -> Registerkarte **Anwesenheit** -> Download.
+
+Quellen:
+- <https://learn.microsoft.com/de-de/microsoftteams/teams-analytics-and-reports/meeting-attendance-report>
+- <https://support.microsoft.com/de-de/office/anzeigen-und-herunterladen-von-anwesenheitsberichten-zu-besprechungen-in-teams-ae7cf170-530c-47d3-84c1-3aedac74d310>
+
 ## Funktions-API (umgesetzt: `get_teams_attendance()`)
 
 Eine Funktion, Rueckgabe ein Tibble; die unzusammengefuehrte Roh-Version haengt

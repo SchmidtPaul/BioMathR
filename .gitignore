@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 .positai
+
+# Lokale Arbeitsnotizen neben Funktionen (nicht versionieren)
+R/*.NOTES.md
