@@ -51,7 +51,7 @@ theme_BioMath(
 
 \item{facette_box}{Should a rectangle be drawn around each facette?}
 
-\item{facette_box_color}{Color of the rectangle around each facette}
+\item{facette_box_color}{Color of the rectangle around each facette. Strip text is drawn in base_color (since 2026-09-02; before it used the box color, which at #C0BCB5 on white fails WCAG contrast).}
 
 \item{title_size}{Title font size, given in pts.}
 

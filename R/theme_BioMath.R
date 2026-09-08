@@ -14,7 +14,7 @@
 #' @param grid_linetype Linetype of the grid lines
 #' @param facette_distance Distance between facettes
 #' @param facette_box Should a rectangle be drawn around each facette?
-#' @param facette_box_color Color of the rectangle around each facette
+#' @param facette_box_color Color of the rectangle around each facette. Strip text is drawn in base_color (since 2026-09-02; before it used the box color, which at #C0BCB5 on white fails WCAG contrast).
 #' @param title_size Title font size, given in pts.
 #' @param subtitle_size Subtitle font size, given in pts.
 #' @param axistext_size Axis text font size, given in pts.
@@ -93,8 +93,8 @@ theme_BioMath <- function(base_size = 11,
       theme(
         panel.border = element_rect(fill = NA, colour = facette_box_color),
         strip.background = element_rect(fill = NA, colour = NA),
-        strip.text.x = ggtext::element_textbox(size = base_size, color = facette_box_color),
-        strip.text.y = ggtext::element_textbox(size = base_size, color = facette_box_color),
+        strip.text.x = ggtext::element_textbox(size = base_size, color = base_color),
+        strip.text.y = ggtext::element_textbox(size = base_size, color = base_color),
       )
   }
 
@@ -111,12 +111,12 @@ theme_BioMath <- function(base_size = 11,
       strip.text.x = ggtext::element_textbox(
         hjust = 0,
         size = base_size,
-        color = facette_box_color
+        color = base_color
       ),
       strip.text.y = ggtext::element_textbox(
         hjust = 0,
         size = base_size,
-        color = facette_box_color,
+        color = base_color,
         orientation = "right-rotated"
       ),
       panel.border = element_rect(fill = NA, colour = NA),
