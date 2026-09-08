@@ -42,7 +42,7 @@ desc_tabs <-
 
         # export table
         BioMathR::add_sheet(wb = wb,
-                            sheetName = comb_ij_lab,
+                            sheet_name = comb_ij_lab,
                             data = comb_ij_tab)
 
         # Apply conditional formatting separately for each variable to handle different scales
@@ -58,11 +58,11 @@ desc_tabs <-
             # Apply color scale only to this variable's rows
             BioMathR::cond_format(
               wb = wb,
-              sheetName = comb_ij_lab,
+              sheet = comb_ij_lab,
               columns = which(names(comb_ij_tab) %in% c("MW", "Mean"), arr.ind = TRUE),
               style = c("#ed6a5a", "#f0a202", "#00923f"),
               rule = NULL,
-              type = "colourScale",
+              type = "colorScale",
               rows = var_rows  # Only format rows for this specific variable
             )
           }
@@ -70,11 +70,11 @@ desc_tabs <-
           # Fallback: if no Variable column, apply formatting to all rows as before
           BioMathR::cond_format(
             wb = wb,
-            sheetName = comb_ij_lab,
+            sheet = comb_ij_lab,
             columns = which(names(comb_ij_tab) %in% c("MW", "Mean"), arr.ind = TRUE),
             style = c("#ed6a5a", "#f0a202", "#00923f"),
             rule = NULL,
-            type = "colourScale"
+            type = "colorScale"
           )
         }
       }
@@ -82,7 +82,7 @@ desc_tabs <-
 
     if (xlsx_data_sheet) {
       BioMathR::add_sheet(wb = wb,
-                          sheetName = "data",
+                          sheet_name = "data",
                           data = data)
     }
 

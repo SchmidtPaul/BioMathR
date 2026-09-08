@@ -7,58 +7,99 @@
 add_sheet(
   wb,
   data,
-  sheetName = NULL,
-  colWidth = "auto",
-  colWidthMin = 5,
-  colWidthMax = 25,
-  gridLines = FALSE,
-  freezefirstRow = TRUE,
-  freezefirstCol = FALSE,
-  addFilters = TRUE,
-  rowheight = 15,
-  textwrap = TRUE,
-  dateformat = "yyyy-mm-dd",
-  datetimeformat = "yyyy-mm-dd hh:mm:ss"
+  sheet_name = NULL,
+  col_width = "auto",
+  col_width_min = 5,
+  col_width_max = 25,
+  grid_lines = FALSE,
+  freeze_first_row = TRUE,
+  freeze_first_col = FALSE,
+  add_filters = TRUE,
+  row_height = 15,
+  text_wrap = TRUE,
+  date_format = "yyyy-mm-dd",
+  datetime_format = "yyyy-mm-dd hh:mm:ss",
+  na = NULL,
+  sheetName = deprecated(),
+  colWidth = deprecated(),
+  colWidthMin = deprecated(),
+  colWidthMax = deprecated(),
+  gridLines = deprecated(),
+  freezefirstRow = deprecated(),
+  freezefirstCol = deprecated(),
+  addFilters = deprecated(),
+  rowheight = deprecated(),
+  textwrap = deprecated(),
+  dateformat = deprecated(),
+  datetimeformat = deprecated()
 )
 }
 \arguments{
 \item{wb}{A Workbook object to attach the new worksheet}
 
-\item{data}{Object to be written. For classes supported look at the examples in \{openxlsx\}.}
+\item{data}{Object to be written. For classes supported look at the examples in \{openxlsx2\}.}
 
-\item{sheetName}{The name of the worksheet that is to be created and have \code{data} written into. Defaults to the \code{data} object name if left empty.}
+\item{sheet_name}{The name of the worksheet that is to be created and have \code{data} written into. Defaults to the \code{data} object name if left empty. Must not be the name of an existing sheet (case-insensitive); illegal characters are removed and names are shortened to 31 characters by \{openxlsx2\} (with a warning).}
 
-\item{colWidth}{For all columns: column width. Can either be Excel column width units or "auto" for automatic sizing}
+\item{col_width}{For all columns: column width. Can either be a spreadsheet column width or "auto" for automatic sizing}
 
-\item{colWidthMin}{For all columns: minimum column width}
+\item{col_width_min}{For all columns: minimum column width}
 
-\item{colWidthMax}{For all columns: maximum column width}
+\item{col_width_max}{For all columns: maximum column width}
 
-\item{gridLines}{If \code{FALSE}, the worksheet grid lines will be hidden}
+\item{grid_lines}{If \code{FALSE}, the worksheet grid lines will be hidden}
 
-\item{freezefirstRow}{If \code{TRUE}, freezes the first row}
+\item{freeze_first_row}{If \code{TRUE}, freezes the first row}
 
-\item{freezefirstCol}{If \code{TRUE}, freezes the first row}
+\item{freeze_first_col}{If \code{TRUE}, freezes the first column}
 
-\item{addFilters}{If \code{TRUE}, adds filters to worksheet columns}
+\item{add_filters}{If \code{TRUE}, adds filters to worksheet columns}
 
-\item{rowheight}{Row height in Excel row height units}
+\item{row_height}{Row height in spreadsheet row height units}
 
-\item{textwrap}{If \code{TRUE}, all cells are formatted via text wrap so their content never spills into adjacent empty cells}
+\item{text_wrap}{If \code{TRUE}, all cells are formatted via text wrap so their content never spills into adjacent empty cells}
 
-\item{dateformat}{If not \code{"none"} (default is \code{"yyyy-mm-dd"}), all date-formatted columns in \code{data} are explicitly formatted with \code{numFmt = "yyyy-mm-dd"}}
+\item{date_format}{If not \code{"none"} (default is \code{"yyyy-mm-dd"}), all date-formatted columns in \code{data} are explicitly formatted with \code{numfmt = "yyyy-mm-dd"}}
 
-\item{datetimeformat}{If not \code{"none"} (default is \code{"yyyy-mm-dd hh:mm:ss"}), all datetime-formatted columns in \code{data} are explicitly formatted with \code{numFmt = "yyyy-mm-dd hh:mm:ss"}}
+\item{datetime_format}{If not \code{"none"} (default is \code{"yyyy-mm-dd hh:mm:ss"}), all datetime-formatted columns in \code{data} are explicitly formatted with \code{numfmt = "yyyy-mm-dd hh:mm:ss"}}
+
+\item{na}{Value used for replacing \code{NA} values from \code{data}. The default \code{NULL} leaves those cells empty.}
+
+\item{sheetName}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{sheet_name}.}
+
+\item{colWidth}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{col_width}.}
+
+\item{colWidthMin}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{col_width_min}.}
+
+\item{colWidthMax}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{col_width_max}.}
+
+\item{gridLines}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{grid_lines}.}
+
+\item{freezefirstRow}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{freeze_first_row}.}
+
+\item{freezefirstCol}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{freeze_first_col}.}
+
+\item{addFilters}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{add_filters}.}
+
+\item{rowheight}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{row_height}.}
+
+\item{textwrap}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{text_wrap}.}
+
+\item{dateformat}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{date_format}.}
+
+\item{datetimeformat}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{datetime_format}.}
+}
+\value{
+The Workbook object, invisibly
 }
 \description{
-This function is a wrapper for \code{openxlsx::addWorksheet()} and \code{openxlsx::writeData()}, but also does some extra formatting via more \{openxlsx\} functions.
+This function is a wrapper for \code{openxlsx2::wb_add_worksheet()} and \code{openxlsx2::wb_add_data()}, but also does some extra formatting via more \{openxlsx2\} functions. Note that \{openxlsx2\} workbooks are modified in place, so \code{wb} is updated whether or not the result is assigned.
 }
 \examples{
 library(BioMathR)
 wb1 <- create_wb()
-wb1 <- add_sheet(wb = wb1, data = mtcars)
+add_sheet(wb = wb1, data = mtcars)
 
-library(dplyr, warn.conflicts = FALSE)
-wb2 <- create_wb() \%>\%
-   add_sheet(mtcars, "The cars sheet")
+wb2 <- create_wb()
+add_sheet(wb2, mtcars, "The cars sheet")
 }

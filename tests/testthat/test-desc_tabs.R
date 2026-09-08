@@ -1,5 +1,5 @@
 test_that("desc_tabs creates xlsx file with correct sheets", {
-  skip_if_not_installed("openxlsx")
+  skip_if_not_installed("openxlsx2")
 
   # Create test data
   test_data <- data.frame(
@@ -29,8 +29,8 @@ test_that("desc_tabs creates xlsx file with correct sheets", {
   expect_true(file.exists(temp_file))
 
   # Read workbook to check sheets
-  wb <- openxlsx::loadWorkbook(temp_file)
-  sheet_names <- names(wb)
+  wb <- openxlsx2::wb_load(temp_file)
+  sheet_names <- unname(openxlsx2::wb_get_sheet_names(wb))
 
   # Should have: info, tre (treatment), blo (block), tre-blo (treatment-block), data
   expect_true("info" %in% sheet_names)
@@ -42,7 +42,7 @@ test_that("desc_tabs creates xlsx file with correct sheets", {
 })
 
 test_that("desc_tabs works without data sheet", {
-  skip_if_not_installed("openxlsx")
+  skip_if_not_installed("openxlsx2")
 
   test_data <- data.frame(
     var1 = rnorm(10),
@@ -65,8 +65,8 @@ test_that("desc_tabs works without data sheet", {
 
   expect_true(file.exists(temp_file))
 
-  wb <- openxlsx::loadWorkbook(temp_file)
-  sheet_names <- names(wb)
+  wb <- openxlsx2::wb_load(temp_file)
+  sheet_names <- unname(openxlsx2::wb_get_sheet_names(wb))
 
   # Should not have data sheet
   expect_false("data" %in% sheet_names)

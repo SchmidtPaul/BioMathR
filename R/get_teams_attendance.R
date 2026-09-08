@@ -182,32 +182,39 @@ resolve_xlsx_path <- function(xlsx_path, files) {
 #' `name` and `email`). An existing file is overwritten.
 #' @noRd
 write_attendance_xlsx <- function(merged, unmerged, path) {
-  wb <- openxlsx::createWorkbook()
-  header_style <- openxlsx::createStyle(textDecoration = "bold")
+  wb <- openxlsx2::wb_workbook()
 
-  add_sheet <- function(sheet, data) {
-    openxlsx::addWorksheet(wb, sheet)
-    openxlsx::writeData(wb, sheet, data)
-    openxlsx::addStyle(wb, sheet, header_style, rows = 1L, cols = seq_along(data), gridExpand = TRUE)
-    openxlsx::freezePane(wb, sheet, firstRow = TRUE)
-    openxlsx::setColWidths(wb, sheet, cols = seq_along(data), widths = "auto")
+  write_sheet <- function(sheet, data) {
+    wb$
+      add_worksheet(sheet = sheet)$
+      add_data(sheet = sheet, x = data, na = NULL)$
+      add_font(
+        sheet  = sheet,
+        dims   = openxlsx2::wb_dims(x = data, select = "col_names"),
+        bold   = "1",
+        update = "bold"
+      )$
+      freeze_pane(sheet = sheet, first_row = TRUE)$
+      set_col_widths(sheet = sheet, cols = seq_along(data), widths = "auto")
 
     day_cols <- setdiff(seq_along(data), match(c("name", "email"), names(data)))
     if (length(day_cols) > 0L && nrow(data) > 0L) {
-      openxlsx::conditionalFormatting(
-        wb, sheet,
-        cols = day_cols,
-        rows = seq_len(nrow(data)) + 1L,
-        type = "colourScale",
+      wb$add_conditional_formatting(
+        sheet = sheet,
+        dims  = openxlsx2::wb_dims(
+          rows = seq_len(nrow(data)) + 1L,
+          cols = day_cols
+        ),
+        type  = "colorScale",
         style = c("#FFFFFF", "#63BE7B")
       )
     }
   }
 
-  add_sheet("Zusammengef\u00fchrt", merged)
-  add_sheet("Roh", unmerged)
+  write_sheet("Zusammengef\u00fchrt", merged)
+  write_sheet("Roh", unmerged)
 
-  openxlsx::saveWorkbook(wb, path, overwrite = TRUE)
+  wb$save(path, overwrite = TRUE)
   invisible(path)
 }
 

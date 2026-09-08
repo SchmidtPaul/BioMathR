@@ -8,8 +8,7 @@ save_wb(
   wb,
   file = here::here("untitled.xlsx"),
   overwrite = FALSE,
-  open_after_save = TRUE,
-  ...
+  open_after_save = TRUE
 )
 }
 \arguments{
@@ -20,9 +19,10 @@ save_wb(
 \item{overwrite}{If \code{TRUE}, overwrites the previous excel file}
 
 \item{open_after_save}{If \code{TRUE}, opens the excel file after it was created}
-
-\item{...}{Other arguments passed to\code{openxlsx::saveWorkbook()}}
+}
+\value{
+The file path, invisibly
 }
 \description{
-This function is a wrapper for\code{openxlsx::saveWorkbook()}, but can also open the Excel file immediately after saving. File opening is cross-platform compatible (Windows, macOS, and Linux).
+This function is a wrapper for \code{openxlsx2::wb_save()}, but can also open the Excel file immediately after saving. File opening is cross-platform compatible (Windows, macOS, and Linux). If the first sheet is the \code{"info"} sheet of \code{create_wb()} and there is a second sheet, that second sheet is the active and selected one when the file is opened.
 }

@@ -6,41 +6,61 @@
 \usage{
 cond_format(
   wb,
-  sheetName = NULL,
+  sheet = NULL,
   columns,
   rows = NULL,
-  colourScale = NULL,
+  colour_scale = NULL,
   contains = NULL,
   expression = NULL,
   type = NULL,
   rule = NULL,
-  style = openxlsx::createStyle(fontColour = "white", bgFill = "#ad0000"),
-  ...
+  style = NULL,
+  font_colour = "white",
+  bg_fill = "#ad0000",
+  ...,
+  sheetName = deprecated(),
+  colourScale = deprecated()
 )
 }
 \arguments{
 \item{wb}{a Workbook object}
 
-\item{sheetName}{a name or index of a worksheet}
+\item{sheet}{a name or index of a worksheet}
 
-\item{columns}{column names or indices to apply conditional formatting to}
+\item{columns}{column names or indices to apply conditional formatting to. Unknown names or indices outside \code{1:ncol} raise an error.}
 
-\item{rows}{optional row indices to apply conditional formatting to. If NULL (default), applies to all data rows.}
+\item{rows}{optional row indices (as in the spreadsheet, i.e. the header is row 1) to apply conditional formatting to. If NULL (default), applies to all data rows. Non-consecutive rows are formatted as separate blocks. On a sheet without data rows nothing is formatted.}
 
-\item{colourScale}{shortcut argument to apply "colourScale" formatting, e.g. \code{c("red" = 0, "grey" = 50, "green" = 100)}}
+\item{colour_scale}{shortcut argument to apply "colorScale" formatting, e.g. \code{c("red" = 0, "grey" = 50, "green" = 100)}}
 
-\item{contains}{shortcut argument to apply "contains" formatting, e.g. \code{"word"}}
+\item{contains}{shortcut argument to apply "containsText" formatting, e.g. \code{"word"}}
 
 \item{expression}{shortcut argument to apply "expression" formatting, e.g. \code{">=50"}}
 
-\item{type}{directly passed to \code{openxlsx::conditionalFormatting()}}
+\item{type}{directly passed to \code{openxlsx2::wb_add_conditional_formatting()}. Matching is case-insensitive and type names of the predecessor package \{openxlsx\} (e.g. \code{"colourScale"}, \code{"databar"}, \code{"contains"}) are translated automatically.}
 
-\item{rule}{directly passed to \code{openxlsx::conditionalFormatting()}}
+\item{rule}{directly passed to \code{openxlsx2::wb_add_conditional_formatting()}}
 
-\item{style}{directly passed to \code{openxlsx::conditionalFormatting()}. By default, cells will have a red fill and white font color.}
+\item{style}{For \code{type = "colorScale"}: a vector of 2-3 colours. For \code{"dataBar"} and \code{"iconSet"}: as in \code{openxlsx2::wb_add_conditional_formatting()}. For all other types: the name of a dxf style that was registered in \code{wb} via \code{openxlsx2::wb_add_dxfs_style()}. If \code{NULL} (default), a style is registered on the fly from \code{font_colour} and \code{bg_fill}.}
 
-\item{...}{directly passed to \code{openxlsx::conditionalFormatting()}}
+\item{font_colour}{font colour of the formatted cells, used when \code{style = NULL}}
+
+\item{bg_fill}{background colour of the formatted cells, used when \code{style = NULL}}
+
+\item{...}{directly passed to \code{openxlsx2::wb_add_conditional_formatting()}}
+
+\item{sheetName}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{sheet}.}
+
+\item{colourScale}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{colour_scale}.}
+}
+\value{
+The Workbook object, invisibly
 }
 \description{
-This function is a wrapper for \code{openxlsx::conditionalFormatting()} allowing for a more convenient application of conditional formatting to a sheet in a Workbook object. The arguments \code{colourScale}, \code{contains} and \code{expression} serve as shortcuts to obtaining the respective conditional formatting, but it is still possible to obtain \href{https://rdrr.io/cran/openxlsx/man/conditionalFormatting.html}{all possible conditional formatting styles available in \{openxlsx\}} via the arguments \code{rule}, \code{style} and \code{type} which are directly passed to \code{openxlsx::conditionalFormatting()}.
+This function is a wrapper for \code{openxlsx2::wb_add_conditional_formatting()} allowing for a more convenient application of conditional formatting to a sheet in a Workbook object. The arguments \code{colour_scale}, \code{contains} and \code{expression} serve as shortcuts to obtaining the respective conditional formatting, but it is still possible to obtain all conditional formatting styles available in \{openxlsx2\} via the arguments \code{rule}, \code{style} and \code{type}. Note that \{openxlsx2\} workbooks are modified in place, so \code{wb} is updated whether or not the result is assigned.
+}
+\examples{
+wb <- create_wb()
+add_sheet(wb, mtcars, "cars")
+cond_format(wb, "cars", columns = "mpg", expression = ">25")
 }

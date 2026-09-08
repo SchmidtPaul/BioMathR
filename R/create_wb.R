@@ -1,39 +1,56 @@
 #' @title Create a Workbook object
 #'
-#' @description This function is a wrapper for \code{openxlsx::createWorkbook()}, but also adds an info sheet including e.g. the time it was created.
+#' @description This function is a wrapper for \code{openxlsx2::wb_workbook()}, but also sets the base font and adds an info sheet including e.g. the time it was created.
 #'
-#' @param fontSize font size
-#' @param fontName Name of a font
+#' @param font_size font size
+#' @param font_name Name of a font
 #' @param infosheet Should an info sheet be created?
-#' @param infosheetlabel Label for the info sheet
-#' @param ... Other arguments passed to \code{openxlsx::createWorkbook()}
+#' @param infosheet_label Label for the info sheet
+#' @param ... Other arguments passed to \code{openxlsx2::wb_workbook()}
+#' @param fontSize `r lifecycle::badge("deprecated")` Use \code{font_size}.
+#' @param fontName `r lifecycle::badge("deprecated")` Use \code{font_name}.
+#' @param infosheetlabel `r lifecycle::badge("deprecated")` Use \code{infosheet_label}.
 #'
-#' @return Workbook object (see \{openxlsx\})
+#' @return Workbook object (see \{openxlsx2\})
 #'
 #' @export
 #'
-#' @import openxlsx
 #' @importFrom here here
+#' @importFrom lifecycle deprecated
 #' @importFrom rstudioapi getSourceEditorContext isAvailable
-#' @importFrom utils tail
 #'
 #' @examples
 #' wb1 <- create_wb()
 #'
 #' wb2 <- create_wb(infosheet = FALSE)
 
-create_wb <- function(fontSize = 10,
-                      fontName = "Arial",
+create_wb <- function(font_size = 10,
+                      font_name = "Arial",
                       infosheet = TRUE,
-                      infosheetlabel = "BioMath GmbH",
-                      ...) {
-  wb <- openxlsx::createWorkbook(...)
-  openxlsx::modifyBaseFont(wb, fontSize = fontSize, fontName = fontName)
+                      infosheet_label = "BioMath GmbH",
+                      ...,
+                      fontSize = deprecated(),
+                      fontName = deprecated(),
+                      infosheetlabel = deprecated()) {
+
+  font_size <- resolve_deprecated(
+    font_size, fontSize, "create_wb", "fontSize", "font_size"
+  )
+  font_name <- resolve_deprecated(
+    font_name, fontName, "create_wb", "fontName", "font_name"
+  )
+  infosheet_label <- resolve_deprecated(
+    infosheet_label, infosheetlabel, "create_wb",
+    "infosheetlabel", "infosheet_label"
+  )
+
+  wb <- openxlsx2::wb_workbook(...)
+  wb$set_base_font(font_size = font_size, font_name = font_name)
 
   if (infosheet) {
     info <-
       data.frame(
-        col1 = c(infosheetlabel, "Created on:", "Created via:"),
+        col1 = c(infosheet_label, "Created on:", "Created via:"),
         col2 = c(
           " ",
           paste(Sys.time()),
@@ -50,27 +67,16 @@ create_wb <- function(fontSize = 10,
         )
       )
 
-    openxlsx::addWorksheet(wb = wb,
-                           sheetName = "info",
-                           gridLines = FALSE)
-
-    openxlsx::writeData(
-      wb = wb,
-      sheet = "info",
-      x = info,
-      borders = "n",
-      startCol = 2,
-      startRow = 2,
-      colNames = FALSE,
-      rowNames = FALSE
-    )
-
-    openxlsx::setColWidths(
-      wb = wb,
-      sheet = utils::tail(openxlsx::worksheetOrder(wb), n = 1),
-      cols = seq_len(ncol(info)),
-      widths = 15
-    )
+    wb$
+      add_worksheet(sheet = "info", grid_lines = FALSE)$
+      add_data(
+        sheet     = "info",
+        x         = info,
+        dims      = "B2",
+        col_names = FALSE,
+        na        = NULL
+      )$
+      set_col_widths(sheet = "info", cols = 2:3, widths = 15)
   }
 
   return(wb)

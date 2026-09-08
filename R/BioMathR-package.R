@@ -14,6 +14,7 @@
 #' @importFrom grDevices svg
 #' @importFrom insight format_p
 #' @importFrom knitr knit_print
+#' @importFrom lifecycle deprecated
 #' @importFrom purrr map
 #' @importFrom qqplotr stat_qq_band
 #' @importFrom qqplotr stat_qq_point

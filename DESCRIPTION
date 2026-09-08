@@ -1,7 +1,7 @@
 Type: Package
 Package: BioMathR
 Title: Utility functions used at BioMath
-Version: 0.8.4
+Version: 0.9.0
 Authors@R: c(
     person("Paul", "Schmidt", email = "paul.schmidt@biomath.de", role = c("aut", "cre")),
     person("BioMath", role = "fnd")
@@ -10,6 +10,8 @@ Description: The R package `BioMathR` provides a collection of utility and wrapp
 License: GPL-3
 URL: https://schmidtpaul.github.io/BioMathR/, https://github.com/SchmidtPaul/BioMathR
 BugReports: https://github.com/SchmidtPaul/BioMathR/issues
+Depends:
+    R (>= 4.1.0)
 Imports:
     assertthat,
     dplyr,
@@ -24,10 +26,11 @@ Imports:
     here,
     insight,
     knitr,
+    lifecycle (>= 1.0.0),
     multcomp,
     multcompView,
     officer,
-    openxlsx,
+    openxlsx2 (>= 1.28),
     purrr,
     qqplotr,
     rlang,

@@ -10,6 +10,15 @@
 
 The R package `BioMathR` provides a collection of utility and wrapper functions, all of which are often used at [BioMath](https://www.biomath.de/).
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://schmidtpaul.github.io/BioMathR/}
+  \item \url{https://github.com/SchmidtPaul/BioMathR}
+  \item Report bugs at \url{https://github.com/SchmidtPaul/BioMathR/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Paul Schmidt \email{paul.schmidt@biomath.de}
 

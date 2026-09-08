@@ -5,29 +5,38 @@
 \title{Create a Workbook object}
 \usage{
 create_wb(
-  fontSize = 10,
-  fontName = "Arial",
+  font_size = 10,
+  font_name = "Arial",
   infosheet = TRUE,
-  infosheetlabel = "BioMath GmbH",
-  ...
+  infosheet_label = "BioMath GmbH",
+  ...,
+  fontSize = deprecated(),
+  fontName = deprecated(),
+  infosheetlabel = deprecated()
 )
 }
 \arguments{
-\item{fontSize}{font size}
+\item{font_size}{font size}
 
-\item{fontName}{Name of a font}
+\item{font_name}{Name of a font}
 
 \item{infosheet}{Should an info sheet be created?}
 
-\item{infosheetlabel}{Label for the info sheet}
+\item{infosheet_label}{Label for the info sheet}
 
-\item{...}{Other arguments passed to \code{openxlsx::createWorkbook()}}
+\item{...}{Other arguments passed to \code{openxlsx2::wb_workbook()}}
+
+\item{fontSize}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{font_size}.}
+
+\item{fontName}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{font_name}.}
+
+\item{infosheetlabel}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{infosheet_label}.}
 }
 \value{
-Workbook object (see \{openxlsx\})
+Workbook object (see \{openxlsx2\})
 }
 \description{
-This function is a wrapper for \code{openxlsx::createWorkbook()}, but also adds an info sheet including e.g. the time it was created.
+This function is a wrapper for \code{openxlsx2::wb_workbook()}, but also sets the base font and adds an info sheet including e.g. the time it was created.
 }
 \examples{
 wb1 <- create_wb()

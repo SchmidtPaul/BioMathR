@@ -219,7 +219,7 @@ test_that("the workbook has the two expected sheets", {
   withr::defer(unlink(path))
 
   get_teams_attendance(fixture_files(), xlsx_path = path)
-  expect_identical(openxlsx::getSheetNames(path), c("Zusammengeführt", "Roh"))
+  expect_identical(unname(openxlsx2::wb_get_sheet_names(openxlsx2::wb_load(path))), c("Zusammengeführt", "Roh"))
 })
 
 test_that("the merged sheet matches the returned tibble", {
@@ -227,7 +227,7 @@ test_that("the merged sheet matches the returned tibble", {
   withr::defer(unlink(path))
 
   res <- get_teams_attendance(fixture_files(), xlsx_path = path)
-  sheet <- openxlsx::read.xlsx(path, sheet = "Zusammengeführt")
+  sheet <- openxlsx2::read_xlsx(path, sheet = "Zusammengeführt")
 
   expect_identical(names(sheet), names(res))
   expect_equal(nrow(sheet), nrow(res))
